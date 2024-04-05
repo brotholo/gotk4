@@ -1,4 +1,10 @@
+<div align="center">
+
+<img src="./.github/logo.png" width="200" alt="gotk4 logo" />
+
 # gotk4
+
+</div>
 
 [![built with nix](https://builtwithnix.org/badge.svg)](https://builtwithnix.org)
 
@@ -16,14 +22,19 @@ Examples are put in another repository,
 along with instructions on getting started with using these packages. Refer to
 its README for more information.
 
-As of the time this README was written, most of `pkg/gtk4` and `pkg/gtk3` are
-ready to be used for most purposes. However, memory leaks and sometimes crashes
-may occur in certain parts of the API, while other parts might be completely
-missing. In that case, an issue should be opened.
+As of the time this README was written, most of `pkg/gtk/v4` and `pkg/gtk/v3`
+are ready to be used for most purposes. However, memory leaks and sometimes
+crashes may occur in certain parts of the API, while other parts might be
+completely missing. In that case, an issue should be opened.
 
 ## Contributing to gotk4
 
 For contributing guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## Community
+
+For questions and discussions, join the [**gotk4 Matrix
+room**](https://matrix.to/#/#gotk4:matrix.org)!
 
 ## License
 
@@ -43,3 +54,17 @@ For contributing guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 Some small snippets of code were taken from
 [tinyzimmer's go-glib](https://github.com/tinyzimmer/go-glib), which implements
 type subclassing.
+
+The logo is licensed under the [Creative Commons CC0 1.0 Universal Public Domain
+Dedication](https://creativecommons.org/publicdomain/zero/1.0/) from
+[egonelbre/gophers](https://github.com/egonelbre/gophers). It was modified to
+have a GTK4 logo.
+
+The Gopher itself is licensed under the [Creative Commons Attribution
+4.0](https://creativecommons.org/licenses/by/4.0/) by [Renee
+French](https://reneefrench.blogspot.com/).
+
+The GTK logo is licensed under the [Creative Commons Attribution-Share Alike
+3.0 Unported](https://creativecommons.org/licenses/by-sa/3.0/deed.en) by
+Andreas Nilsson, taken from [the GNOME
+Project](https://wiki.gnome.org/Projects/GTK/Logo).

@@ -5,6 +5,7 @@ package atk
 import (
 	"unsafe"
 
+	"github.com/diamondburned/gotk4/pkg/core/gbox"
 	"github.com/diamondburned/gotk4/pkg/core/gextras"
 	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
 )
@@ -12,6 +13,600 @@ import (
 // #include <stdlib.h>
 // #include <atk/atk.h>
 import "C"
+
+//export _gotk4_atk1_Function
+func _gotk4_atk1_Function(arg1 C.gpointer) (cret C.gboolean) {
+	var fn Function
+	{
+		v := gbox.Get(uintptr(arg1))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(Function)
+	}
+
+	ok := fn()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_atk1_KeySnoopFunc
+func _gotk4_atk1_KeySnoopFunc(arg1 *C.AtkKeyEventStruct, arg2 C.gpointer) (cret C.gint) {
+	var fn KeySnoopFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(KeySnoopFunc)
+	}
+
+	var _event *KeyEventStruct // out
+
+	_event = (*KeyEventStruct)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	gint := fn(_event)
+
+	var _ int
+
+	cret = C.gint(gint)
+
+	return cret
+}
+
+//export _gotk4_atk1_Component_ConnectBoundsChanged
+func _gotk4_atk1_Component_ConnectBoundsChanged(arg0 C.gpointer, arg1 *C.AtkRectangle, arg2 C.guintptr) {
+	var f func(arg1 *Rectangle)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1 *Rectangle))
+	}
+
+	var _arg1 *Rectangle // out
+
+	_arg1 = (*Rectangle)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	f(_arg1)
+}
+
+//export _gotk4_atk1_Document_ConnectLoadComplete
+func _gotk4_atk1_Document_ConnectLoadComplete(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Document_ConnectLoadStopped
+func _gotk4_atk1_Document_ConnectLoadStopped(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Document_ConnectPageChanged
+func _gotk4_atk1_Document_ConnectPageChanged(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) {
+	var f func(pageNumber int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(pageNumber int))
+	}
+
+	var _pageNumber int // out
+
+	_pageNumber = int(arg1)
+
+	f(_pageNumber)
+}
+
+//export _gotk4_atk1_Document_ConnectReload
+func _gotk4_atk1_Document_ConnectReload(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Hypertext_ConnectLinkSelected
+func _gotk4_atk1_Hypertext_ConnectLinkSelected(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) {
+	var f func(arg1 int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1 int))
+	}
+
+	var _arg1 int // out
+
+	_arg1 = int(arg1)
+
+	f(_arg1)
+}
+
+//export _gotk4_atk1_Selection_ConnectSelectionChanged
+func _gotk4_atk1_Selection_ConnectSelectionChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Table_ConnectColumnDeleted
+func _gotk4_atk1_Table_ConnectColumnDeleted(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.guintptr) {
+	var f func(arg1, arg2 int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1, arg2 int))
+	}
+
+	var _arg1 int // out
+	var _arg2 int // out
+
+	_arg1 = int(arg1)
+	_arg2 = int(arg2)
+
+	f(_arg1, _arg2)
+}
+
+//export _gotk4_atk1_Table_ConnectColumnInserted
+func _gotk4_atk1_Table_ConnectColumnInserted(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.guintptr) {
+	var f func(arg1, arg2 int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1, arg2 int))
+	}
+
+	var _arg1 int // out
+	var _arg2 int // out
+
+	_arg1 = int(arg1)
+	_arg2 = int(arg2)
+
+	f(_arg1, _arg2)
+}
+
+//export _gotk4_atk1_Table_ConnectColumnReordered
+func _gotk4_atk1_Table_ConnectColumnReordered(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Table_ConnectModelChanged
+func _gotk4_atk1_Table_ConnectModelChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Table_ConnectRowDeleted
+func _gotk4_atk1_Table_ConnectRowDeleted(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.guintptr) {
+	var f func(arg1, arg2 int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1, arg2 int))
+	}
+
+	var _arg1 int // out
+	var _arg2 int // out
+
+	_arg1 = int(arg1)
+	_arg2 = int(arg2)
+
+	f(_arg1, _arg2)
+}
+
+//export _gotk4_atk1_Table_ConnectRowInserted
+func _gotk4_atk1_Table_ConnectRowInserted(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.guintptr) {
+	var f func(arg1, arg2 int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1, arg2 int))
+	}
+
+	var _arg1 int // out
+	var _arg2 int // out
+
+	_arg1 = int(arg1)
+	_arg2 = int(arg2)
+
+	f(_arg1, _arg2)
+}
+
+//export _gotk4_atk1_Table_ConnectRowReordered
+func _gotk4_atk1_Table_ConnectRowReordered(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Text_ConnectTextAttributesChanged
+func _gotk4_atk1_Text_ConnectTextAttributesChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Text_ConnectTextCaretMoved
+func _gotk4_atk1_Text_ConnectTextCaretMoved(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) {
+	var f func(arg1 int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1 int))
+	}
+
+	var _arg1 int // out
+
+	_arg1 = int(arg1)
+
+	f(_arg1)
+}
+
+//export _gotk4_atk1_Text_ConnectTextChanged
+func _gotk4_atk1_Text_ConnectTextChanged(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.guintptr) {
+	var f func(arg1, arg2 int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1, arg2 int))
+	}
+
+	var _arg1 int // out
+	var _arg2 int // out
+
+	_arg1 = int(arg1)
+	_arg2 = int(arg2)
+
+	f(_arg1, _arg2)
+}
+
+//export _gotk4_atk1_Text_ConnectTextInsert
+func _gotk4_atk1_Text_ConnectTextInsert(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 *C.gchar, arg4 C.guintptr) {
+	var f func(arg1, arg2 int, arg3 string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1, arg2 int, arg3 string))
+	}
+
+	var _arg1 int    // out
+	var _arg2 int    // out
+	var _arg3 string // out
+
+	_arg1 = int(arg1)
+	_arg2 = int(arg2)
+	_arg3 = C.GoString((*C.gchar)(unsafe.Pointer(arg3)))
+
+	f(_arg1, _arg2, _arg3)
+}
+
+//export _gotk4_atk1_Text_ConnectTextRemove
+func _gotk4_atk1_Text_ConnectTextRemove(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 *C.gchar, arg4 C.guintptr) {
+	var f func(arg1, arg2 int, arg3 string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1, arg2 int, arg3 string))
+	}
+
+	var _arg1 int    // out
+	var _arg2 int    // out
+	var _arg3 string // out
+
+	_arg1 = int(arg1)
+	_arg2 = int(arg2)
+	_arg3 = C.GoString((*C.gchar)(unsafe.Pointer(arg3)))
+
+	f(_arg1, _arg2, _arg3)
+}
+
+//export _gotk4_atk1_Text_ConnectTextSelectionChanged
+func _gotk4_atk1_Text_ConnectTextSelectionChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Value_ConnectValueChanged
+func _gotk4_atk1_Value_ConnectValueChanged(arg0 C.gpointer, arg1 C.gdouble, arg2 *C.gchar, arg3 C.guintptr) {
+	var f func(value float64, text string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(value float64, text string))
+	}
+
+	var _value float64 // out
+	var _text string   // out
+
+	_value = float64(arg1)
+	_text = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+
+	f(_value, _text)
+}
+
+//export _gotk4_atk1_Window_ConnectActivate
+func _gotk4_atk1_Window_ConnectActivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Window_ConnectCreate
+func _gotk4_atk1_Window_ConnectCreate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Window_ConnectDeactivate
+func _gotk4_atk1_Window_ConnectDeactivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Window_ConnectDestroy
+func _gotk4_atk1_Window_ConnectDestroy(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Window_ConnectMaximize
+func _gotk4_atk1_Window_ConnectMaximize(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Window_ConnectMinimize
+func _gotk4_atk1_Window_ConnectMinimize(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Window_ConnectMove
+func _gotk4_atk1_Window_ConnectMove(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Window_ConnectResize
+func _gotk4_atk1_Window_ConnectResize(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_atk1_Window_ConnectRestore
+func _gotk4_atk1_Window_ConnectRestore(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
 
 //export _gotk4_atk1_HyperlinkClass_get_end_index
 func _gotk4_atk1_HyperlinkClass_get_end_index(arg0 *C.AtkHyperlink) (cret C.gint) {
@@ -170,6 +765,22 @@ func _gotk4_atk1_HyperlinkClass_link_state(arg0 *C.AtkHyperlink) (cret C.guint) 
 	cret = C.guint(guint)
 
 	return cret
+}
+
+//export _gotk4_atk1_Hyperlink_ConnectLinkActivated
+func _gotk4_atk1_Hyperlink_ConnectLinkActivated(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_atk1_MiscClass_threads_enter
@@ -570,6 +1181,130 @@ func _gotk4_atk1_ObjectClass_visible_data_changed(arg0 *C.AtkObject) {
 	}
 
 	overrides.VisibleDataChanged()
+}
+
+//export _gotk4_atk1_Object_ConnectActiveDescendantChanged
+func _gotk4_atk1_Object_ConnectActiveDescendantChanged(arg0 C.gpointer, arg1 *C.gpointer, arg2 C.guintptr) {
+	var f func(arg1 *AtkObject)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1 *AtkObject))
+	}
+
+	var _arg1 *AtkObject // out
+
+	_arg1 = wrapObject(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_arg1)
+}
+
+//export _gotk4_atk1_Object_ConnectChildrenChanged
+func _gotk4_atk1_Object_ConnectChildrenChanged(arg0 C.gpointer, arg1 C.guint, arg2 *C.gpointer, arg3 C.guintptr) {
+	var f func(arg1 uint, arg2 *AtkObject)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1 uint, arg2 *AtkObject))
+	}
+
+	var _arg1 uint       // out
+	var _arg2 *AtkObject // out
+
+	_arg1 = uint(arg1)
+	_arg2 = wrapObject(coreglib.Take(unsafe.Pointer(arg2)))
+
+	f(_arg1, _arg2)
+}
+
+//export _gotk4_atk1_Object_ConnectFocusEvent
+func _gotk4_atk1_Object_ConnectFocusEvent(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) {
+	var f func(arg1 bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1 bool))
+	}
+
+	var _arg1 bool // out
+
+	if arg1 != 0 {
+		_arg1 = true
+	}
+
+	f(_arg1)
+}
+
+//export _gotk4_atk1_Object_ConnectPropertyChange
+func _gotk4_atk1_Object_ConnectPropertyChange(arg0 C.gpointer, arg1 *C.gpointer, arg2 C.guintptr) {
+	var f func(arg1 *PropertyValues)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1 *PropertyValues))
+	}
+
+	var _arg1 *PropertyValues // out
+
+	_arg1 = (*PropertyValues)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	f(_arg1)
+}
+
+//export _gotk4_atk1_Object_ConnectStateChange
+func _gotk4_atk1_Object_ConnectStateChange(arg0 C.gpointer, arg1 *C.gchar, arg2 C.gboolean, arg3 C.guintptr) {
+	var f func(arg1 string, arg2 bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(arg1 string, arg2 bool))
+	}
+
+	var _arg1 string // out
+	var _arg2 bool   // out
+
+	_arg1 = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+	if arg2 != 0 {
+		_arg2 = true
+	}
+
+	f(_arg1, _arg2)
+}
+
+//export _gotk4_atk1_Object_ConnectVisibleDataChanged
+func _gotk4_atk1_Object_ConnectVisibleDataChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_atk1_ObjectFactoryClass_invalidate

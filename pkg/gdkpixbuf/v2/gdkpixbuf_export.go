@@ -5,12 +5,111 @@ package gdkpixbuf
 import (
 	"unsafe"
 
+	"github.com/diamondburned/gotk4/pkg/core/gbox"
+	"github.com/diamondburned/gotk4/pkg/core/gerror"
 	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
 )
 
 // #include <stdlib.h>
 // #include <gdk-pixbuf/gdk-pixbuf.h>
 import "C"
+
+//export _gotk4_gdkpixbuf2_PixbufModulePreparedFunc
+func _gotk4_gdkpixbuf2_PixbufModulePreparedFunc(arg1 *C.GdkPixbuf, arg2 *C.GdkPixbufAnimation, arg3 C.gpointer) {
+	var fn PixbufModulePreparedFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(PixbufModulePreparedFunc)
+	}
+
+	var _pixbuf *Pixbuf        // out
+	var _anim *PixbufAnimation // out
+
+	_pixbuf = wrapPixbuf(coreglib.Take(unsafe.Pointer(arg1)))
+	_anim = wrapPixbufAnimation(coreglib.Take(unsafe.Pointer(arg2)))
+
+	fn(_pixbuf, _anim)
+}
+
+//export _gotk4_gdkpixbuf2_PixbufModuleSizeFunc
+func _gotk4_gdkpixbuf2_PixbufModuleSizeFunc(arg1 *C.gint, arg2 *C.gint, arg3 C.gpointer) {
+	var fn PixbufModuleSizeFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(PixbufModuleSizeFunc)
+	}
+
+	var _width *int  // out
+	var _height *int // out
+
+	_width = (*int)(unsafe.Pointer(arg1))
+	_height = (*int)(unsafe.Pointer(arg2))
+
+	fn(_width, _height)
+}
+
+//export _gotk4_gdkpixbuf2_PixbufModuleUpdatedFunc
+func _gotk4_gdkpixbuf2_PixbufModuleUpdatedFunc(arg1 *C.GdkPixbuf, arg2 C.int, arg3 C.int, arg4 C.int, arg5 C.int, arg6 C.gpointer) {
+	var fn PixbufModuleUpdatedFunc
+	{
+		v := gbox.Get(uintptr(arg6))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(PixbufModuleUpdatedFunc)
+	}
+
+	var _pixbuf *Pixbuf // out
+	var _x int          // out
+	var _y int          // out
+	var _width int      // out
+	var _height int     // out
+
+	_pixbuf = wrapPixbuf(coreglib.Take(unsafe.Pointer(arg1)))
+	_x = int(arg2)
+	_y = int(arg3)
+	_width = int(arg4)
+	_height = int(arg5)
+
+	fn(_pixbuf, _x, _y, _width, _height)
+}
+
+//export _gotk4_gdkpixbuf2_PixbufSaveFunc
+func _gotk4_gdkpixbuf2_PixbufSaveFunc(arg1 *C.gchar, arg2 C.gsize, arg3 **C.GError, arg4 C.gpointer) (cret C.gboolean) {
+	var fn PixbufSaveFunc
+	{
+		v := gbox.Get(uintptr(arg4))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(PixbufSaveFunc)
+	}
+
+	var _buf []byte // out
+
+	_buf = make([]byte, arg2)
+	copy(_buf, unsafe.Slice((*byte)(unsafe.Pointer(arg1)), arg2))
+
+	err, ok := fn(_buf)
+
+	var _ error
+	var _ bool
+
+	if err != nil && arg3 != nil {
+		*arg3 = (*C.GError)(gerror.New(err))
+	}
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
 
 //export _gotk4_gdkpixbuf2_PixbufLoaderClass_area_prepared
 func _gotk4_gdkpixbuf2_PixbufLoaderClass_area_prepared(arg0 *C.GdkPixbufLoader) {
@@ -70,4 +169,84 @@ func _gotk4_gdkpixbuf2_PixbufLoaderClass_size_prepared(arg0 *C.GdkPixbufLoader, 
 	_height = int(arg2)
 
 	overrides.SizePrepared(_width, _height)
+}
+
+//export _gotk4_gdkpixbuf2_PixbufLoader_ConnectAreaPrepared
+func _gotk4_gdkpixbuf2_PixbufLoader_ConnectAreaPrepared(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gdkpixbuf2_PixbufLoader_ConnectAreaUpdated
+func _gotk4_gdkpixbuf2_PixbufLoader_ConnectAreaUpdated(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.gint, arg4 C.gint, arg5 C.guintptr) {
+	var f func(x, y, width, height int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(x, y, width, height int))
+	}
+
+	var _x int      // out
+	var _y int      // out
+	var _width int  // out
+	var _height int // out
+
+	_x = int(arg1)
+	_y = int(arg2)
+	_width = int(arg3)
+	_height = int(arg4)
+
+	f(_x, _y, _width, _height)
+}
+
+//export _gotk4_gdkpixbuf2_PixbufLoader_ConnectClosed
+func _gotk4_gdkpixbuf2_PixbufLoader_ConnectClosed(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gdkpixbuf2_PixbufLoader_ConnectSizePrepared
+func _gotk4_gdkpixbuf2_PixbufLoader_ConnectSizePrepared(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.guintptr) {
+	var f func(width, height int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(width, height int))
+	}
+
+	var _width int  // out
+	var _height int // out
+
+	_width = int(arg1)
+	_height = int(arg2)
+
+	f(_width, _height)
 }

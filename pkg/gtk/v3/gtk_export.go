@@ -8,6 +8,7 @@ import (
 
 	"github.com/diamondburned/gotk4/pkg/atk"
 	"github.com/diamondburned/gotk4/pkg/cairo"
+	"github.com/diamondburned/gotk4/pkg/core/gbox"
 	"github.com/diamondburned/gotk4/pkg/core/gerror"
 	"github.com/diamondburned/gotk4/pkg/core/gextras"
 	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
@@ -24,6 +25,1975 @@ import (
 // #include <gtk/gtk.h>
 // #include <gtk/gtkx.h>
 import "C"
+
+//export _gotk4_gtk3_AssistantPageFunc
+func _gotk4_gtk3_AssistantPageFunc(arg1 C.gint, arg2 C.gpointer) (cret C.gint) {
+	var fn AssistantPageFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(AssistantPageFunc)
+	}
+
+	var _currentPage int // out
+
+	_currentPage = int(arg1)
+
+	gint := fn(_currentPage)
+
+	var _ int
+
+	cret = C.gint(gint)
+
+	return cret
+}
+
+//export _gotk4_gtk3_CalendarDetailFunc
+func _gotk4_gtk3_CalendarDetailFunc(arg1 *C.GtkCalendar, arg2 C.guint, arg3 C.guint, arg4 C.guint, arg5 C.gpointer) (cret *C.gchar) {
+	var fn CalendarDetailFunc
+	{
+		v := gbox.Get(uintptr(arg5))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(CalendarDetailFunc)
+	}
+
+	var _calendar *Calendar // out
+	var _year uint          // out
+	var _month uint         // out
+	var _day uint           // out
+
+	_calendar = wrapCalendar(coreglib.Take(unsafe.Pointer(arg1)))
+	_year = uint(arg2)
+	_month = uint(arg3)
+	_day = uint(arg4)
+
+	utf8 := fn(_calendar, _year, _month, _day)
+
+	var _ string
+
+	if utf8 != "" {
+		cret = (*C.gchar)(unsafe.Pointer(C.CString(utf8)))
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Callback
+func _gotk4_gtk3_Callback(arg1 *C.GtkWidget, arg2 C.gpointer) {
+	var fn Callback
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(Callback)
+	}
+
+	var _widget Widgetter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_widget = rv
+	}
+
+	fn(_widget)
+}
+
+//export _gotk4_gtk3_CellAllocCallback
+func _gotk4_gtk3_CellAllocCallback(arg1 *C.GtkCellRenderer, arg2 *C.GdkRectangle, arg3 *C.GdkRectangle, arg4 C.gpointer) (cret C.gboolean) {
+	var fn CellAllocCallback
+	{
+		v := gbox.Get(uintptr(arg4))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(CellAllocCallback)
+	}
+
+	var _renderer CellRendererer       // out
+	var _cellArea *gdk.Rectangle       // out
+	var _cellBackground *gdk.Rectangle // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.CellRendererer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellRendererer)
+			return ok
+		})
+		rv, ok := casted.(CellRendererer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellRendererer")
+		}
+		_renderer = rv
+	}
+	_cellArea = (*gdk.Rectangle)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_cellBackground = (*gdk.Rectangle)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+
+	ok := fn(_renderer, _cellArea, _cellBackground)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_CellCallback
+func _gotk4_gtk3_CellCallback(arg1 *C.GtkCellRenderer, arg2 C.gpointer) (cret C.gboolean) {
+	var fn CellCallback
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(CellCallback)
+	}
+
+	var _renderer CellRendererer // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.CellRendererer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellRendererer)
+			return ok
+		})
+		rv, ok := casted.(CellRendererer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellRendererer")
+		}
+		_renderer = rv
+	}
+
+	ok := fn(_renderer)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_CellLayoutDataFunc
+func _gotk4_gtk3_CellLayoutDataFunc(arg1 *C.GtkCellLayout, arg2 *C.GtkCellRenderer, arg3 *C.GtkTreeModel, arg4 *C.GtkTreeIter, arg5 C.gpointer) {
+	var fn CellLayoutDataFunc
+	{
+		v := gbox.Get(uintptr(arg5))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(CellLayoutDataFunc)
+	}
+
+	var _cellLayout CellLayouter // out
+	var _cell CellRendererer     // out
+	var _treeModel TreeModeller  // out
+	var _iter *TreeIter          // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.CellLayouter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellLayouter)
+			return ok
+		})
+		rv, ok := casted.(CellLayouter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellLayouter")
+		}
+		_cellLayout = rv
+	}
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.CellRendererer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellRendererer)
+			return ok
+		})
+		rv, ok := casted.(CellRendererer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellRendererer")
+		}
+		_cell = rv
+	}
+	{
+		objptr := unsafe.Pointer(arg3)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_treeModel = rv
+	}
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg4)))
+
+	fn(_cellLayout, _cell, _treeModel, _iter)
+}
+
+//export _gotk4_gtk3_ClipboardImageReceivedFunc
+func _gotk4_gtk3_ClipboardImageReceivedFunc(arg1 *C.GtkClipboard, arg2 *C.GdkPixbuf, arg3 C.gpointer) {
+	var fn ClipboardImageReceivedFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(ClipboardImageReceivedFunc)
+	}
+
+	var _clipboard *Clipboard     // out
+	var _pixbuf *gdkpixbuf.Pixbuf // out
+
+	_clipboard = wrapClipboard(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg2))
+		_pixbuf = &gdkpixbuf.Pixbuf{
+			Object: obj,
+			LoadableIcon: gio.LoadableIcon{
+				Icon: gio.Icon{
+					Object: obj,
+				},
+			},
+		}
+	}
+
+	fn(_clipboard, _pixbuf)
+}
+
+//export _gotk4_gtk3_ClipboardReceivedFunc
+func _gotk4_gtk3_ClipboardReceivedFunc(arg1 *C.GtkClipboard, arg2 *C.GtkSelectionData, arg3 C.gpointer) {
+	var fn ClipboardReceivedFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(ClipboardReceivedFunc)
+	}
+
+	var _clipboard *Clipboard         // out
+	var _selectionData *SelectionData // out
+
+	_clipboard = wrapClipboard(coreglib.Take(unsafe.Pointer(arg1)))
+	_selectionData = (*SelectionData)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	fn(_clipboard, _selectionData)
+}
+
+//export _gotk4_gtk3_ClipboardTextReceivedFunc
+func _gotk4_gtk3_ClipboardTextReceivedFunc(arg1 *C.GtkClipboard, arg2 *C.gchar, arg3 C.gpointer) {
+	var fn ClipboardTextReceivedFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(ClipboardTextReceivedFunc)
+	}
+
+	var _clipboard *Clipboard // out
+	var _text string          // out
+
+	_clipboard = wrapClipboard(coreglib.Take(unsafe.Pointer(arg1)))
+	if arg2 != nil {
+		_text = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+	}
+
+	fn(_clipboard, _text)
+}
+
+//export _gotk4_gtk3_ClipboardURIReceivedFunc
+func _gotk4_gtk3_ClipboardURIReceivedFunc(arg1 *C.GtkClipboard, arg2 **C.gchar, arg3 C.gpointer) {
+	var fn ClipboardURIReceivedFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(ClipboardURIReceivedFunc)
+	}
+
+	var _clipboard *Clipboard // out
+	var _uris []string        // out
+
+	_clipboard = wrapClipboard(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		var i int
+		var z *C.gchar
+		for p := arg2; *p != z; p = &unsafe.Slice(p, 2)[1] {
+			i++
+		}
+
+		src := unsafe.Slice(arg2, i)
+		_uris = make([]string, i)
+		for i := range src {
+			_uris[i] = C.GoString((*C.gchar)(unsafe.Pointer(src[i])))
+		}
+	}
+
+	fn(_clipboard, _uris)
+}
+
+//export _gotk4_gtk3_EntryCompletionMatchFunc
+func _gotk4_gtk3_EntryCompletionMatchFunc(arg1 *C.GtkEntryCompletion, arg2 *C.gchar, arg3 *C.GtkTreeIter, arg4 C.gpointer) (cret C.gboolean) {
+	var fn EntryCompletionMatchFunc
+	{
+		v := gbox.Get(uintptr(arg4))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(EntryCompletionMatchFunc)
+	}
+
+	var _completion *EntryCompletion // out
+	var _key string                  // out
+	var _iter *TreeIter              // out
+
+	_completion = wrapEntryCompletion(coreglib.Take(unsafe.Pointer(arg1)))
+	_key = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+
+	ok := fn(_completion, _key, _iter)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_FileFilterFunc
+func _gotk4_gtk3_FileFilterFunc(arg1 *C.GtkFileFilterInfo, arg2 C.gpointer) (cret C.gboolean) {
+	var fn FileFilterFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(FileFilterFunc)
+	}
+
+	var _filterInfo *FileFilterInfo // out
+
+	_filterInfo = (*FileFilterInfo)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := fn(_filterInfo)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_FlowBoxCreateWidgetFunc
+func _gotk4_gtk3_FlowBoxCreateWidgetFunc(arg1 C.gpointer, arg2 C.gpointer) (cret *C.GtkWidget) {
+	var fn FlowBoxCreateWidgetFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(FlowBoxCreateWidgetFunc)
+	}
+
+	var _item *coreglib.Object // out
+
+	_item = coreglib.Take(unsafe.Pointer(arg1))
+
+	widget := fn(_item)
+
+	var _ Widgetter
+
+	cret = (*C.GtkWidget)(unsafe.Pointer(coreglib.InternObject(widget).Native()))
+	C.g_object_ref(C.gpointer(coreglib.InternObject(widget).Native()))
+
+	return cret
+}
+
+//export _gotk4_gtk3_FlowBoxFilterFunc
+func _gotk4_gtk3_FlowBoxFilterFunc(arg1 *C.GtkFlowBoxChild, arg2 C.gpointer) (cret C.gboolean) {
+	var fn FlowBoxFilterFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(FlowBoxFilterFunc)
+	}
+
+	var _child *FlowBoxChild // out
+
+	_child = wrapFlowBoxChild(coreglib.Take(unsafe.Pointer(arg1)))
+
+	ok := fn(_child)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_FlowBoxForEachFunc
+func _gotk4_gtk3_FlowBoxForEachFunc(arg1 *C.GtkFlowBox, arg2 *C.GtkFlowBoxChild, arg3 C.gpointer) {
+	var fn FlowBoxForEachFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(FlowBoxForEachFunc)
+	}
+
+	var _box *FlowBox        // out
+	var _child *FlowBoxChild // out
+
+	_box = wrapFlowBox(coreglib.Take(unsafe.Pointer(arg1)))
+	_child = wrapFlowBoxChild(coreglib.Take(unsafe.Pointer(arg2)))
+
+	fn(_box, _child)
+}
+
+//export _gotk4_gtk3_FlowBoxSortFunc
+func _gotk4_gtk3_FlowBoxSortFunc(arg1 *C.GtkFlowBoxChild, arg2 *C.GtkFlowBoxChild, arg3 C.gpointer) (cret C.gint) {
+	var fn FlowBoxSortFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(FlowBoxSortFunc)
+	}
+
+	var _child1 *FlowBoxChild // out
+	var _child2 *FlowBoxChild // out
+
+	_child1 = wrapFlowBoxChild(coreglib.Take(unsafe.Pointer(arg1)))
+	_child2 = wrapFlowBoxChild(coreglib.Take(unsafe.Pointer(arg2)))
+
+	gint := fn(_child1, _child2)
+
+	var _ int
+
+	cret = C.gint(gint)
+
+	return cret
+}
+
+//export _gotk4_gtk3_FontFilterFunc
+func _gotk4_gtk3_FontFilterFunc(arg1 *C.PangoFontFamily, arg2 *C.PangoFontFace, arg3 C.gpointer) (cret C.gboolean) {
+	var fn FontFilterFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(FontFilterFunc)
+	}
+
+	var _family pango.FontFamilier // out
+	var _face pango.FontFacer      // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type pango.FontFamilier is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(pango.FontFamilier)
+			return ok
+		})
+		rv, ok := casted.(pango.FontFamilier)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching pango.FontFamilier")
+		}
+		_family = rv
+	}
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type pango.FontFacer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(pango.FontFacer)
+			return ok
+		})
+		rv, ok := casted.(pango.FontFacer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching pango.FontFacer")
+		}
+		_face = rv
+	}
+
+	ok := fn(_family, _face)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_IconViewForEachFunc
+func _gotk4_gtk3_IconViewForEachFunc(arg1 *C.GtkIconView, arg2 *C.GtkTreePath, arg3 C.gpointer) {
+	var fn IconViewForEachFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(IconViewForEachFunc)
+	}
+
+	var _iconView *IconView // out
+	var _path *TreePath     // out
+
+	_iconView = wrapIconView(coreglib.Take(unsafe.Pointer(arg1)))
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	fn(_iconView, _path)
+}
+
+//export _gotk4_gtk3_KeySnoopFunc
+func _gotk4_gtk3_KeySnoopFunc(arg1 *C.GtkWidget, arg2 *C.GdkEventKey, arg3 C.gpointer) (cret C.gint) {
+	var fn KeySnoopFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(KeySnoopFunc)
+	}
+
+	var _grabWidget Widgetter // out
+	var _event *gdk.EventKey  // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_grabWidget = rv
+	}
+	_event = (*gdk.EventKey)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	gint := fn(_grabWidget, _event)
+
+	var _ int
+
+	cret = C.gint(gint)
+
+	return cret
+}
+
+//export _gotk4_gtk3_ListBoxCreateWidgetFunc
+func _gotk4_gtk3_ListBoxCreateWidgetFunc(arg1 C.gpointer, arg2 C.gpointer) (cret *C.GtkWidget) {
+	var fn ListBoxCreateWidgetFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(ListBoxCreateWidgetFunc)
+	}
+
+	var _item *coreglib.Object // out
+
+	_item = coreglib.Take(unsafe.Pointer(arg1))
+
+	widget := fn(_item)
+
+	var _ Widgetter
+
+	cret = (*C.GtkWidget)(unsafe.Pointer(coreglib.InternObject(widget).Native()))
+	C.g_object_ref(C.gpointer(coreglib.InternObject(widget).Native()))
+
+	return cret
+}
+
+//export _gotk4_gtk3_ListBoxFilterFunc
+func _gotk4_gtk3_ListBoxFilterFunc(arg1 *C.GtkListBoxRow, arg2 C.gpointer) (cret C.gboolean) {
+	var fn ListBoxFilterFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(ListBoxFilterFunc)
+	}
+
+	var _row *ListBoxRow // out
+
+	_row = wrapListBoxRow(coreglib.Take(unsafe.Pointer(arg1)))
+
+	ok := fn(_row)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_ListBoxForEachFunc
+func _gotk4_gtk3_ListBoxForEachFunc(arg1 *C.GtkListBox, arg2 *C.GtkListBoxRow, arg3 C.gpointer) {
+	var fn ListBoxForEachFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(ListBoxForEachFunc)
+	}
+
+	var _box *ListBox    // out
+	var _row *ListBoxRow // out
+
+	_box = wrapListBox(coreglib.Take(unsafe.Pointer(arg1)))
+	_row = wrapListBoxRow(coreglib.Take(unsafe.Pointer(arg2)))
+
+	fn(_box, _row)
+}
+
+//export _gotk4_gtk3_ListBoxSortFunc
+func _gotk4_gtk3_ListBoxSortFunc(arg1 *C.GtkListBoxRow, arg2 *C.GtkListBoxRow, arg3 C.gpointer) (cret C.gint) {
+	var fn ListBoxSortFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(ListBoxSortFunc)
+	}
+
+	var _row1 *ListBoxRow // out
+	var _row2 *ListBoxRow // out
+
+	_row1 = wrapListBoxRow(coreglib.Take(unsafe.Pointer(arg1)))
+	_row2 = wrapListBoxRow(coreglib.Take(unsafe.Pointer(arg2)))
+
+	gint := fn(_row1, _row2)
+
+	var _ int
+
+	cret = C.gint(gint)
+
+	return cret
+}
+
+//export _gotk4_gtk3_ListBoxUpdateHeaderFunc
+func _gotk4_gtk3_ListBoxUpdateHeaderFunc(arg1 *C.GtkListBoxRow, arg2 *C.GtkListBoxRow, arg3 C.gpointer) {
+	var fn ListBoxUpdateHeaderFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(ListBoxUpdateHeaderFunc)
+	}
+
+	var _row *ListBoxRow    // out
+	var _before *ListBoxRow // out
+
+	_row = wrapListBoxRow(coreglib.Take(unsafe.Pointer(arg1)))
+	if arg2 != nil {
+		_before = wrapListBoxRow(coreglib.Take(unsafe.Pointer(arg2)))
+	}
+
+	fn(_row, _before)
+}
+
+//export _gotk4_gtk3_PageSetupDoneFunc
+func _gotk4_gtk3_PageSetupDoneFunc(arg1 *C.GtkPageSetup, arg2 C.gpointer) {
+	var fn PageSetupDoneFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(PageSetupDoneFunc)
+	}
+
+	var _pageSetup *PageSetup // out
+
+	_pageSetup = wrapPageSetup(coreglib.Take(unsafe.Pointer(arg1)))
+
+	fn(_pageSetup)
+}
+
+//export _gotk4_gtk3_PrintSettingsFunc
+func _gotk4_gtk3_PrintSettingsFunc(arg1 *C.gchar, arg2 *C.gchar, arg3 C.gpointer) {
+	var fn PrintSettingsFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(PrintSettingsFunc)
+	}
+
+	var _key string   // out
+	var _value string // out
+
+	_key = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+	_value = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+
+	fn(_key, _value)
+}
+
+//export _gotk4_gtk3_RecentFilterFunc
+func _gotk4_gtk3_RecentFilterFunc(arg1 *C.GtkRecentFilterInfo, arg2 C.gpointer) (cret C.gboolean) {
+	var fn RecentFilterFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(RecentFilterFunc)
+	}
+
+	var _filterInfo *RecentFilterInfo // out
+
+	_filterInfo = (*RecentFilterInfo)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := fn(_filterInfo)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_RecentSortFunc
+func _gotk4_gtk3_RecentSortFunc(arg1 *C.GtkRecentInfo, arg2 *C.GtkRecentInfo, arg3 C.gpointer) (cret C.gint) {
+	var fn RecentSortFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(RecentSortFunc)
+	}
+
+	var _a *RecentInfo // out
+	var _b *RecentInfo // out
+
+	_a = (*RecentInfo)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	C.gtk_recent_info_ref(arg1)
+	runtime.SetFinalizer(
+		gextras.StructIntern(unsafe.Pointer(_a)),
+		func(intern *struct{ C unsafe.Pointer }) {
+			C.gtk_recent_info_unref((*C.GtkRecentInfo)(intern.C))
+		},
+	)
+	_b = (*RecentInfo)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	C.gtk_recent_info_ref(arg2)
+	runtime.SetFinalizer(
+		gextras.StructIntern(unsafe.Pointer(_b)),
+		func(intern *struct{ C unsafe.Pointer }) {
+			C.gtk_recent_info_unref((*C.GtkRecentInfo)(intern.C))
+		},
+	)
+
+	gint := fn(_a, _b)
+
+	var _ int
+
+	cret = C.gint(gint)
+
+	return cret
+}
+
+//export _gotk4_gtk3_TextBufferDeserializeFunc
+func _gotk4_gtk3_TextBufferDeserializeFunc(arg1 *C.GtkTextBuffer, arg2 *C.GtkTextBuffer, arg3 *C.GtkTextIter, arg4 *C.guint8, arg5 C.gsize, arg6 C.gboolean, arg7 C.gpointer, _cerr **C.GError) (cret C.gboolean) {
+	var fn TextBufferDeserializeFunc
+	{
+		v := gbox.Get(uintptr(arg7))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TextBufferDeserializeFunc)
+	}
+
+	var _registerBuffer *TextBuffer // out
+	var _contentBuffer *TextBuffer  // out
+	var _iter *TextIter             // out
+	var _data []byte                // out
+	var _createTags bool            // out
+
+	_registerBuffer = wrapTextBuffer(coreglib.Take(unsafe.Pointer(arg1)))
+	_contentBuffer = wrapTextBuffer(coreglib.Take(unsafe.Pointer(arg2)))
+	_iter = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+	_data = make([]byte, arg5)
+	copy(_data, unsafe.Slice((*byte)(unsafe.Pointer(arg4)), arg5))
+	if arg6 != 0 {
+		_createTags = true
+	}
+
+	_goerr := fn(_registerBuffer, _contentBuffer, _iter, _data, _createTags)
+
+	var _ error
+
+	if _goerr != nil && _cerr != nil {
+		*_cerr = (*C.GError)(gerror.New(_goerr))
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TextBufferSerializeFunc
+func _gotk4_gtk3_TextBufferSerializeFunc(arg1 *C.GtkTextBuffer, arg2 *C.GtkTextBuffer, arg3 *C.GtkTextIter, arg4 *C.GtkTextIter, arg5 *C.gsize, arg6 C.gpointer) (cret *C.guint8) {
+	var fn TextBufferSerializeFunc
+	{
+		v := gbox.Get(uintptr(arg6))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TextBufferSerializeFunc)
+	}
+
+	var _registerBuffer *TextBuffer // out
+	var _contentBuffer *TextBuffer  // out
+	var _start *TextIter            // out
+	var _end *TextIter              // out
+
+	_registerBuffer = wrapTextBuffer(coreglib.Take(unsafe.Pointer(arg1)))
+	_contentBuffer = wrapTextBuffer(coreglib.Take(unsafe.Pointer(arg2)))
+	_start = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+	_end = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg4)))
+
+	length, guint8 := fn(_registerBuffer, _contentBuffer, _start, _end)
+
+	var _ uint
+	var _ *byte
+
+	*arg5 = C.gsize(length)
+	if guint8 != nil {
+		cret = (*C.guint8)(unsafe.Pointer(guint8))
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TextCharPredicate
+func _gotk4_gtk3_TextCharPredicate(arg1 C.gunichar, arg2 C.gpointer) (cret C.gboolean) {
+	var fn TextCharPredicate
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TextCharPredicate)
+	}
+
+	var _ch uint32 // out
+
+	_ch = uint32(arg1)
+
+	ok := fn(_ch)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TextTagTableForEach
+func _gotk4_gtk3_TextTagTableForEach(arg1 *C.GtkTextTag, arg2 C.gpointer) {
+	var fn TextTagTableForEach
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TextTagTableForEach)
+	}
+
+	var _tag *TextTag // out
+
+	_tag = wrapTextTag(coreglib.Take(unsafe.Pointer(arg1)))
+
+	fn(_tag)
+}
+
+//export _gotk4_gtk3_TickCallback
+func _gotk4_gtk3_TickCallback(arg1 *C.GtkWidget, arg2 *C.GdkFrameClock, arg3 C.gpointer) (cret C.gboolean) {
+	var fn TickCallback
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TickCallback)
+	}
+
+	var _widget Widgetter            // out
+	var _frameClock gdk.FrameClocker // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_widget = rv
+	}
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gdk.FrameClocker is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(gdk.FrameClocker)
+			return ok
+		})
+		rv, ok := casted.(gdk.FrameClocker)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gdk.FrameClocker")
+		}
+		_frameClock = rv
+	}
+
+	ok := fn(_widget, _frameClock)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TranslateFunc
+func _gotk4_gtk3_TranslateFunc(arg1 *C.gchar, arg2 C.gpointer) (cret *C.gchar) {
+	var fn TranslateFunc
+	{
+		v := gbox.Get(uintptr(arg2))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TranslateFunc)
+	}
+
+	var _path string // out
+
+	_path = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	utf8 := fn(_path)
+
+	var _ string
+
+	cret = (*C.gchar)(unsafe.Pointer(C.CString(utf8)))
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeCellDataFunc
+func _gotk4_gtk3_TreeCellDataFunc(arg1 *C.GtkTreeViewColumn, arg2 *C.GtkCellRenderer, arg3 *C.GtkTreeModel, arg4 *C.GtkTreeIter, arg5 C.gpointer) {
+	var fn TreeCellDataFunc
+	{
+		v := gbox.Get(uintptr(arg5))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeCellDataFunc)
+	}
+
+	var _treeColumn *TreeViewColumn // out
+	var _cell CellRendererer        // out
+	var _treeModel TreeModeller     // out
+	var _iter *TreeIter             // out
+
+	_treeColumn = wrapTreeViewColumn(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.CellRendererer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellRendererer)
+			return ok
+		})
+		rv, ok := casted.(CellRendererer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellRendererer")
+		}
+		_cell = rv
+	}
+	{
+		objptr := unsafe.Pointer(arg3)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_treeModel = rv
+	}
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg4)))
+
+	fn(_treeColumn, _cell, _treeModel, _iter)
+}
+
+//export _gotk4_gtk3_TreeDestroyCountFunc
+func _gotk4_gtk3_TreeDestroyCountFunc(arg1 *C.GtkTreeView, arg2 *C.GtkTreePath, arg3 C.gint, arg4 C.gpointer) {
+	var fn TreeDestroyCountFunc
+	{
+		v := gbox.Get(uintptr(arg4))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeDestroyCountFunc)
+	}
+
+	var _treeView *TreeView // out
+	var _path *TreePath     // out
+	var _children int       // out
+
+	_treeView = wrapTreeView(coreglib.Take(unsafe.Pointer(arg1)))
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_children = int(arg3)
+
+	fn(_treeView, _path, _children)
+}
+
+//export _gotk4_gtk3_TreeIterCompareFunc
+func _gotk4_gtk3_TreeIterCompareFunc(arg1 *C.GtkTreeModel, arg2 *C.GtkTreeIter, arg3 *C.GtkTreeIter, arg4 C.gpointer) (cret C.gint) {
+	var fn TreeIterCompareFunc
+	{
+		v := gbox.Get(uintptr(arg4))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeIterCompareFunc)
+	}
+
+	var _model TreeModeller // out
+	var _a *TreeIter        // out
+	var _b *TreeIter        // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_a = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_b = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+
+	gint := fn(_model, _a, _b)
+
+	var _ int
+
+	cret = C.gint(gint)
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeModelFilterModifyFunc
+func _gotk4_gtk3_TreeModelFilterModifyFunc(arg1 *C.GtkTreeModel, arg2 *C.GtkTreeIter, arg3 *C.GValue, arg4 C.gint, arg5 C.gpointer) {
+	var fn TreeModelFilterModifyFunc
+	{
+		v := gbox.Get(uintptr(arg5))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeModelFilterModifyFunc)
+	}
+
+	var _model TreeModeller // out
+	var _iter *TreeIter     // out
+	var _column int         // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_column = int(arg4)
+
+	value := fn(_model, _iter, _column)
+
+	var _ coreglib.Value
+
+	*arg3 = *(*C.GValue)(unsafe.Pointer((&value).Native()))
+}
+
+//export _gotk4_gtk3_TreeModelFilterVisibleFunc
+func _gotk4_gtk3_TreeModelFilterVisibleFunc(arg1 *C.GtkTreeModel, arg2 *C.GtkTreeIter, arg3 C.gpointer) (cret C.gboolean) {
+	var fn TreeModelFilterVisibleFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeModelFilterVisibleFunc)
+	}
+
+	var _model TreeModeller // out
+	var _iter *TreeIter     // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	ok := fn(_model, _iter)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeModelForEachFunc
+func _gotk4_gtk3_TreeModelForEachFunc(arg1 *C.GtkTreeModel, arg2 *C.GtkTreePath, arg3 *C.GtkTreeIter, arg4 C.gpointer) (cret C.gboolean) {
+	var fn TreeModelForEachFunc
+	{
+		v := gbox.Get(uintptr(arg4))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeModelForEachFunc)
+	}
+
+	var _model TreeModeller // out
+	var _path *TreePath     // out
+	var _iter *TreeIter     // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+
+	ok := fn(_model, _path, _iter)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeSelectionForEachFunc
+func _gotk4_gtk3_TreeSelectionForEachFunc(arg1 *C.GtkTreeModel, arg2 *C.GtkTreePath, arg3 *C.GtkTreeIter, arg4 C.gpointer) {
+	var fn TreeSelectionForEachFunc
+	{
+		v := gbox.Get(uintptr(arg4))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeSelectionForEachFunc)
+	}
+
+	var _model TreeModeller // out
+	var _path *TreePath     // out
+	var _iter *TreeIter     // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+
+	fn(_model, _path, _iter)
+}
+
+//export _gotk4_gtk3_TreeSelectionFunc
+func _gotk4_gtk3_TreeSelectionFunc(arg1 *C.GtkTreeSelection, arg2 *C.GtkTreeModel, arg3 *C.GtkTreePath, arg4 C.gboolean, arg5 C.gpointer) (cret C.gboolean) {
+	var fn TreeSelectionFunc
+	{
+		v := gbox.Get(uintptr(arg5))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeSelectionFunc)
+	}
+
+	var _selection *TreeSelection   // out
+	var _model TreeModeller         // out
+	var _path *TreePath             // out
+	var _pathCurrentlySelected bool // out
+
+	_selection = wrapTreeSelection(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+	if arg4 != 0 {
+		_pathCurrentlySelected = true
+	}
+
+	ok := fn(_selection, _model, _path, _pathCurrentlySelected)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeViewColumnDropFunc
+func _gotk4_gtk3_TreeViewColumnDropFunc(arg1 *C.GtkTreeView, arg2 *C.GtkTreeViewColumn, arg3 *C.GtkTreeViewColumn, arg4 *C.GtkTreeViewColumn, arg5 C.gpointer) (cret C.gboolean) {
+	var fn TreeViewColumnDropFunc
+	{
+		v := gbox.Get(uintptr(arg5))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeViewColumnDropFunc)
+	}
+
+	var _treeView *TreeView         // out
+	var _column *TreeViewColumn     // out
+	var _prevColumn *TreeViewColumn // out
+	var _nextColumn *TreeViewColumn // out
+
+	_treeView = wrapTreeView(coreglib.Take(unsafe.Pointer(arg1)))
+	_column = wrapTreeViewColumn(coreglib.Take(unsafe.Pointer(arg2)))
+	_prevColumn = wrapTreeViewColumn(coreglib.Take(unsafe.Pointer(arg3)))
+	_nextColumn = wrapTreeViewColumn(coreglib.Take(unsafe.Pointer(arg4)))
+
+	ok := fn(_treeView, _column, _prevColumn, _nextColumn)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeViewMappingFunc
+func _gotk4_gtk3_TreeViewMappingFunc(arg1 *C.GtkTreeView, arg2 *C.GtkTreePath, arg3 C.gpointer) {
+	var fn TreeViewMappingFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeViewMappingFunc)
+	}
+
+	var _treeView *TreeView // out
+	var _path *TreePath     // out
+
+	_treeView = wrapTreeView(coreglib.Take(unsafe.Pointer(arg1)))
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	fn(_treeView, _path)
+}
+
+//export _gotk4_gtk3_TreeViewRowSeparatorFunc
+func _gotk4_gtk3_TreeViewRowSeparatorFunc(arg1 *C.GtkTreeModel, arg2 *C.GtkTreeIter, arg3 C.gpointer) (cret C.gboolean) {
+	var fn TreeViewRowSeparatorFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeViewRowSeparatorFunc)
+	}
+
+	var _model TreeModeller // out
+	var _iter *TreeIter     // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	ok := fn(_model, _iter)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeViewSearchEqualFunc
+func _gotk4_gtk3_TreeViewSearchEqualFunc(arg1 *C.GtkTreeModel, arg2 C.gint, arg3 *C.gchar, arg4 *C.GtkTreeIter, arg5 C.gpointer) (cret C.gboolean) {
+	var fn TreeViewSearchEqualFunc
+	{
+		v := gbox.Get(uintptr(arg5))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeViewSearchEqualFunc)
+	}
+
+	var _model TreeModeller // out
+	var _column int         // out
+	var _key string         // out
+	var _iter *TreeIter     // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_column = int(arg2)
+	_key = C.GoString((*C.gchar)(unsafe.Pointer(arg3)))
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg4)))
+
+	ok := fn(_model, _column, _key, _iter)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeViewSearchPositionFunc
+func _gotk4_gtk3_TreeViewSearchPositionFunc(arg1 *C.GtkTreeView, arg2 *C.GtkWidget, arg3 C.gpointer) {
+	var fn TreeViewSearchPositionFunc
+	{
+		v := gbox.Get(uintptr(arg3))
+		if v == nil {
+			panic(`callback not found`)
+		}
+		fn = v.(TreeViewSearchPositionFunc)
+	}
+
+	var _treeView *TreeView     // out
+	var _searchDialog Widgetter // out
+
+	_treeView = wrapTreeView(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_searchDialog = rv
+	}
+
+	fn(_treeView, _searchDialog)
+}
+
+//export _gotk4_gtk3_CellEditable_ConnectEditingDone
+func _gotk4_gtk3_CellEditable_ConnectEditingDone(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_CellEditable_ConnectRemoveWidget
+func _gotk4_gtk3_CellEditable_ConnectRemoveWidget(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_ColorChooser_ConnectColorActivated
+func _gotk4_gtk3_ColorChooser_ConnectColorActivated(arg0 C.gpointer, arg1 *C.GdkRGBA, arg2 C.guintptr) {
+	var f func(color *gdk.RGBA)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(color *gdk.RGBA))
+	}
+
+	var _color *gdk.RGBA // out
+
+	_color = (*gdk.RGBA)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	f(_color)
+}
+
+//export _gotk4_gtk3_Editable_ConnectChanged
+func _gotk4_gtk3_Editable_ConnectChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Editable_ConnectDeleteText
+func _gotk4_gtk3_Editable_ConnectDeleteText(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.guintptr) {
+	var f func(startPos, endPos int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(startPos, endPos int))
+	}
+
+	var _startPos int // out
+	var _endPos int   // out
+
+	_startPos = int(arg1)
+	_endPos = int(arg2)
+
+	f(_startPos, _endPos)
+}
+
+//export _gotk4_gtk3_FileChooser_ConnectConfirmOverwrite
+func _gotk4_gtk3_FileChooser_ConnectConfirmOverwrite(arg0 C.gpointer, arg1 C.guintptr) (cret C.GtkFileChooserConfirmation) {
+	var f func() (fileChooserConfirmation FileChooserConfirmation)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (fileChooserConfirmation FileChooserConfirmation))
+	}
+
+	fileChooserConfirmation := f()
+
+	var _ FileChooserConfirmation
+
+	cret = C.GtkFileChooserConfirmation(fileChooserConfirmation)
+
+	return cret
+}
+
+//export _gotk4_gtk3_FileChooser_ConnectCurrentFolderChanged
+func _gotk4_gtk3_FileChooser_ConnectCurrentFolderChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooser_ConnectFileActivated
+func _gotk4_gtk3_FileChooser_ConnectFileActivated(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooser_ConnectSelectionChanged
+func _gotk4_gtk3_FileChooser_ConnectSelectionChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooser_ConnectUpdatePreview
+func _gotk4_gtk3_FileChooser_ConnectUpdatePreview(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FontChooser_ConnectFontActivated
+func _gotk4_gtk3_FontChooser_ConnectFontActivated(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(fontname string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(fontname string))
+	}
+
+	var _fontname string // out
+
+	_fontname = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_fontname)
+}
+
+//export _gotk4_gtk3_PrintOperationPreview_ConnectGotPageSize
+func _gotk4_gtk3_PrintOperationPreview_ConnectGotPageSize(arg0 C.gpointer, arg1 *C.GtkPrintContext, arg2 *C.GtkPageSetup, arg3 C.guintptr) {
+	var f func(context *PrintContext, pageSetup *PageSetup)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *PrintContext, pageSetup *PageSetup))
+	}
+
+	var _context *PrintContext // out
+	var _pageSetup *PageSetup  // out
+
+	_context = wrapPrintContext(coreglib.Take(unsafe.Pointer(arg1)))
+	_pageSetup = wrapPageSetup(coreglib.Take(unsafe.Pointer(arg2)))
+
+	f(_context, _pageSetup)
+}
+
+//export _gotk4_gtk3_PrintOperationPreview_ConnectReady
+func _gotk4_gtk3_PrintOperationPreview_ConnectReady(arg0 C.gpointer, arg1 *C.GtkPrintContext, arg2 C.guintptr) {
+	var f func(context *PrintContext)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *PrintContext))
+	}
+
+	var _context *PrintContext // out
+
+	_context = wrapPrintContext(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_context)
+}
+
+//export _gotk4_gtk3_RecentChooser_ConnectItemActivated
+func _gotk4_gtk3_RecentChooser_ConnectItemActivated(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_RecentChooser_ConnectSelectionChanged
+func _gotk4_gtk3_RecentChooser_ConnectSelectionChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TreeModel_ConnectRowChanged
+func _gotk4_gtk3_TreeModel_ConnectRowChanged(arg0 C.gpointer, arg1 *C.GtkTreePath, arg2 *C.GtkTreeIter, arg3 C.guintptr) {
+	var f func(path *TreePath, iter *TreeIter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path *TreePath, iter *TreeIter))
+	}
+
+	var _path *TreePath // out
+	var _iter *TreeIter // out
+
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	f(_path, _iter)
+}
+
+//export _gotk4_gtk3_TreeModel_ConnectRowDeleted
+func _gotk4_gtk3_TreeModel_ConnectRowDeleted(arg0 C.gpointer, arg1 *C.GtkTreePath, arg2 C.guintptr) {
+	var f func(path *TreePath)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path *TreePath))
+	}
+
+	var _path *TreePath // out
+
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	f(_path)
+}
+
+//export _gotk4_gtk3_TreeModel_ConnectRowHasChildToggled
+func _gotk4_gtk3_TreeModel_ConnectRowHasChildToggled(arg0 C.gpointer, arg1 *C.GtkTreePath, arg2 *C.GtkTreeIter, arg3 C.guintptr) {
+	var f func(path *TreePath, iter *TreeIter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path *TreePath, iter *TreeIter))
+	}
+
+	var _path *TreePath // out
+	var _iter *TreeIter // out
+
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	f(_path, _iter)
+}
+
+//export _gotk4_gtk3_TreeModel_ConnectRowInserted
+func _gotk4_gtk3_TreeModel_ConnectRowInserted(arg0 C.gpointer, arg1 *C.GtkTreePath, arg2 *C.GtkTreeIter, arg3 C.guintptr) {
+	var f func(path *TreePath, iter *TreeIter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path *TreePath, iter *TreeIter))
+	}
+
+	var _path *TreePath // out
+	var _iter *TreeIter // out
+
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	f(_path, _iter)
+}
+
+//export _gotk4_gtk3_TreeModel_ConnectRowsReordered
+func _gotk4_gtk3_TreeModel_ConnectRowsReordered(arg0 C.gpointer, arg1 *C.GtkTreePath, arg2 *C.GtkTreeIter, arg3 C.gpointer, arg4 C.guintptr) {
+	var f func(path *TreePath, iter *TreeIter, newOrder unsafe.Pointer)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path *TreePath, iter *TreeIter, newOrder unsafe.Pointer))
+	}
+
+	var _path *TreePath          // out
+	var _iter *TreeIter          // out
+	var _newOrder unsafe.Pointer // out
+
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_newOrder = (unsafe.Pointer)(unsafe.Pointer(arg3))
+
+	f(_path, _iter, _newOrder)
+}
+
+//export _gotk4_gtk3_TreeSortable_ConnectSortColumnChanged
+func _gotk4_gtk3_TreeSortable_ConnectSortColumnChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
 
 //export _gotk4_gtk3_AboutDialogClass_activate_link
 func _gotk4_gtk3_AboutDialogClass_activate_link(arg0 *C.GtkAboutDialog, arg1 *C.gchar) (cret C.gboolean) {
@@ -46,6 +2016,90 @@ func _gotk4_gtk3_AboutDialogClass_activate_link(arg0 *C.GtkAboutDialog, arg1 *C.
 	}
 
 	return cret
+}
+
+//export _gotk4_gtk3_AboutDialog_ConnectActivateLink
+func _gotk4_gtk3_AboutDialog_ConnectActivateLink(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(uri string) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(uri string) (ok bool))
+	}
+
+	var _uri string // out
+
+	_uri = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	ok := f(_uri)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_AccelGroup_ConnectAccelActivate
+func _gotk4_gtk3_AccelGroup_ConnectAccelActivate(arg0 C.gpointer, arg1 *C.GObject, arg2 C.guint, arg3 C.GdkModifierType, arg4 C.guintptr) (cret C.gboolean) {
+	var f func(acceleratable *coreglib.Object, keyval uint, modifier gdk.ModifierType) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(acceleratable *coreglib.Object, keyval uint, modifier gdk.ModifierType) (ok bool))
+	}
+
+	var _acceleratable *coreglib.Object // out
+	var _keyval uint                    // out
+	var _modifier gdk.ModifierType      // out
+
+	_acceleratable = coreglib.Take(unsafe.Pointer(arg1))
+	_keyval = uint(arg2)
+	_modifier = gdk.ModifierType(arg3)
+
+	ok := f(_acceleratable, _keyval, _modifier)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_AccelMap_ConnectChanged
+func _gotk4_gtk3_AccelMap_ConnectChanged(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guint, arg3 C.GdkModifierType, arg4 C.guintptr) {
+	var f func(accelPath string, accelKey uint, accelMods gdk.ModifierType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(accelPath string, accelKey uint, accelMods gdk.ModifierType))
+	}
+
+	var _accelPath string           // out
+	var _accelKey uint              // out
+	var _accelMods gdk.ModifierType // out
+
+	_accelPath = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+	_accelKey = uint(arg2)
+	_accelMods = gdk.ModifierType(arg3)
+
+	f(_accelPath, _accelKey, _accelMods)
 }
 
 //export _gotk4_gtk3_AccessibleClass_connect_widget_destroyed
@@ -205,6 +2259,22 @@ func _gotk4_gtk3_ActionClass_disconnect_proxy(arg0 *C.GtkAction, arg1 *C.GtkWidg
 	overrides.DisconnectProxy(_proxy)
 }
 
+//export _gotk4_gtk3_Action_ConnectActivate
+func _gotk4_gtk3_Action_ConnectActivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_ActionGroupClass_get_action
 func _gotk4_gtk3_ActionGroupClass_get_action(arg0 *C.GtkActionGroup, arg1 *C.gchar) (cret *C.GtkAction) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -224,6 +2294,122 @@ func _gotk4_gtk3_ActionGroupClass_get_action(arg0 *C.GtkActionGroup, arg1 *C.gch
 	cret = (*C.GtkAction)(unsafe.Pointer(coreglib.InternObject(action).Native()))
 
 	return cret
+}
+
+//export _gotk4_gtk3_ActionGroup_ConnectConnectProxy
+func _gotk4_gtk3_ActionGroup_ConnectConnectProxy(arg0 C.gpointer, arg1 *C.GtkAction, arg2 *C.GtkWidget, arg3 C.guintptr) {
+	var f func(action *Action, proxy Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(action *Action, proxy Widgetter))
+	}
+
+	var _action *Action  // out
+	var _proxy Widgetter // out
+
+	_action = wrapAction(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_proxy = rv
+	}
+
+	f(_action, _proxy)
+}
+
+//export _gotk4_gtk3_ActionGroup_ConnectDisconnectProxy
+func _gotk4_gtk3_ActionGroup_ConnectDisconnectProxy(arg0 C.gpointer, arg1 *C.GtkAction, arg2 *C.GtkWidget, arg3 C.guintptr) {
+	var f func(action *Action, proxy Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(action *Action, proxy Widgetter))
+	}
+
+	var _action *Action  // out
+	var _proxy Widgetter // out
+
+	_action = wrapAction(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_proxy = rv
+	}
+
+	f(_action, _proxy)
+}
+
+//export _gotk4_gtk3_ActionGroup_ConnectPostActivate
+func _gotk4_gtk3_ActionGroup_ConnectPostActivate(arg0 C.gpointer, arg1 *C.GtkAction, arg2 C.guintptr) {
+	var f func(action *Action)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(action *Action))
+	}
+
+	var _action *Action // out
+
+	_action = wrapAction(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_action)
+}
+
+//export _gotk4_gtk3_ActionGroup_ConnectPreActivate
+func _gotk4_gtk3_ActionGroup_ConnectPreActivate(arg0 C.gpointer, arg1 *C.GtkAction, arg2 C.guintptr) {
+	var f func(action *Action)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(action *Action))
+	}
+
+	var _action *Action // out
+
+	_action = wrapAction(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_action)
 }
 
 //export _gotk4_gtk3_AdjustmentClass_changed
@@ -248,6 +2434,38 @@ func _gotk4_gtk3_AdjustmentClass_value_changed(arg0 *C.GtkAdjustment) {
 	overrides.ValueChanged()
 }
 
+//export _gotk4_gtk3_Adjustment_ConnectChanged
+func _gotk4_gtk3_Adjustment_ConnectChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Adjustment_ConnectValueChanged
+func _gotk4_gtk3_Adjustment_ConnectValueChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_AppChooserButtonClass_custom_item_activated
 func _gotk4_gtk3_AppChooserButtonClass_custom_item_activated(arg0 *C.GtkAppChooserButton, arg1 *C.gchar) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -261,6 +2479,26 @@ func _gotk4_gtk3_AppChooserButtonClass_custom_item_activated(arg0 *C.GtkAppChoos
 	_itemName = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
 
 	overrides.CustomItemActivated(_itemName)
+}
+
+//export _gotk4_gtk3_AppChooserButton_ConnectCustomItemActivated
+func _gotk4_gtk3_AppChooserButton_ConnectCustomItemActivated(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(itemName string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(itemName string))
+	}
+
+	var _itemName string // out
+
+	_itemName = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_itemName)
 }
 
 //export _gotk4_gtk3_AppChooserWidgetClass_application_activated
@@ -358,6 +2596,116 @@ func _gotk4_gtk3_AppChooserWidgetClass_populate_popup(arg0 *C.GtkAppChooserWidge
 	overrides.PopulatePopup(_menu, _appInfo)
 }
 
+//export _gotk4_gtk3_AppChooserWidget_ConnectApplicationActivated
+func _gotk4_gtk3_AppChooserWidget_ConnectApplicationActivated(arg0 C.gpointer, arg1 *C.GAppInfo, arg2 C.guintptr) {
+	var f func(application gio.AppInfor)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(application gio.AppInfor))
+	}
+
+	var _application gio.AppInfor // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gio.AppInfor is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(gio.AppInfor)
+			return ok
+		})
+		rv, ok := casted.(gio.AppInfor)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gio.AppInfor")
+		}
+		_application = rv
+	}
+
+	f(_application)
+}
+
+//export _gotk4_gtk3_AppChooserWidget_ConnectApplicationSelected
+func _gotk4_gtk3_AppChooserWidget_ConnectApplicationSelected(arg0 C.gpointer, arg1 *C.GAppInfo, arg2 C.guintptr) {
+	var f func(application gio.AppInfor)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(application gio.AppInfor))
+	}
+
+	var _application gio.AppInfor // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gio.AppInfor is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(gio.AppInfor)
+			return ok
+		})
+		rv, ok := casted.(gio.AppInfor)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gio.AppInfor")
+		}
+		_application = rv
+	}
+
+	f(_application)
+}
+
+//export _gotk4_gtk3_AppChooserWidget_ConnectPopulatePopup
+func _gotk4_gtk3_AppChooserWidget_ConnectPopulatePopup(arg0 C.gpointer, arg1 *C.GtkMenu, arg2 *C.GAppInfo, arg3 C.guintptr) {
+	var f func(menu *Menu, application gio.AppInfor)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(menu *Menu, application gio.AppInfor))
+	}
+
+	var _menu *Menu               // out
+	var _application gio.AppInfor // out
+
+	_menu = wrapMenu(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gio.AppInfor is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(gio.AppInfor)
+			return ok
+		})
+		rv, ok := casted.(gio.AppInfor)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gio.AppInfor")
+		}
+		_application = rv
+	}
+
+	f(_menu, _application)
+}
+
 //export _gotk4_gtk3_ApplicationClass_window_added
 func _gotk4_gtk3_ApplicationClass_window_added(arg0 *C.GtkApplication, arg1 *C.GtkWindow) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -386,6 +2734,62 @@ func _gotk4_gtk3_ApplicationClass_window_removed(arg0 *C.GtkApplication, arg1 *C
 	_window = wrapWindow(coreglib.Take(unsafe.Pointer(arg1)))
 
 	overrides.WindowRemoved(_window)
+}
+
+//export _gotk4_gtk3_Application_ConnectQueryEnd
+func _gotk4_gtk3_Application_ConnectQueryEnd(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Application_ConnectWindowAdded
+func _gotk4_gtk3_Application_ConnectWindowAdded(arg0 C.gpointer, arg1 *C.GtkWindow, arg2 C.guintptr) {
+	var f func(window *Window)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(window *Window))
+	}
+
+	var _window *Window // out
+
+	_window = wrapWindow(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_window)
+}
+
+//export _gotk4_gtk3_Application_ConnectWindowRemoved
+func _gotk4_gtk3_Application_ConnectWindowRemoved(arg0 C.gpointer, arg1 *C.GtkWindow, arg2 C.guintptr) {
+	var f func(window *Window)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(window *Window))
+	}
+
+	var _window *Window // out
+
+	_window = wrapWindow(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_window)
 }
 
 //export _gotk4_gtk3_AssistantClass_apply
@@ -452,6 +2856,54 @@ func _gotk4_gtk3_AssistantClass_prepare(arg0 *C.GtkAssistant, arg1 *C.GtkWidget)
 	overrides.Prepare(_page)
 }
 
+//export _gotk4_gtk3_Assistant_ConnectApply
+func _gotk4_gtk3_Assistant_ConnectApply(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Assistant_ConnectCancel
+func _gotk4_gtk3_Assistant_ConnectCancel(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Assistant_ConnectClose
+func _gotk4_gtk3_Assistant_ConnectClose(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_Assistant_ConnectEscape
 func _gotk4_gtk3_Assistant_ConnectEscape(arg0 C.gpointer, arg1 C.guintptr) {
 	var f func()
@@ -466,6 +2918,42 @@ func _gotk4_gtk3_Assistant_ConnectEscape(arg0 C.gpointer, arg1 C.guintptr) {
 	}
 
 	f()
+}
+
+//export _gotk4_gtk3_Assistant_ConnectPrepare
+func _gotk4_gtk3_Assistant_ConnectPrepare(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(page Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(page Widgetter))
+	}
+
+	var _page Widgetter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_page = rv
+	}
+
+	f(_page)
 }
 
 //export _gotk4_gtk3_BuilderClass_get_type_from_name
@@ -555,6 +3043,102 @@ func _gotk4_gtk3_ButtonClass_released(arg0 *C.GtkButton) {
 	overrides.Released()
 }
 
+//export _gotk4_gtk3_Button_ConnectActivate
+func _gotk4_gtk3_Button_ConnectActivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Button_ConnectClicked
+func _gotk4_gtk3_Button_ConnectClicked(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Button_ConnectEnter
+func _gotk4_gtk3_Button_ConnectEnter(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Button_ConnectLeave
+func _gotk4_gtk3_Button_ConnectLeave(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Button_ConnectPressed
+func _gotk4_gtk3_Button_ConnectPressed(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Button_ConnectReleased
+func _gotk4_gtk3_Button_ConnectReleased(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_CalendarClass_day_selected
 func _gotk4_gtk3_CalendarClass_day_selected(arg0 *C.GtkCalendar) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -630,6 +3214,118 @@ func _gotk4_gtk3_CalendarClass_prev_year(arg0 *C.GtkCalendar) {
 	}
 
 	overrides.PrevYear()
+}
+
+//export _gotk4_gtk3_Calendar_ConnectDaySelected
+func _gotk4_gtk3_Calendar_ConnectDaySelected(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Calendar_ConnectDaySelectedDoubleClick
+func _gotk4_gtk3_Calendar_ConnectDaySelectedDoubleClick(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Calendar_ConnectMonthChanged
+func _gotk4_gtk3_Calendar_ConnectMonthChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Calendar_ConnectNextMonth
+func _gotk4_gtk3_Calendar_ConnectNextMonth(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Calendar_ConnectNextYear
+func _gotk4_gtk3_Calendar_ConnectNextYear(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Calendar_ConnectPrevMonth
+func _gotk4_gtk3_Calendar_ConnectPrevMonth(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Calendar_ConnectPrevYear
+func _gotk4_gtk3_Calendar_ConnectPrevYear(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_CellAccessibleClass_update_cache
@@ -1158,6 +3854,202 @@ func _gotk4_gtk3_CellAreaClass_render(arg0 *C.GtkCellArea, arg1 *C.GtkCellAreaCo
 	overrides.Render(_context, _widget, _cr, _backgroundArea, _cellArea, _flags, _paintFocus)
 }
 
+//export _gotk4_gtk3_CellArea_ConnectAddEditable
+func _gotk4_gtk3_CellArea_ConnectAddEditable(arg0 C.gpointer, arg1 *C.GtkCellRenderer, arg2 *C.GtkCellEditable, arg3 *C.GdkRectangle, arg4 *C.gchar, arg5 C.guintptr) {
+	var f func(renderer CellRendererer, editable CellEditabler, cellArea *gdk.Rectangle, path string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(renderer CellRendererer, editable CellEditabler, cellArea *gdk.Rectangle, path string))
+	}
+
+	var _renderer CellRendererer // out
+	var _editable CellEditabler  // out
+	var _cellArea *gdk.Rectangle // out
+	var _path string             // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.CellRendererer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellRendererer)
+			return ok
+		})
+		rv, ok := casted.(CellRendererer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellRendererer")
+		}
+		_renderer = rv
+	}
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.CellEditabler is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellEditabler)
+			return ok
+		})
+		rv, ok := casted.(CellEditabler)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellEditabler")
+		}
+		_editable = rv
+	}
+	_cellArea = (*gdk.Rectangle)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+	_path = C.GoString((*C.gchar)(unsafe.Pointer(arg4)))
+
+	f(_renderer, _editable, _cellArea, _path)
+}
+
+//export _gotk4_gtk3_CellArea_ConnectApplyAttributes
+func _gotk4_gtk3_CellArea_ConnectApplyAttributes(arg0 C.gpointer, arg1 *C.GtkTreeModel, arg2 *C.GtkTreeIter, arg3 C.gboolean, arg4 C.gboolean, arg5 C.guintptr) {
+	var f func(model TreeModeller, iter *TreeIter, isExpander, isExpanded bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(model TreeModeller, iter *TreeIter, isExpander, isExpanded bool))
+	}
+
+	var _model TreeModeller // out
+	var _iter *TreeIter     // out
+	var _isExpander bool    // out
+	var _isExpanded bool    // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	if arg3 != 0 {
+		_isExpander = true
+	}
+	if arg4 != 0 {
+		_isExpanded = true
+	}
+
+	f(_model, _iter, _isExpander, _isExpanded)
+}
+
+//export _gotk4_gtk3_CellArea_ConnectFocusChanged
+func _gotk4_gtk3_CellArea_ConnectFocusChanged(arg0 C.gpointer, arg1 *C.GtkCellRenderer, arg2 *C.gchar, arg3 C.guintptr) {
+	var f func(renderer CellRendererer, path string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(renderer CellRendererer, path string))
+	}
+
+	var _renderer CellRendererer // out
+	var _path string             // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.CellRendererer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellRendererer)
+			return ok
+		})
+		rv, ok := casted.(CellRendererer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellRendererer")
+		}
+		_renderer = rv
+	}
+	_path = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+
+	f(_renderer, _path)
+}
+
+//export _gotk4_gtk3_CellArea_ConnectRemoveEditable
+func _gotk4_gtk3_CellArea_ConnectRemoveEditable(arg0 C.gpointer, arg1 *C.GtkCellRenderer, arg2 *C.GtkCellEditable, arg3 C.guintptr) {
+	var f func(renderer CellRendererer, editable CellEditabler)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(renderer CellRendererer, editable CellEditabler))
+	}
+
+	var _renderer CellRendererer // out
+	var _editable CellEditabler  // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.CellRendererer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellRendererer)
+			return ok
+		})
+		rv, ok := casted.(CellRendererer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellRendererer")
+		}
+		_renderer = rv
+	}
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.CellEditabler is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellEditabler)
+			return ok
+		})
+		rv, ok := casted.(CellEditabler)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellEditabler")
+		}
+		_editable = rv
+	}
+
+	f(_renderer, _editable)
+}
+
 //export _gotk4_gtk3_CellAreaContextClass_allocate
 func _gotk4_gtk3_CellAreaContextClass_allocate(arg0 *C.GtkCellAreaContext, arg1 C.gint, arg2 C.gint) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -1676,6 +4568,60 @@ func _gotk4_gtk3_CellRendererClass_start_editing(arg0 *C.GtkCellRenderer, arg1 *
 	return cret
 }
 
+//export _gotk4_gtk3_CellRenderer_ConnectEditingCanceled
+func _gotk4_gtk3_CellRenderer_ConnectEditingCanceled(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_CellRenderer_ConnectEditingStarted
+func _gotk4_gtk3_CellRenderer_ConnectEditingStarted(arg0 C.gpointer, arg1 *C.GtkCellEditable, arg2 *C.gchar, arg3 C.guintptr) {
+	var f func(editable CellEditabler, path string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(editable CellEditabler, path string))
+	}
+
+	var _editable CellEditabler // out
+	var _path string            // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.CellEditabler is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(CellEditabler)
+			return ok
+		})
+		rv, ok := casted.(CellEditabler)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.CellEditabler")
+		}
+		_editable = rv
+	}
+	_path = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+
+	f(_editable, _path)
+}
+
 //export _gotk4_gtk3_CellRendererAccelClass_accel_cleared
 func _gotk4_gtk3_CellRendererAccelClass_accel_cleared(arg0 *C.GtkCellRendererAccel, arg1 *C.gchar) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -1712,6 +4658,74 @@ func _gotk4_gtk3_CellRendererAccelClass_accel_edited(arg0 *C.GtkCellRendererAcce
 	overrides.AccelEdited(_pathString, _accelKey, _accelMods, _hardwareKeycode)
 }
 
+//export _gotk4_gtk3_CellRendererAccel_ConnectAccelCleared
+func _gotk4_gtk3_CellRendererAccel_ConnectAccelCleared(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(pathString string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(pathString string))
+	}
+
+	var _pathString string // out
+
+	_pathString = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_pathString)
+}
+
+//export _gotk4_gtk3_CellRendererAccel_ConnectAccelEdited
+func _gotk4_gtk3_CellRendererAccel_ConnectAccelEdited(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guint, arg3 C.GdkModifierType, arg4 C.guint, arg5 C.guintptr) {
+	var f func(pathString string, accelKey uint, accelMods gdk.ModifierType, hardwareKeycode uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(pathString string, accelKey uint, accelMods gdk.ModifierType, hardwareKeycode uint))
+	}
+
+	var _pathString string          // out
+	var _accelKey uint              // out
+	var _accelMods gdk.ModifierType // out
+	var _hardwareKeycode uint       // out
+
+	_pathString = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+	_accelKey = uint(arg2)
+	_accelMods = gdk.ModifierType(arg3)
+	_hardwareKeycode = uint(arg4)
+
+	f(_pathString, _accelKey, _accelMods, _hardwareKeycode)
+}
+
+//export _gotk4_gtk3_CellRendererCombo_ConnectChanged
+func _gotk4_gtk3_CellRendererCombo_ConnectChanged(arg0 C.gpointer, arg1 *C.gchar, arg2 *C.GtkTreeIter, arg3 C.guintptr) {
+	var f func(pathString string, newIter *TreeIter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(pathString string, newIter *TreeIter))
+	}
+
+	var _pathString string // out
+	var _newIter *TreeIter // out
+
+	_pathString = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+	_newIter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	f(_pathString, _newIter)
+}
+
 //export _gotk4_gtk3_CellRendererTextClass_edited
 func _gotk4_gtk3_CellRendererTextClass_edited(arg0 *C.GtkCellRendererText, arg1 *C.gchar, arg2 *C.gchar) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -1729,6 +4743,28 @@ func _gotk4_gtk3_CellRendererTextClass_edited(arg0 *C.GtkCellRendererText, arg1 
 	overrides.Edited(_path, _newText)
 }
 
+//export _gotk4_gtk3_CellRendererText_ConnectEdited
+func _gotk4_gtk3_CellRendererText_ConnectEdited(arg0 C.gpointer, arg1 *C.gchar, arg2 *C.gchar, arg3 C.guintptr) {
+	var f func(path, newText string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path, newText string))
+	}
+
+	var _path string    // out
+	var _newText string // out
+
+	_path = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+	_newText = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+
+	f(_path, _newText)
+}
+
 //export _gotk4_gtk3_CellRendererToggleClass_toggled
 func _gotk4_gtk3_CellRendererToggleClass_toggled(arg0 *C.GtkCellRendererToggle, arg1 *C.gchar) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -1742,6 +4778,26 @@ func _gotk4_gtk3_CellRendererToggleClass_toggled(arg0 *C.GtkCellRendererToggle, 
 	_path = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
 
 	overrides.Toggled(_path)
+}
+
+//export _gotk4_gtk3_CellRendererToggle_ConnectToggled
+func _gotk4_gtk3_CellRendererToggle_ConnectToggled(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(path string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path string))
+	}
+
+	var _path string // out
+
+	_path = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_path)
 }
 
 //export _gotk4_gtk3_CheckButtonClass_draw_indicator
@@ -1793,6 +4849,42 @@ func _gotk4_gtk3_CheckMenuItemClass_toggled(arg0 *C.GtkCheckMenuItem) {
 	overrides.Toggled()
 }
 
+//export _gotk4_gtk3_CheckMenuItem_ConnectToggled
+func _gotk4_gtk3_CheckMenuItem_ConnectToggled(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Clipboard_ConnectOwnerChange
+func _gotk4_gtk3_Clipboard_ConnectOwnerChange(arg0 C.gpointer, arg1 *C.GdkEventOwnerChange, arg2 C.guintptr) {
+	var f func(event *gdk.EventOwnerChange)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventOwnerChange))
+	}
+
+	var _event *gdk.EventOwnerChange // out
+
+	_event = (*gdk.EventOwnerChange)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	f(_event)
+}
+
 //export _gotk4_gtk3_ColorButtonClass_color_set
 func _gotk4_gtk3_ColorButtonClass_color_set(arg0 *C.GtkColorButton) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -1804,6 +4896,22 @@ func _gotk4_gtk3_ColorButtonClass_color_set(arg0 *C.GtkColorButton) {
 	overrides.ColorSet()
 }
 
+//export _gotk4_gtk3_ColorButton_ConnectColorSet
+func _gotk4_gtk3_ColorButton_ConnectColorSet(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_ColorSelectionClass_color_changed
 func _gotk4_gtk3_ColorSelectionClass_color_changed(arg0 *C.GtkColorSelection) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -1813,6 +4921,22 @@ func _gotk4_gtk3_ColorSelectionClass_color_changed(arg0 *C.GtkColorSelection) {
 	}
 
 	overrides.ColorChanged()
+}
+
+//export _gotk4_gtk3_ColorSelection_ConnectColorChanged
+func _gotk4_gtk3_ColorSelection_ConnectColorChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_ComboBoxClass_changed
@@ -1845,6 +4969,108 @@ func _gotk4_gtk3_ComboBoxClass_format_entry_text(arg0 *C.GtkComboBox, arg1 *C.gc
 	cret = (*C.gchar)(unsafe.Pointer(C.CString(utf8)))
 
 	return cret
+}
+
+//export _gotk4_gtk3_ComboBox_ConnectChanged
+func _gotk4_gtk3_ComboBox_ConnectChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_ComboBox_ConnectFormatEntryText
+func _gotk4_gtk3_ComboBox_ConnectFormatEntryText(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) (cret *C.gchar) {
+	var f func(path string) (utf8 string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path string) (utf8 string))
+	}
+
+	var _path string // out
+
+	_path = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	utf8 := f(_path)
+
+	var _ string
+
+	cret = (*C.gchar)(unsafe.Pointer(C.CString(utf8)))
+
+	return cret
+}
+
+//export _gotk4_gtk3_ComboBox_ConnectMoveActive
+func _gotk4_gtk3_ComboBox_ConnectMoveActive(arg0 C.gpointer, arg1 C.GtkScrollType, arg2 C.guintptr) {
+	var f func(scrollType ScrollType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(scrollType ScrollType))
+	}
+
+	var _scrollType ScrollType // out
+
+	_scrollType = ScrollType(arg1)
+
+	f(_scrollType)
+}
+
+//export _gotk4_gtk3_ComboBox_ConnectPopdown
+func _gotk4_gtk3_ComboBox_ConnectPopdown(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_ComboBox_ConnectPopup
+func _gotk4_gtk3_ComboBox_ConnectPopup(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_ContainerClass_add
@@ -2189,6 +5415,35 @@ func _gotk4_gtk3_CssProviderClass_parsing_error(arg0 *C.GtkCssProvider, arg1 *C.
 	overrides.ParsingError(_section, _err)
 }
 
+//export _gotk4_gtk3_CssProvider_ConnectParsingError
+func _gotk4_gtk3_CssProvider_ConnectParsingError(arg0 C.gpointer, arg1 *C.GtkCssSection, arg2 *C.GError, arg3 C.guintptr) {
+	var f func(section *CSSSection, err error)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(section *CSSSection, err error))
+	}
+
+	var _section *CSSSection // out
+	var _err error           // out
+
+	_section = (*CSSSection)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	C.gtk_css_section_ref(arg1)
+	runtime.SetFinalizer(
+		gextras.StructIntern(unsafe.Pointer(_section)),
+		func(intern *struct{ C unsafe.Pointer }) {
+			C.gtk_css_section_unref((*C.GtkCssSection)(intern.C))
+		},
+	)
+	_err = gerror.Take(unsafe.Pointer(arg2))
+
+	f(_section, _err)
+}
+
 //export _gotk4_gtk3_DialogClass_close
 func _gotk4_gtk3_DialogClass_close(arg0 *C.GtkDialog) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -2213,6 +5468,42 @@ func _gotk4_gtk3_DialogClass_response(arg0 *C.GtkDialog, arg1 C.gint) {
 	_responseId = int(arg1)
 
 	overrides.Response(_responseId)
+}
+
+//export _gotk4_gtk3_Dialog_ConnectClose
+func _gotk4_gtk3_Dialog_ConnectClose(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Dialog_ConnectResponse
+func _gotk4_gtk3_Dialog_ConnectResponse(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) {
+	var f func(responseId int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(responseId int))
+	}
+
+	var _responseId int // out
+
+	_responseId = int(arg1)
+
+	f(_responseId)
 }
 
 //export _gotk4_gtk3_EntryClass_activate
@@ -2418,6 +5709,294 @@ func _gotk4_gtk3_EntryClass_toggle_overwrite(arg0 *C.GtkEntry) {
 	overrides.ToggleOverwrite()
 }
 
+//export _gotk4_gtk3_Entry_ConnectActivate
+func _gotk4_gtk3_Entry_ConnectActivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Entry_ConnectBackspace
+func _gotk4_gtk3_Entry_ConnectBackspace(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Entry_ConnectCopyClipboard
+func _gotk4_gtk3_Entry_ConnectCopyClipboard(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Entry_ConnectCutClipboard
+func _gotk4_gtk3_Entry_ConnectCutClipboard(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Entry_ConnectDeleteFromCursor
+func _gotk4_gtk3_Entry_ConnectDeleteFromCursor(arg0 C.gpointer, arg1 C.GtkDeleteType, arg2 C.gint, arg3 C.guintptr) {
+	var f func(typ DeleteType, count int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(typ DeleteType, count int))
+	}
+
+	var _typ DeleteType // out
+	var _count int      // out
+
+	_typ = DeleteType(arg1)
+	_count = int(arg2)
+
+	f(_typ, _count)
+}
+
+//export _gotk4_gtk3_Entry_ConnectIconPress
+func _gotk4_gtk3_Entry_ConnectIconPress(arg0 C.gpointer, arg1 C.GtkEntryIconPosition, arg2 C.GdkEvent, arg3 C.guintptr) {
+	var f func(iconPos EntryIconPosition, event *gdk.Event)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(iconPos EntryIconPosition, event *gdk.Event))
+	}
+
+	var _iconPos EntryIconPosition // out
+	var _event *gdk.Event          // out
+
+	_iconPos = EntryIconPosition(arg1)
+	{
+		v := (*gdk.Event)(gextras.NewStructNative(unsafe.Pointer((&arg2))))
+		v = gdk.CopyEventer(v)
+		_event = v
+	}
+
+	f(_iconPos, _event)
+}
+
+//export _gotk4_gtk3_Entry_ConnectIconRelease
+func _gotk4_gtk3_Entry_ConnectIconRelease(arg0 C.gpointer, arg1 C.GtkEntryIconPosition, arg2 C.GdkEvent, arg3 C.guintptr) {
+	var f func(iconPos EntryIconPosition, event *gdk.Event)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(iconPos EntryIconPosition, event *gdk.Event))
+	}
+
+	var _iconPos EntryIconPosition // out
+	var _event *gdk.Event          // out
+
+	_iconPos = EntryIconPosition(arg1)
+	{
+		v := (*gdk.Event)(gextras.NewStructNative(unsafe.Pointer((&arg2))))
+		v = gdk.CopyEventer(v)
+		_event = v
+	}
+
+	f(_iconPos, _event)
+}
+
+//export _gotk4_gtk3_Entry_ConnectInsertAtCursor
+func _gotk4_gtk3_Entry_ConnectInsertAtCursor(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(str string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(str string))
+	}
+
+	var _str string // out
+
+	_str = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_str)
+}
+
+//export _gotk4_gtk3_Entry_ConnectInsertEmoji
+func _gotk4_gtk3_Entry_ConnectInsertEmoji(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Entry_ConnectMoveCursor
+func _gotk4_gtk3_Entry_ConnectMoveCursor(arg0 C.gpointer, arg1 C.GtkMovementStep, arg2 C.gint, arg3 C.gboolean, arg4 C.guintptr) {
+	var f func(step MovementStep, count int, extendSelection bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(step MovementStep, count int, extendSelection bool))
+	}
+
+	var _step MovementStep    // out
+	var _count int            // out
+	var _extendSelection bool // out
+
+	_step = MovementStep(arg1)
+	_count = int(arg2)
+	if arg3 != 0 {
+		_extendSelection = true
+	}
+
+	f(_step, _count, _extendSelection)
+}
+
+//export _gotk4_gtk3_Entry_ConnectPasteClipboard
+func _gotk4_gtk3_Entry_ConnectPasteClipboard(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Entry_ConnectPopulatePopup
+func _gotk4_gtk3_Entry_ConnectPopulatePopup(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(widget Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(widget Widgetter))
+	}
+
+	var _widget Widgetter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_widget = rv
+	}
+
+	f(_widget)
+}
+
+//export _gotk4_gtk3_Entry_ConnectPreeditChanged
+func _gotk4_gtk3_Entry_ConnectPreeditChanged(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(preedit string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(preedit string))
+	}
+
+	var _preedit string // out
+
+	_preedit = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_preedit)
+}
+
+//export _gotk4_gtk3_Entry_ConnectToggleOverwrite
+func _gotk4_gtk3_Entry_ConnectToggleOverwrite(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_EntryBufferClass_delete_text
 func _gotk4_gtk3_EntryBufferClass_delete_text(arg0 *C.GtkEntryBuffer, arg1 C.guint, arg2 C.guint) (cret C.guint) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -2539,6 +6118,52 @@ func _gotk4_gtk3_EntryBufferClass_inserted_text(arg0 *C.GtkEntryBuffer, arg1 C.g
 	_nChars = uint(arg3)
 
 	overrides.InsertedText(_position, _chars, _nChars)
+}
+
+//export _gotk4_gtk3_EntryBuffer_ConnectDeletedText
+func _gotk4_gtk3_EntryBuffer_ConnectDeletedText(arg0 C.gpointer, arg1 C.guint, arg2 C.guint, arg3 C.guintptr) {
+	var f func(position, nChars uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(position, nChars uint))
+	}
+
+	var _position uint // out
+	var _nChars uint   // out
+
+	_position = uint(arg1)
+	_nChars = uint(arg2)
+
+	f(_position, _nChars)
+}
+
+//export _gotk4_gtk3_EntryBuffer_ConnectInsertedText
+func _gotk4_gtk3_EntryBuffer_ConnectInsertedText(arg0 C.gpointer, arg1 C.guint, arg2 *C.gchar, arg3 C.guint, arg4 C.guintptr) {
+	var f func(position uint, chars string, nChars uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(position uint, chars string, nChars uint))
+	}
+
+	var _position uint // out
+	var _chars string  // out
+	var _nChars uint   // out
+
+	_position = uint(arg1)
+	_chars = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+	_nChars = uint(arg3)
+
+	f(_position, _chars, _nChars)
 }
 
 //export _gotk4_gtk3_EntryCompletionClass_action_activated
@@ -2672,6 +6297,162 @@ func _gotk4_gtk3_EntryCompletionClass_no_matches(arg0 *C.GtkEntryCompletion) {
 	overrides.NoMatches()
 }
 
+//export _gotk4_gtk3_EntryCompletion_ConnectActionActivated
+func _gotk4_gtk3_EntryCompletion_ConnectActionActivated(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) {
+	var f func(index int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(index int))
+	}
+
+	var _index int // out
+
+	_index = int(arg1)
+
+	f(_index)
+}
+
+//export _gotk4_gtk3_EntryCompletion_ConnectCursorOnMatch
+func _gotk4_gtk3_EntryCompletion_ConnectCursorOnMatch(arg0 C.gpointer, arg1 *C.GtkTreeModel, arg2 *C.GtkTreeIter, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(model TreeModeller, iter *TreeIter) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(model TreeModeller, iter *TreeIter) (ok bool))
+	}
+
+	var _model TreeModeller // out
+	var _iter *TreeIter     // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	ok := f(_model, _iter)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_EntryCompletion_ConnectInsertPrefix
+func _gotk4_gtk3_EntryCompletion_ConnectInsertPrefix(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(prefix string) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(prefix string) (ok bool))
+	}
+
+	var _prefix string // out
+
+	_prefix = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	ok := f(_prefix)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_EntryCompletion_ConnectMatchSelected
+func _gotk4_gtk3_EntryCompletion_ConnectMatchSelected(arg0 C.gpointer, arg1 *C.GtkTreeModel, arg2 *C.GtkTreeIter, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(model TreeModeller, iter *TreeIter) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(model TreeModeller, iter *TreeIter) (ok bool))
+	}
+
+	var _model TreeModeller // out
+	var _iter *TreeIter     // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.TreeModeller is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(TreeModeller)
+			return ok
+		})
+		rv, ok := casted.(TreeModeller)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.TreeModeller")
+		}
+		_model = rv
+	}
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	ok := f(_model, _iter)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_EntryCompletion_ConnectNoMatches
+func _gotk4_gtk3_EntryCompletion_ConnectNoMatches(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_EventControllerKey_ConnectFocusIn
 func _gotk4_gtk3_EventControllerKey_ConnectFocusIn(arg0 C.gpointer, arg1 C.guintptr) {
 	var f func()
@@ -2720,6 +6501,62 @@ func _gotk4_gtk3_EventControllerKey_ConnectIMUpdate(arg0 C.gpointer, arg1 C.guin
 	f()
 }
 
+//export _gotk4_gtk3_EventControllerKey_ConnectKeyPressed
+func _gotk4_gtk3_EventControllerKey_ConnectKeyPressed(arg0 C.gpointer, arg1 C.guint, arg2 C.guint, arg3 C.GdkModifierType, arg4 C.guintptr) (cret C.gboolean) {
+	var f func(keyval, keycode uint, state gdk.ModifierType) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(keyval, keycode uint, state gdk.ModifierType) (ok bool))
+	}
+
+	var _keyval uint            // out
+	var _keycode uint           // out
+	var _state gdk.ModifierType // out
+
+	_keyval = uint(arg1)
+	_keycode = uint(arg2)
+	_state = gdk.ModifierType(arg3)
+
+	ok := f(_keyval, _keycode, _state)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_EventControllerKey_ConnectKeyReleased
+func _gotk4_gtk3_EventControllerKey_ConnectKeyReleased(arg0 C.gpointer, arg1 C.guint, arg2 C.guint, arg3 C.GdkModifierType, arg4 C.guintptr) {
+	var f func(keyval, keycode uint, state gdk.ModifierType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(keyval, keycode uint, state gdk.ModifierType))
+	}
+
+	var _keyval uint            // out
+	var _keycode uint           // out
+	var _state gdk.ModifierType // out
+
+	_keyval = uint(arg1)
+	_keycode = uint(arg2)
+	_state = gdk.ModifierType(arg3)
+
+	f(_keyval, _keycode, _state)
+}
+
 //export _gotk4_gtk3_EventControllerKey_ConnectModifiers
 func _gotk4_gtk3_EventControllerKey_ConnectModifiers(arg0 C.gpointer, arg1 C.GdkModifierType, arg2 C.guintptr) (cret C.gboolean) {
 	var f func(object gdk.ModifierType) (ok bool)
@@ -2746,6 +6583,142 @@ func _gotk4_gtk3_EventControllerKey_ConnectModifiers(arg0 C.gpointer, arg1 C.Gdk
 	}
 
 	return cret
+}
+
+//export _gotk4_gtk3_EventControllerMotion_ConnectEnter
+func _gotk4_gtk3_EventControllerMotion_ConnectEnter(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(x, y float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(x, y float64))
+	}
+
+	var _x float64 // out
+	var _y float64 // out
+
+	_x = float64(arg1)
+	_y = float64(arg2)
+
+	f(_x, _y)
+}
+
+//export _gotk4_gtk3_EventControllerMotion_ConnectLeave
+func _gotk4_gtk3_EventControllerMotion_ConnectLeave(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_EventControllerMotion_ConnectMotion
+func _gotk4_gtk3_EventControllerMotion_ConnectMotion(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(x, y float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(x, y float64))
+	}
+
+	var _x float64 // out
+	var _y float64 // out
+
+	_x = float64(arg1)
+	_y = float64(arg2)
+
+	f(_x, _y)
+}
+
+//export _gotk4_gtk3_EventControllerScroll_ConnectDecelerate
+func _gotk4_gtk3_EventControllerScroll_ConnectDecelerate(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(velX, velY float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(velX, velY float64))
+	}
+
+	var _velX float64 // out
+	var _velY float64 // out
+
+	_velX = float64(arg1)
+	_velY = float64(arg2)
+
+	f(_velX, _velY)
+}
+
+//export _gotk4_gtk3_EventControllerScroll_ConnectScroll
+func _gotk4_gtk3_EventControllerScroll_ConnectScroll(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(dx, dy float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(dx, dy float64))
+	}
+
+	var _dx float64 // out
+	var _dy float64 // out
+
+	_dx = float64(arg1)
+	_dy = float64(arg2)
+
+	f(_dx, _dy)
+}
+
+//export _gotk4_gtk3_EventControllerScroll_ConnectScrollBegin
+func _gotk4_gtk3_EventControllerScroll_ConnectScrollBegin(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_EventControllerScroll_ConnectScrollEnd
+func _gotk4_gtk3_EventControllerScroll_ConnectScrollEnd(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_ExpanderClass_activate
@@ -2784,6 +6757,222 @@ func _gotk4_gtk3_FileChooserButtonClass_file_set(arg0 *C.GtkFileChooserButton) {
 	}
 
 	overrides.FileSet()
+}
+
+//export _gotk4_gtk3_FileChooserButton_ConnectFileSet
+func _gotk4_gtk3_FileChooserButton_ConnectFileSet(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectDesktopFolder
+func _gotk4_gtk3_FileChooserWidget_ConnectDesktopFolder(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectDownFolder
+func _gotk4_gtk3_FileChooserWidget_ConnectDownFolder(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectHomeFolder
+func _gotk4_gtk3_FileChooserWidget_ConnectHomeFolder(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectLocationPopup
+func _gotk4_gtk3_FileChooserWidget_ConnectLocationPopup(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(path string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path string))
+	}
+
+	var _path string // out
+
+	_path = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_path)
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectLocationPopupOnPaste
+func _gotk4_gtk3_FileChooserWidget_ConnectLocationPopupOnPaste(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectLocationTogglePopup
+func _gotk4_gtk3_FileChooserWidget_ConnectLocationTogglePopup(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectPlacesShortcut
+func _gotk4_gtk3_FileChooserWidget_ConnectPlacesShortcut(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectQuickBookmark
+func _gotk4_gtk3_FileChooserWidget_ConnectQuickBookmark(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) {
+	var f func(bookmarkIndex int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(bookmarkIndex int))
+	}
+
+	var _bookmarkIndex int // out
+
+	_bookmarkIndex = int(arg1)
+
+	f(_bookmarkIndex)
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectRecentShortcut
+func _gotk4_gtk3_FileChooserWidget_ConnectRecentShortcut(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectSearchShortcut
+func _gotk4_gtk3_FileChooserWidget_ConnectSearchShortcut(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectShowHidden
+func _gotk4_gtk3_FileChooserWidget_ConnectShowHidden(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FileChooserWidget_ConnectUpFolder
+func _gotk4_gtk3_FileChooserWidget_ConnectUpFolder(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_FlowBoxClass_activate_cursor_child
@@ -2881,6 +7070,136 @@ func _gotk4_gtk3_FlowBoxClass_unselect_all(arg0 *C.GtkFlowBox) {
 	overrides.UnselectAll()
 }
 
+//export _gotk4_gtk3_FlowBox_ConnectActivateCursorChild
+func _gotk4_gtk3_FlowBox_ConnectActivateCursorChild(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FlowBox_ConnectChildActivated
+func _gotk4_gtk3_FlowBox_ConnectChildActivated(arg0 C.gpointer, arg1 *C.GtkFlowBoxChild, arg2 C.guintptr) {
+	var f func(child *FlowBoxChild)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(child *FlowBoxChild))
+	}
+
+	var _child *FlowBoxChild // out
+
+	_child = wrapFlowBoxChild(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_child)
+}
+
+//export _gotk4_gtk3_FlowBox_ConnectMoveCursor
+func _gotk4_gtk3_FlowBox_ConnectMoveCursor(arg0 C.gpointer, arg1 C.GtkMovementStep, arg2 C.gint, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(step MovementStep, count int) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(step MovementStep, count int) (ok bool))
+	}
+
+	var _step MovementStep // out
+	var _count int         // out
+
+	_step = MovementStep(arg1)
+	_count = int(arg2)
+
+	ok := f(_step, _count)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_FlowBox_ConnectSelectAll
+func _gotk4_gtk3_FlowBox_ConnectSelectAll(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FlowBox_ConnectSelectedChildrenChanged
+func _gotk4_gtk3_FlowBox_ConnectSelectedChildrenChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FlowBox_ConnectToggleCursorChild
+func _gotk4_gtk3_FlowBox_ConnectToggleCursorChild(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_FlowBox_ConnectUnselectAll
+func _gotk4_gtk3_FlowBox_ConnectUnselectAll(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_FlowBoxChildClass_activate
 func _gotk4_gtk3_FlowBoxChildClass_activate(arg0 *C.GtkFlowBoxChild) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -2892,6 +7211,22 @@ func _gotk4_gtk3_FlowBoxChildClass_activate(arg0 *C.GtkFlowBoxChild) {
 	overrides.Activate()
 }
 
+//export _gotk4_gtk3_FlowBoxChild_ConnectActivate
+func _gotk4_gtk3_FlowBoxChild_ConnectActivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_FontButtonClass_font_set
 func _gotk4_gtk3_FontButtonClass_font_set(arg0 *C.GtkFontButton) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -2901,6 +7236,22 @@ func _gotk4_gtk3_FontButtonClass_font_set(arg0 *C.GtkFontButton) {
 	}
 
 	overrides.FontSet()
+}
+
+//export _gotk4_gtk3_FontButton_ConnectFontSet
+func _gotk4_gtk3_FontButton_ConnectFontSet(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_FrameClass_compute_child_allocation
@@ -2974,6 +7325,419 @@ func _gotk4_gtk3_GLAreaClass_resize(arg0 *C.GtkGLArea, arg1 C.int, arg2 C.int) {
 	_height = int(arg2)
 
 	overrides.Resize(_width, _height)
+}
+
+//export _gotk4_gtk3_GLArea_ConnectCreateContext
+func _gotk4_gtk3_GLArea_ConnectCreateContext(arg0 C.gpointer, arg1 C.guintptr) (cret *C.GdkGLContext) {
+	var f func() (glContext gdk.GLContexter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (glContext gdk.GLContexter))
+	}
+
+	glContext := f()
+
+	var _ gdk.GLContexter
+
+	cret = (*C.GdkGLContext)(unsafe.Pointer(coreglib.InternObject(glContext).Native()))
+	C.g_object_ref(C.gpointer(coreglib.InternObject(glContext).Native()))
+
+	return cret
+}
+
+//export _gotk4_gtk3_GLArea_ConnectRender
+func _gotk4_gtk3_GLArea_ConnectRender(arg0 C.gpointer, arg1 *C.GdkGLContext, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(context gdk.GLContexter) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context gdk.GLContexter) (ok bool))
+	}
+
+	var _context gdk.GLContexter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gdk.GLContexter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(gdk.GLContexter)
+			return ok
+		})
+		rv, ok := casted.(gdk.GLContexter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gdk.GLContexter")
+		}
+		_context = rv
+	}
+
+	ok := f(_context)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_GLArea_ConnectResize
+func _gotk4_gtk3_GLArea_ConnectResize(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.guintptr) {
+	var f func(width, height int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(width, height int))
+	}
+
+	var _width int  // out
+	var _height int // out
+
+	_width = int(arg1)
+	_height = int(arg2)
+
+	f(_width, _height)
+}
+
+//export _gotk4_gtk3_Gesture_ConnectBegin
+func _gotk4_gtk3_Gesture_ConnectBegin(arg0 C.gpointer, arg1 *C.GdkEventSequence, arg2 C.guintptr) {
+	var f func(sequence *gdk.EventSequence)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(sequence *gdk.EventSequence))
+	}
+
+	var _sequence *gdk.EventSequence // out
+
+	if arg1 != nil {
+		_sequence = (*gdk.EventSequence)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	}
+
+	f(_sequence)
+}
+
+//export _gotk4_gtk3_Gesture_ConnectCancel
+func _gotk4_gtk3_Gesture_ConnectCancel(arg0 C.gpointer, arg1 *C.GdkEventSequence, arg2 C.guintptr) {
+	var f func(sequence *gdk.EventSequence)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(sequence *gdk.EventSequence))
+	}
+
+	var _sequence *gdk.EventSequence // out
+
+	if arg1 != nil {
+		_sequence = (*gdk.EventSequence)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	}
+
+	f(_sequence)
+}
+
+//export _gotk4_gtk3_Gesture_ConnectEnd
+func _gotk4_gtk3_Gesture_ConnectEnd(arg0 C.gpointer, arg1 *C.GdkEventSequence, arg2 C.guintptr) {
+	var f func(sequence *gdk.EventSequence)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(sequence *gdk.EventSequence))
+	}
+
+	var _sequence *gdk.EventSequence // out
+
+	if arg1 != nil {
+		_sequence = (*gdk.EventSequence)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	}
+
+	f(_sequence)
+}
+
+//export _gotk4_gtk3_Gesture_ConnectSequenceStateChanged
+func _gotk4_gtk3_Gesture_ConnectSequenceStateChanged(arg0 C.gpointer, arg1 *C.GdkEventSequence, arg2 C.GtkEventSequenceState, arg3 C.guintptr) {
+	var f func(sequence *gdk.EventSequence, state EventSequenceState)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(sequence *gdk.EventSequence, state EventSequenceState))
+	}
+
+	var _sequence *gdk.EventSequence // out
+	var _state EventSequenceState    // out
+
+	if arg1 != nil {
+		_sequence = (*gdk.EventSequence)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	}
+	_state = EventSequenceState(arg2)
+
+	f(_sequence, _state)
+}
+
+//export _gotk4_gtk3_Gesture_ConnectUpdate
+func _gotk4_gtk3_Gesture_ConnectUpdate(arg0 C.gpointer, arg1 *C.GdkEventSequence, arg2 C.guintptr) {
+	var f func(sequence *gdk.EventSequence)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(sequence *gdk.EventSequence))
+	}
+
+	var _sequence *gdk.EventSequence // out
+
+	if arg1 != nil {
+		_sequence = (*gdk.EventSequence)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	}
+
+	f(_sequence)
+}
+
+//export _gotk4_gtk3_GestureDrag_ConnectDragBegin
+func _gotk4_gtk3_GestureDrag_ConnectDragBegin(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(startX, startY float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(startX, startY float64))
+	}
+
+	var _startX float64 // out
+	var _startY float64 // out
+
+	_startX = float64(arg1)
+	_startY = float64(arg2)
+
+	f(_startX, _startY)
+}
+
+//export _gotk4_gtk3_GestureDrag_ConnectDragEnd
+func _gotk4_gtk3_GestureDrag_ConnectDragEnd(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(offsetX, offsetY float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(offsetX, offsetY float64))
+	}
+
+	var _offsetX float64 // out
+	var _offsetY float64 // out
+
+	_offsetX = float64(arg1)
+	_offsetY = float64(arg2)
+
+	f(_offsetX, _offsetY)
+}
+
+//export _gotk4_gtk3_GestureDrag_ConnectDragUpdate
+func _gotk4_gtk3_GestureDrag_ConnectDragUpdate(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(offsetX, offsetY float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(offsetX, offsetY float64))
+	}
+
+	var _offsetX float64 // out
+	var _offsetY float64 // out
+
+	_offsetX = float64(arg1)
+	_offsetY = float64(arg2)
+
+	f(_offsetX, _offsetY)
+}
+
+//export _gotk4_gtk3_GestureLongPress_ConnectCancelled
+func _gotk4_gtk3_GestureLongPress_ConnectCancelled(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_GestureLongPress_ConnectPressed
+func _gotk4_gtk3_GestureLongPress_ConnectPressed(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(x, y float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(x, y float64))
+	}
+
+	var _x float64 // out
+	var _y float64 // out
+
+	_x = float64(arg1)
+	_y = float64(arg2)
+
+	f(_x, _y)
+}
+
+//export _gotk4_gtk3_GestureMultiPress_ConnectPressed
+func _gotk4_gtk3_GestureMultiPress_ConnectPressed(arg0 C.gpointer, arg1 C.gint, arg2 C.gdouble, arg3 C.gdouble, arg4 C.guintptr) {
+	var f func(nPress int, x, y float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(nPress int, x, y float64))
+	}
+
+	var _nPress int // out
+	var _x float64  // out
+	var _y float64  // out
+
+	_nPress = int(arg1)
+	_x = float64(arg2)
+	_y = float64(arg3)
+
+	f(_nPress, _x, _y)
+}
+
+//export _gotk4_gtk3_GestureMultiPress_ConnectReleased
+func _gotk4_gtk3_GestureMultiPress_ConnectReleased(arg0 C.gpointer, arg1 C.gint, arg2 C.gdouble, arg3 C.gdouble, arg4 C.guintptr) {
+	var f func(nPress int, x, y float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(nPress int, x, y float64))
+	}
+
+	var _nPress int // out
+	var _x float64  // out
+	var _y float64  // out
+
+	_nPress = int(arg1)
+	_x = float64(arg2)
+	_y = float64(arg3)
+
+	f(_nPress, _x, _y)
+}
+
+//export _gotk4_gtk3_GestureMultiPress_ConnectStopped
+func _gotk4_gtk3_GestureMultiPress_ConnectStopped(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_GesturePan_ConnectPan
+func _gotk4_gtk3_GesturePan_ConnectPan(arg0 C.gpointer, arg1 C.GtkPanDirection, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(direction PanDirection, offset float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(direction PanDirection, offset float64))
+	}
+
+	var _direction PanDirection // out
+	var _offset float64         // out
+
+	_direction = PanDirection(arg1)
+	_offset = float64(arg2)
+
+	f(_direction, _offset)
+}
+
+//export _gotk4_gtk3_GestureRotate_ConnectAngleChanged
+func _gotk4_gtk3_GestureRotate_ConnectAngleChanged(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(angle, angleDelta float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(angle, angleDelta float64))
+	}
+
+	var _angle float64      // out
+	var _angleDelta float64 // out
+
+	_angle = float64(arg1)
+	_angleDelta = float64(arg2)
+
+	f(_angle, _angleDelta)
 }
 
 //export _gotk4_gtk3_GestureStylus_ConnectDown
@@ -3062,6 +7826,48 @@ func _gotk4_gtk3_GestureStylus_ConnectUp(arg0 C.gpointer, arg1 C.gdouble, arg2 C
 	_p0 = float64(arg2)
 
 	f(_object, _p0)
+}
+
+//export _gotk4_gtk3_GestureSwipe_ConnectSwipe
+func _gotk4_gtk3_GestureSwipe_ConnectSwipe(arg0 C.gpointer, arg1 C.gdouble, arg2 C.gdouble, arg3 C.guintptr) {
+	var f func(velocityX, velocityY float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(velocityX, velocityY float64))
+	}
+
+	var _velocityX float64 // out
+	var _velocityY float64 // out
+
+	_velocityX = float64(arg1)
+	_velocityY = float64(arg2)
+
+	f(_velocityX, _velocityY)
+}
+
+//export _gotk4_gtk3_GestureZoom_ConnectScaleChanged
+func _gotk4_gtk3_GestureZoom_ConnectScaleChanged(arg0 C.gpointer, arg1 C.gdouble, arg2 C.guintptr) {
+	var f func(scale float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(scale float64))
+	}
+
+	var _scale float64 // out
+
+	_scale = float64(arg1)
+
+	f(_scale)
 }
 
 //export _gotk4_gtk3_HSVClass_changed
@@ -3186,6 +7992,78 @@ func _gotk4_gtk3_HandleBoxClass_child_detached(arg0 *C.GtkHandleBox, arg1 *C.Gtk
 	}
 
 	overrides.ChildDetached(_child)
+}
+
+//export _gotk4_gtk3_HandleBox_ConnectChildAttached
+func _gotk4_gtk3_HandleBox_ConnectChildAttached(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(widget Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(widget Widgetter))
+	}
+
+	var _widget Widgetter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_widget = rv
+	}
+
+	f(_widget)
+}
+
+//export _gotk4_gtk3_HandleBox_ConnectChildDetached
+func _gotk4_gtk3_HandleBox_ConnectChildDetached(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(widget Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(widget Widgetter))
+	}
+
+	var _widget Widgetter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_widget = rv
+	}
+
+	f(_widget)
 }
 
 //export _gotk4_gtk3_IMContextClass_commit
@@ -3459,6 +8337,128 @@ func _gotk4_gtk3_IMContextClass_set_use_preedit(arg0 *C.GtkIMContext, arg1 C.gbo
 	overrides.SetUsePreedit(_usePreedit)
 }
 
+//export _gotk4_gtk3_IMContext_ConnectCommit
+func _gotk4_gtk3_IMContext_ConnectCommit(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(str string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(str string))
+	}
+
+	var _str string // out
+
+	_str = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_str)
+}
+
+//export _gotk4_gtk3_IMContext_ConnectDeleteSurrounding
+func _gotk4_gtk3_IMContext_ConnectDeleteSurrounding(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(offset, nChars int) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(offset, nChars int) (ok bool))
+	}
+
+	var _offset int // out
+	var _nChars int // out
+
+	_offset = int(arg1)
+	_nChars = int(arg2)
+
+	ok := f(_offset, _nChars)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_IMContext_ConnectPreeditChanged
+func _gotk4_gtk3_IMContext_ConnectPreeditChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_IMContext_ConnectPreeditEnd
+func _gotk4_gtk3_IMContext_ConnectPreeditEnd(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_IMContext_ConnectPreeditStart
+func _gotk4_gtk3_IMContext_ConnectPreeditStart(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_IMContext_ConnectRetrieveSurrounding
+func _gotk4_gtk3_IMContext_ConnectRetrieveSurrounding(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
 //export _gotk4_gtk3_IconThemeClass_changed
 func _gotk4_gtk3_IconThemeClass_changed(arg0 *C.GtkIconTheme) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -3468,6 +8468,22 @@ func _gotk4_gtk3_IconThemeClass_changed(arg0 *C.GtkIconTheme) {
 	}
 
 	overrides.Changed()
+}
+
+//export _gotk4_gtk3_IconTheme_ConnectChanged
+func _gotk4_gtk3_IconTheme_ConnectChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_IconViewClass_activate_cursor_item
@@ -3584,6 +8600,160 @@ func _gotk4_gtk3_IconViewClass_unselect_all(arg0 *C.GtkIconView) {
 	overrides.UnselectAll()
 }
 
+//export _gotk4_gtk3_IconView_ConnectActivateCursorItem
+func _gotk4_gtk3_IconView_ConnectActivateCursorItem(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_IconView_ConnectItemActivated
+func _gotk4_gtk3_IconView_ConnectItemActivated(arg0 C.gpointer, arg1 *C.GtkTreePath, arg2 C.guintptr) {
+	var f func(path *TreePath)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path *TreePath))
+	}
+
+	var _path *TreePath // out
+
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	f(_path)
+}
+
+//export _gotk4_gtk3_IconView_ConnectMoveCursor
+func _gotk4_gtk3_IconView_ConnectMoveCursor(arg0 C.gpointer, arg1 C.GtkMovementStep, arg2 C.gint, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(step MovementStep, count int) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(step MovementStep, count int) (ok bool))
+	}
+
+	var _step MovementStep // out
+	var _count int         // out
+
+	_step = MovementStep(arg1)
+	_count = int(arg2)
+
+	ok := f(_step, _count)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_IconView_ConnectSelectAll
+func _gotk4_gtk3_IconView_ConnectSelectAll(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_IconView_ConnectSelectCursorItem
+func _gotk4_gtk3_IconView_ConnectSelectCursorItem(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_IconView_ConnectSelectionChanged
+func _gotk4_gtk3_IconView_ConnectSelectionChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_IconView_ConnectToggleCursorItem
+func _gotk4_gtk3_IconView_ConnectToggleCursorItem(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_IconView_ConnectUnselectAll
+func _gotk4_gtk3_IconView_ConnectUnselectAll(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_InfoBarClass_close
 func _gotk4_gtk3_InfoBarClass_close(arg0 *C.GtkInfoBar) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -3608,6 +8778,42 @@ func _gotk4_gtk3_InfoBarClass_response(arg0 *C.GtkInfoBar, arg1 C.gint) {
 	_responseId = int(arg1)
 
 	overrides.Response(_responseId)
+}
+
+//export _gotk4_gtk3_InfoBar_ConnectClose
+func _gotk4_gtk3_InfoBar_ConnectClose(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_InfoBar_ConnectResponse
+func _gotk4_gtk3_InfoBar_ConnectResponse(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) {
+	var f func(responseId int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(responseId int))
+	}
+
+	var _responseId int // out
+
+	_responseId = int(arg1)
+
+	f(_responseId)
 }
 
 //export _gotk4_gtk3_LabelClass_activate_link
@@ -3680,6 +8886,112 @@ func _gotk4_gtk3_LabelClass_populate_popup(arg0 *C.GtkLabel, arg1 *C.GtkMenu) {
 	overrides.PopulatePopup(_menu)
 }
 
+//export _gotk4_gtk3_Label_ConnectActivateCurrentLink
+func _gotk4_gtk3_Label_ConnectActivateCurrentLink(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Label_ConnectActivateLink
+func _gotk4_gtk3_Label_ConnectActivateLink(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(uri string) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(uri string) (ok bool))
+	}
+
+	var _uri string // out
+
+	_uri = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	ok := f(_uri)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Label_ConnectCopyClipboard
+func _gotk4_gtk3_Label_ConnectCopyClipboard(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Label_ConnectMoveCursor
+func _gotk4_gtk3_Label_ConnectMoveCursor(arg0 C.gpointer, arg1 C.GtkMovementStep, arg2 C.gint, arg3 C.gboolean, arg4 C.guintptr) {
+	var f func(step MovementStep, count int, extendSelection bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(step MovementStep, count int, extendSelection bool))
+	}
+
+	var _step MovementStep    // out
+	var _count int            // out
+	var _extendSelection bool // out
+
+	_step = MovementStep(arg1)
+	_count = int(arg2)
+	if arg3 != 0 {
+		_extendSelection = true
+	}
+
+	f(_step, _count, _extendSelection)
+}
+
+//export _gotk4_gtk3_Label_ConnectPopulatePopup
+func _gotk4_gtk3_Label_ConnectPopulatePopup(arg0 C.gpointer, arg1 *C.GtkMenu, arg2 C.guintptr) {
+	var f func(menu *Menu)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(menu *Menu))
+	}
+
+	var _menu *Menu // out
+
+	_menu = wrapMenu(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_menu)
+}
+
 //export _gotk4_gtk3_LevelBarClass_offset_changed
 func _gotk4_gtk3_LevelBarClass_offset_changed(arg0 *C.GtkLevelBar, arg1 *C.gchar) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -3695,6 +9007,26 @@ func _gotk4_gtk3_LevelBarClass_offset_changed(arg0 *C.GtkLevelBar, arg1 *C.gchar
 	overrides.OffsetChanged(_name)
 }
 
+//export _gotk4_gtk3_LevelBar_ConnectOffsetChanged
+func _gotk4_gtk3_LevelBar_ConnectOffsetChanged(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(name string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(name string))
+	}
+
+	var _name string // out
+
+	_name = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_name)
+}
+
 //export _gotk4_gtk3_LinkButtonClass_activate_link
 func _gotk4_gtk3_LinkButtonClass_activate_link(arg0 *C.GtkLinkButton) (cret C.gboolean) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -3704,6 +9036,30 @@ func _gotk4_gtk3_LinkButtonClass_activate_link(arg0 *C.GtkLinkButton) (cret C.gb
 	}
 
 	ok := overrides.ActivateLink()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_LinkButton_ConnectActivateLink
+func _gotk4_gtk3_LinkButton_ConnectActivateLink(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
 
 	var _ bool
 
@@ -3854,8 +9210,98 @@ func _gotk4_gtk3_ListBox_ConnectMoveCursor(arg0 C.gpointer, arg1 C.GtkMovementSt
 	f(_object, _p0)
 }
 
+//export _gotk4_gtk3_ListBox_ConnectRowActivated
+func _gotk4_gtk3_ListBox_ConnectRowActivated(arg0 C.gpointer, arg1 *C.GtkListBoxRow, arg2 C.guintptr) {
+	var f func(row *ListBoxRow)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(row *ListBoxRow))
+	}
+
+	var _row *ListBoxRow // out
+
+	_row = wrapListBoxRow(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_row)
+}
+
+//export _gotk4_gtk3_ListBox_ConnectRowSelected
+func _gotk4_gtk3_ListBox_ConnectRowSelected(arg0 C.gpointer, arg1 *C.GtkListBoxRow, arg2 C.guintptr) {
+	var f func(row *ListBoxRow)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(row *ListBoxRow))
+	}
+
+	var _row *ListBoxRow // out
+
+	if arg1 != nil {
+		_row = wrapListBoxRow(coreglib.Take(unsafe.Pointer(arg1)))
+	}
+
+	f(_row)
+}
+
+//export _gotk4_gtk3_ListBox_ConnectSelectAll
+func _gotk4_gtk3_ListBox_ConnectSelectAll(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_ListBox_ConnectSelectedRowsChanged
+func _gotk4_gtk3_ListBox_ConnectSelectedRowsChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_ListBox_ConnectToggleCursorRow
 func _gotk4_gtk3_ListBox_ConnectToggleCursorRow(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_ListBox_ConnectUnselectAll
+func _gotk4_gtk3_ListBox_ConnectUnselectAll(arg0 C.gpointer, arg1 C.guintptr) {
 	var f func()
 	{
 		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
@@ -3881,6 +9327,22 @@ func _gotk4_gtk3_ListBoxRowClass_activate(arg0 *C.GtkListBoxRow) {
 	overrides.Activate()
 }
 
+//export _gotk4_gtk3_ListBoxRow_ConnectActivate
+func _gotk4_gtk3_ListBoxRow_ConnectActivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_Menu_ConnectMoveScroll
 func _gotk4_gtk3_Menu_ConnectMoveScroll(arg0 C.gpointer, arg1 C.GtkScrollType, arg2 C.guintptr) {
 	var f func(scrollType ScrollType)
@@ -3899,6 +9361,36 @@ func _gotk4_gtk3_Menu_ConnectMoveScroll(arg0 C.gpointer, arg1 C.GtkScrollType, a
 	_scrollType = ScrollType(arg1)
 
 	f(_scrollType)
+}
+
+//export _gotk4_gtk3_Menu_ConnectPoppedUp
+func _gotk4_gtk3_Menu_ConnectPoppedUp(arg0 C.gpointer, arg1 C.gpointer, arg2 C.gpointer, arg3 C.gboolean, arg4 C.gboolean, arg5 C.guintptr) {
+	var f func(flippedRect, finalRect unsafe.Pointer, flippedX, flippedY bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(flippedRect, finalRect unsafe.Pointer, flippedX, flippedY bool))
+	}
+
+	var _flippedRect unsafe.Pointer // out
+	var _finalRect unsafe.Pointer   // out
+	var _flippedX bool              // out
+	var _flippedY bool              // out
+
+	_flippedRect = (unsafe.Pointer)(unsafe.Pointer(arg1))
+	_finalRect = (unsafe.Pointer)(unsafe.Pointer(arg2))
+	if arg3 != 0 {
+		_flippedX = true
+	}
+	if arg4 != 0 {
+		_flippedY = true
+	}
+
+	f(_flippedRect, _finalRect, _flippedX, _flippedY)
 }
 
 //export _gotk4_gtk3_MenuItemClass_activate
@@ -3991,6 +9483,38 @@ func _gotk4_gtk3_MenuItemClass_toggle_size_allocate(arg0 *C.GtkMenuItem, arg1 C.
 	_allocation = int(arg1)
 
 	overrides.ToggleSizeAllocate(_allocation)
+}
+
+//export _gotk4_gtk3_MenuItem_ConnectActivate
+func _gotk4_gtk3_MenuItem_ConnectActivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_MenuItem_ConnectActivateItem
+func _gotk4_gtk3_MenuItem_ConnectActivateItem(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_MenuItem_ConnectDeselect
@@ -4234,6 +9758,182 @@ func _gotk4_gtk3_MenuShellClass_selection_done(arg0 *C.GtkMenuShell) {
 	overrides.SelectionDone()
 }
 
+//export _gotk4_gtk3_MenuShell_ConnectActivateCurrent
+func _gotk4_gtk3_MenuShell_ConnectActivateCurrent(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) {
+	var f func(forceHide bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(forceHide bool))
+	}
+
+	var _forceHide bool // out
+
+	if arg1 != 0 {
+		_forceHide = true
+	}
+
+	f(_forceHide)
+}
+
+//export _gotk4_gtk3_MenuShell_ConnectCancel
+func _gotk4_gtk3_MenuShell_ConnectCancel(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_MenuShell_ConnectCycleFocus
+func _gotk4_gtk3_MenuShell_ConnectCycleFocus(arg0 C.gpointer, arg1 C.GtkDirectionType, arg2 C.guintptr) {
+	var f func(direction DirectionType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(direction DirectionType))
+	}
+
+	var _direction DirectionType // out
+
+	_direction = DirectionType(arg1)
+
+	f(_direction)
+}
+
+//export _gotk4_gtk3_MenuShell_ConnectDeactivate
+func _gotk4_gtk3_MenuShell_ConnectDeactivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_MenuShell_ConnectInsert
+func _gotk4_gtk3_MenuShell_ConnectInsert(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.gint, arg3 C.guintptr) {
+	var f func(child Widgetter, position int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(child Widgetter, position int))
+	}
+
+	var _child Widgetter // out
+	var _position int    // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_child = rv
+	}
+	_position = int(arg2)
+
+	f(_child, _position)
+}
+
+//export _gotk4_gtk3_MenuShell_ConnectMoveCurrent
+func _gotk4_gtk3_MenuShell_ConnectMoveCurrent(arg0 C.gpointer, arg1 C.GtkMenuDirectionType, arg2 C.guintptr) {
+	var f func(direction MenuDirectionType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(direction MenuDirectionType))
+	}
+
+	var _direction MenuDirectionType // out
+
+	_direction = MenuDirectionType(arg1)
+
+	f(_direction)
+}
+
+//export _gotk4_gtk3_MenuShell_ConnectMoveSelected
+func _gotk4_gtk3_MenuShell_ConnectMoveSelected(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(distance int) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(distance int) (ok bool))
+	}
+
+	var _distance int // out
+
+	_distance = int(arg1)
+
+	ok := f(_distance)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_MenuShell_ConnectSelectionDone
+func _gotk4_gtk3_MenuShell_ConnectSelectionDone(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_MenuToolButtonClass_show_menu
 func _gotk4_gtk3_MenuToolButtonClass_show_menu(arg0 *C.GtkMenuToolButton) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -4243,6 +9943,22 @@ func _gotk4_gtk3_MenuToolButtonClass_show_menu(arg0 *C.GtkMenuToolButton) {
 	}
 
 	overrides.ShowMenu()
+}
+
+//export _gotk4_gtk3_MenuToolButton_ConnectShowMenu
+func _gotk4_gtk3_MenuToolButton_ConnectShowMenu(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_NativeDialogClass_hide
@@ -4280,6 +9996,26 @@ func _gotk4_gtk3_NativeDialogClass_show(arg0 *C.GtkNativeDialog) {
 	}
 
 	overrides.Show()
+}
+
+//export _gotk4_gtk3_NativeDialog_ConnectResponse
+func _gotk4_gtk3_NativeDialog_ConnectResponse(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) {
+	var f func(responseId int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(responseId int))
+	}
+
+	var _responseId int // out
+
+	_responseId = int(arg1)
+
+	f(_responseId)
 }
 
 //export _gotk4_gtk3_NotebookClass_change_current_page
@@ -4630,6 +10366,52 @@ func _gotk4_gtk3_Notebook_ConnectChangeCurrentPage(arg0 C.gpointer, arg1 C.gint,
 	return cret
 }
 
+//export _gotk4_gtk3_Notebook_ConnectCreateWindow
+func _gotk4_gtk3_Notebook_ConnectCreateWindow(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.gint, arg3 C.gint, arg4 C.guintptr) (cret *C.GtkNotebook) {
+	var f func(page Widgetter, x, y int) (notebook *Notebook)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(page Widgetter, x, y int) (notebook *Notebook))
+	}
+
+	var _page Widgetter // out
+	var _x int          // out
+	var _y int          // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_page = rv
+	}
+	_x = int(arg2)
+	_y = int(arg3)
+
+	notebook := f(_page, _x, _y)
+
+	var _ *Notebook
+
+	cret = (*C.GtkNotebook)(unsafe.Pointer(coreglib.InternObject(notebook).Native()))
+
+	return cret
+}
+
 //export _gotk4_gtk3_Notebook_ConnectFocusTab
 func _gotk4_gtk3_Notebook_ConnectFocusTab(arg0 C.gpointer, arg1 C.GtkNotebookTab, arg2 C.guintptr) (cret C.gboolean) {
 	var f func(object NotebookTab) (ok bool)
@@ -4676,6 +10458,120 @@ func _gotk4_gtk3_Notebook_ConnectMoveFocusOut(arg0 C.gpointer, arg1 C.GtkDirecti
 	_object = DirectionType(arg1)
 
 	f(_object)
+}
+
+//export _gotk4_gtk3_Notebook_ConnectPageAdded
+func _gotk4_gtk3_Notebook_ConnectPageAdded(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guint, arg3 C.guintptr) {
+	var f func(child Widgetter, pageNum uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(child Widgetter, pageNum uint))
+	}
+
+	var _child Widgetter // out
+	var _pageNum uint    // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_child = rv
+	}
+	_pageNum = uint(arg2)
+
+	f(_child, _pageNum)
+}
+
+//export _gotk4_gtk3_Notebook_ConnectPageRemoved
+func _gotk4_gtk3_Notebook_ConnectPageRemoved(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guint, arg3 C.guintptr) {
+	var f func(child Widgetter, pageNum uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(child Widgetter, pageNum uint))
+	}
+
+	var _child Widgetter // out
+	var _pageNum uint    // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_child = rv
+	}
+	_pageNum = uint(arg2)
+
+	f(_child, _pageNum)
+}
+
+//export _gotk4_gtk3_Notebook_ConnectPageReordered
+func _gotk4_gtk3_Notebook_ConnectPageReordered(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guint, arg3 C.guintptr) {
+	var f func(child Widgetter, pageNum uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(child Widgetter, pageNum uint))
+	}
+
+	var _child Widgetter // out
+	var _pageNum uint    // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_child = rv
+	}
+	_pageNum = uint(arg2)
+
+	f(_child, _pageNum)
 }
 
 //export _gotk4_gtk3_Notebook_ConnectReorderTab
@@ -4740,6 +10636,44 @@ func _gotk4_gtk3_Notebook_ConnectSelectPage(arg0 C.gpointer, arg1 C.gboolean, ar
 	return cret
 }
 
+//export _gotk4_gtk3_Notebook_ConnectSwitchPage
+func _gotk4_gtk3_Notebook_ConnectSwitchPage(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guint, arg3 C.guintptr) {
+	var f func(page Widgetter, pageNum uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(page Widgetter, pageNum uint))
+	}
+
+	var _page Widgetter // out
+	var _pageNum uint   // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_page = rv
+	}
+	_pageNum = uint(arg2)
+
+	f(_page, _pageNum)
+}
+
 //export _gotk4_gtk3_OverlayClass_get_child_position
 func _gotk4_gtk3_OverlayClass_get_child_position(arg0 *C.GtkOverlay, arg1 *C.GtkWidget, arg2 *C.GtkAllocation) (cret C.gboolean) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -4776,6 +10710,52 @@ func _gotk4_gtk3_OverlayClass_get_child_position(arg0 *C.GtkOverlay, arg1 *C.Gtk
 
 	var _ bool
 
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Overlay_ConnectGetChildPosition
+func _gotk4_gtk3_Overlay_ConnectGetChildPosition(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 *C.GdkRectangle, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(widget Widgetter) (allocation *gdk.Rectangle, ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(widget Widgetter) (allocation *gdk.Rectangle, ok bool))
+	}
+
+	var _widget Widgetter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_widget = rv
+	}
+
+	allocation, ok := f(_widget)
+
+	var _ *gdk.Rectangle
+	var _ bool
+
+	*arg2 = *(*C.GdkRectangle)(gextras.StructNative(unsafe.Pointer(allocation)))
 	if ok {
 		cret = C.TRUE
 	}
@@ -4913,6 +10893,460 @@ func _gotk4_gtk3_PanedClass_toggle_handle_focus(arg0 *C.GtkPaned) (cret C.gboole
 	return cret
 }
 
+//export _gotk4_gtk3_Paned_ConnectAcceptPosition
+func _gotk4_gtk3_Paned_ConnectAcceptPosition(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Paned_ConnectCancelPosition
+func _gotk4_gtk3_Paned_ConnectCancelPosition(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Paned_ConnectCycleChildFocus
+func _gotk4_gtk3_Paned_ConnectCycleChildFocus(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(reversed bool) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(reversed bool) (ok bool))
+	}
+
+	var _reversed bool // out
+
+	if arg1 != 0 {
+		_reversed = true
+	}
+
+	ok := f(_reversed)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Paned_ConnectCycleHandleFocus
+func _gotk4_gtk3_Paned_ConnectCycleHandleFocus(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(reversed bool) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(reversed bool) (ok bool))
+	}
+
+	var _reversed bool // out
+
+	if arg1 != 0 {
+		_reversed = true
+	}
+
+	ok := f(_reversed)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Paned_ConnectMoveHandle
+func _gotk4_gtk3_Paned_ConnectMoveHandle(arg0 C.gpointer, arg1 C.GtkScrollType, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(scrollType ScrollType) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(scrollType ScrollType) (ok bool))
+	}
+
+	var _scrollType ScrollType // out
+
+	_scrollType = ScrollType(arg1)
+
+	ok := f(_scrollType)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Paned_ConnectToggleHandleFocus
+func _gotk4_gtk3_Paned_ConnectToggleHandleFocus(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectDragActionAsk
+func _gotk4_gtk3_PlacesSidebar_ConnectDragActionAsk(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) (cret C.gint) {
+	var f func(actions int) (gint int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(actions int) (gint int))
+	}
+
+	var _actions int // out
+
+	_actions = int(arg1)
+
+	gint := f(_actions)
+
+	var _ int
+
+	cret = C.gint(gint)
+
+	return cret
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectMount
+func _gotk4_gtk3_PlacesSidebar_ConnectMount(arg0 C.gpointer, arg1 *C.GMountOperation, arg2 C.guintptr) {
+	var f func(mountOperation *gio.MountOperation)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(mountOperation *gio.MountOperation))
+	}
+
+	var _mountOperation *gio.MountOperation // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_mountOperation = &gio.MountOperation{
+			Object: obj,
+		}
+	}
+
+	f(_mountOperation)
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectOpenLocation
+func _gotk4_gtk3_PlacesSidebar_ConnectOpenLocation(arg0 C.gpointer, arg1 *C.GFile, arg2 C.GtkPlacesOpenFlags, arg3 C.guintptr) {
+	var f func(location gio.Filer, openFlags PlacesOpenFlags)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(location gio.Filer, openFlags PlacesOpenFlags))
+	}
+
+	var _location gio.Filer        // out
+	var _openFlags PlacesOpenFlags // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gio.Filer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(gio.Filer)
+			return ok
+		})
+		rv, ok := casted.(gio.Filer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gio.Filer")
+		}
+		_location = rv
+	}
+	_openFlags = PlacesOpenFlags(arg2)
+
+	f(_location, _openFlags)
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectPopulatePopup
+func _gotk4_gtk3_PlacesSidebar_ConnectPopulatePopup(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 *C.GFile, arg3 *C.GVolume, arg4 C.guintptr) {
+	var f func(container Widgetter, selectedItem gio.Filer, selectedVolume gio.Volumer)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(container Widgetter, selectedItem gio.Filer, selectedVolume gio.Volumer))
+	}
+
+	var _container Widgetter        // out
+	var _selectedItem gio.Filer     // out
+	var _selectedVolume gio.Volumer // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_container = rv
+	}
+	if arg2 != nil {
+		{
+			objptr := unsafe.Pointer(arg2)
+
+			object := coreglib.Take(objptr)
+			casted := object.WalkCast(func(obj coreglib.Objector) bool {
+				_, ok := obj.(gio.Filer)
+				return ok
+			})
+			rv, ok := casted.(gio.Filer)
+			if !ok {
+				panic("no marshaler for " + object.TypeFromInstance().String() + " matching gio.Filer")
+			}
+			_selectedItem = rv
+		}
+	}
+	if arg3 != nil {
+		{
+			objptr := unsafe.Pointer(arg3)
+
+			object := coreglib.Take(objptr)
+			casted := object.WalkCast(func(obj coreglib.Objector) bool {
+				_, ok := obj.(gio.Volumer)
+				return ok
+			})
+			rv, ok := casted.(gio.Volumer)
+			if !ok {
+				panic("no marshaler for " + object.TypeFromInstance().String() + " matching gio.Volumer")
+			}
+			_selectedVolume = rv
+		}
+	}
+
+	f(_container, _selectedItem, _selectedVolume)
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectShowConnectToServer
+func _gotk4_gtk3_PlacesSidebar_ConnectShowConnectToServer(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectShowEnterLocation
+func _gotk4_gtk3_PlacesSidebar_ConnectShowEnterLocation(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectShowErrorMessage
+func _gotk4_gtk3_PlacesSidebar_ConnectShowErrorMessage(arg0 C.gpointer, arg1 *C.gchar, arg2 *C.gchar, arg3 C.guintptr) {
+	var f func(primary, secondary string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(primary, secondary string))
+	}
+
+	var _primary string   // out
+	var _secondary string // out
+
+	_primary = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+	_secondary = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+
+	f(_primary, _secondary)
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectShowOtherLocations
+func _gotk4_gtk3_PlacesSidebar_ConnectShowOtherLocations(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectShowOtherLocationsWithFlags
+func _gotk4_gtk3_PlacesSidebar_ConnectShowOtherLocationsWithFlags(arg0 C.gpointer, arg1 C.GtkPlacesOpenFlags, arg2 C.guintptr) {
+	var f func(openFlags PlacesOpenFlags)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(openFlags PlacesOpenFlags))
+	}
+
+	var _openFlags PlacesOpenFlags // out
+
+	_openFlags = PlacesOpenFlags(arg1)
+
+	f(_openFlags)
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectShowStarredLocation
+func _gotk4_gtk3_PlacesSidebar_ConnectShowStarredLocation(arg0 C.gpointer, arg1 C.GtkPlacesOpenFlags, arg2 C.guintptr) {
+	var f func(openFlags PlacesOpenFlags)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(openFlags PlacesOpenFlags))
+	}
+
+	var _openFlags PlacesOpenFlags // out
+
+	_openFlags = PlacesOpenFlags(arg1)
+
+	f(_openFlags)
+}
+
+//export _gotk4_gtk3_PlacesSidebar_ConnectUnmount
+func _gotk4_gtk3_PlacesSidebar_ConnectUnmount(arg0 C.gpointer, arg1 *C.GMountOperation, arg2 C.guintptr) {
+	var f func(mountOperation *gio.MountOperation)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(mountOperation *gio.MountOperation))
+	}
+
+	var _mountOperation *gio.MountOperation // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_mountOperation = &gio.MountOperation{
+			Object: obj,
+		}
+	}
+
+	f(_mountOperation)
+}
+
 //export _gotk4_gtk3_PlugClass_embedded
 func _gotk4_gtk3_PlugClass_embedded(arg0 *C.GtkPlug) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -4924,6 +11358,22 @@ func _gotk4_gtk3_PlugClass_embedded(arg0 *C.GtkPlug) {
 	overrides.Embedded()
 }
 
+//export _gotk4_gtk3_Plug_ConnectEmbedded
+func _gotk4_gtk3_Plug_ConnectEmbedded(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_PopoverClass_closed
 func _gotk4_gtk3_PopoverClass_closed(arg0 *C.GtkPopover) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -4933,6 +11383,22 @@ func _gotk4_gtk3_PopoverClass_closed(arg0 *C.GtkPopover) {
 	}
 
 	overrides.Closed()
+}
+
+//export _gotk4_gtk3_Popover_ConnectClosed
+func _gotk4_gtk3_Popover_ConnectClosed(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_PrintOperationClass_begin_print
@@ -5159,6 +11625,304 @@ func _gotk4_gtk3_PrintOperationClass_update_custom_widget(arg0 *C.GtkPrintOperat
 	overrides.UpdateCustomWidget(_widget, _setup, _settings)
 }
 
+//export _gotk4_gtk3_PrintOperation_ConnectBeginPrint
+func _gotk4_gtk3_PrintOperation_ConnectBeginPrint(arg0 C.gpointer, arg1 *C.GtkPrintContext, arg2 C.guintptr) {
+	var f func(context *PrintContext)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *PrintContext))
+	}
+
+	var _context *PrintContext // out
+
+	_context = wrapPrintContext(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_context)
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectCreateCustomWidget
+func _gotk4_gtk3_PrintOperation_ConnectCreateCustomWidget(arg0 C.gpointer, arg1 C.guintptr) (cret *C.GObject) {
+	var f func() (object *coreglib.Object)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (object *coreglib.Object))
+	}
+
+	object := f()
+
+	var _ *coreglib.Object
+
+	cret = (*C.GObject)(unsafe.Pointer(object.Native()))
+
+	return cret
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectCustomWidgetApply
+func _gotk4_gtk3_PrintOperation_ConnectCustomWidgetApply(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(widget Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(widget Widgetter))
+	}
+
+	var _widget Widgetter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_widget = rv
+	}
+
+	f(_widget)
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectDone
+func _gotk4_gtk3_PrintOperation_ConnectDone(arg0 C.gpointer, arg1 C.GtkPrintOperationResult, arg2 C.guintptr) {
+	var f func(result PrintOperationResult)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(result PrintOperationResult))
+	}
+
+	var _result PrintOperationResult // out
+
+	_result = PrintOperationResult(arg1)
+
+	f(_result)
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectDrawPage
+func _gotk4_gtk3_PrintOperation_ConnectDrawPage(arg0 C.gpointer, arg1 *C.GtkPrintContext, arg2 C.gint, arg3 C.guintptr) {
+	var f func(context *PrintContext, pageNr int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *PrintContext, pageNr int))
+	}
+
+	var _context *PrintContext // out
+	var _pageNr int            // out
+
+	_context = wrapPrintContext(coreglib.Take(unsafe.Pointer(arg1)))
+	_pageNr = int(arg2)
+
+	f(_context, _pageNr)
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectEndPrint
+func _gotk4_gtk3_PrintOperation_ConnectEndPrint(arg0 C.gpointer, arg1 *C.GtkPrintContext, arg2 C.guintptr) {
+	var f func(context *PrintContext)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *PrintContext))
+	}
+
+	var _context *PrintContext // out
+
+	_context = wrapPrintContext(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_context)
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectPaginate
+func _gotk4_gtk3_PrintOperation_ConnectPaginate(arg0 C.gpointer, arg1 *C.GtkPrintContext, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(context *PrintContext) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *PrintContext) (ok bool))
+	}
+
+	var _context *PrintContext // out
+
+	_context = wrapPrintContext(coreglib.Take(unsafe.Pointer(arg1)))
+
+	ok := f(_context)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectPreview
+func _gotk4_gtk3_PrintOperation_ConnectPreview(arg0 C.gpointer, arg1 *C.GtkPrintOperationPreview, arg2 *C.GtkPrintContext, arg3 *C.GtkWindow, arg4 C.guintptr) (cret C.gboolean) {
+	var f func(preview PrintOperationPreviewer, context *PrintContext, parent *Window) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(preview PrintOperationPreviewer, context *PrintContext, parent *Window) (ok bool))
+	}
+
+	var _preview PrintOperationPreviewer // out
+	var _context *PrintContext           // out
+	var _parent *Window                  // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.PrintOperationPreviewer is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(PrintOperationPreviewer)
+			return ok
+		})
+		rv, ok := casted.(PrintOperationPreviewer)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.PrintOperationPreviewer")
+		}
+		_preview = rv
+	}
+	_context = wrapPrintContext(coreglib.Take(unsafe.Pointer(arg2)))
+	if arg3 != nil {
+		_parent = wrapWindow(coreglib.Take(unsafe.Pointer(arg3)))
+	}
+
+	ok := f(_preview, _context, _parent)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectRequestPageSetup
+func _gotk4_gtk3_PrintOperation_ConnectRequestPageSetup(arg0 C.gpointer, arg1 *C.GtkPrintContext, arg2 C.gint, arg3 *C.GtkPageSetup, arg4 C.guintptr) {
+	var f func(context *PrintContext, pageNr int, setup *PageSetup)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *PrintContext, pageNr int, setup *PageSetup))
+	}
+
+	var _context *PrintContext // out
+	var _pageNr int            // out
+	var _setup *PageSetup      // out
+
+	_context = wrapPrintContext(coreglib.Take(unsafe.Pointer(arg1)))
+	_pageNr = int(arg2)
+	_setup = wrapPageSetup(coreglib.Take(unsafe.Pointer(arg3)))
+
+	f(_context, _pageNr, _setup)
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectStatusChanged
+func _gotk4_gtk3_PrintOperation_ConnectStatusChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_PrintOperation_ConnectUpdateCustomWidget
+func _gotk4_gtk3_PrintOperation_ConnectUpdateCustomWidget(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 *C.GtkPageSetup, arg3 *C.GtkPrintSettings, arg4 C.guintptr) {
+	var f func(widget Widgetter, setup *PageSetup, settings *PrintSettings)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(widget Widgetter, setup *PageSetup, settings *PrintSettings))
+	}
+
+	var _widget Widgetter        // out
+	var _setup *PageSetup        // out
+	var _settings *PrintSettings // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_widget = rv
+	}
+	_setup = wrapPageSetup(coreglib.Take(unsafe.Pointer(arg2)))
+	_settings = wrapPrintSettings(coreglib.Take(unsafe.Pointer(arg3)))
+
+	f(_widget, _setup, _settings)
+}
+
 //export _gotk4_gtk3_RadioActionClass_changed
 func _gotk4_gtk3_RadioActionClass_changed(arg0 *C.GtkRadioAction, arg1 *C.GtkRadioAction) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -5174,6 +11938,26 @@ func _gotk4_gtk3_RadioActionClass_changed(arg0 *C.GtkRadioAction, arg1 *C.GtkRad
 	overrides.Changed(_current)
 }
 
+//export _gotk4_gtk3_RadioAction_ConnectChanged
+func _gotk4_gtk3_RadioAction_ConnectChanged(arg0 C.gpointer, arg1 *C.GtkRadioAction, arg2 C.guintptr) {
+	var f func(current *RadioAction)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(current *RadioAction))
+	}
+
+	var _current *RadioAction // out
+
+	_current = wrapRadioAction(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_current)
+}
+
 //export _gotk4_gtk3_RadioButtonClass_group_changed
 func _gotk4_gtk3_RadioButtonClass_group_changed(arg0 *C.GtkRadioButton) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -5183,6 +11967,22 @@ func _gotk4_gtk3_RadioButtonClass_group_changed(arg0 *C.GtkRadioButton) {
 	}
 
 	overrides.GroupChanged()
+}
+
+//export _gotk4_gtk3_RadioButton_ConnectGroupChanged
+func _gotk4_gtk3_RadioButton_ConnectGroupChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_RadioMenuItemClass_group_changed
@@ -5312,6 +12112,92 @@ func _gotk4_gtk3_RangeClass_value_changed(arg0 *C.GtkRange) {
 	overrides.ValueChanged()
 }
 
+//export _gotk4_gtk3_Range_ConnectAdjustBounds
+func _gotk4_gtk3_Range_ConnectAdjustBounds(arg0 C.gpointer, arg1 C.gdouble, arg2 C.guintptr) {
+	var f func(value float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(value float64))
+	}
+
+	var _value float64 // out
+
+	_value = float64(arg1)
+
+	f(_value)
+}
+
+//export _gotk4_gtk3_Range_ConnectChangeValue
+func _gotk4_gtk3_Range_ConnectChangeValue(arg0 C.gpointer, arg1 C.GtkScrollType, arg2 C.gdouble, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(scroll ScrollType, value float64) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(scroll ScrollType, value float64) (ok bool))
+	}
+
+	var _scroll ScrollType // out
+	var _value float64     // out
+
+	_scroll = ScrollType(arg1)
+	_value = float64(arg2)
+
+	ok := f(_scroll, _value)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Range_ConnectMoveSlider
+func _gotk4_gtk3_Range_ConnectMoveSlider(arg0 C.gpointer, arg1 C.GtkScrollType, arg2 C.guintptr) {
+	var f func(step ScrollType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(step ScrollType))
+	}
+
+	var _step ScrollType // out
+
+	_step = ScrollType(arg1)
+
+	f(_step)
+}
+
+//export _gotk4_gtk3_Range_ConnectValueChanged
+func _gotk4_gtk3_Range_ConnectValueChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_RcStyleClass_merge
 func _gotk4_gtk3_RcStyleClass_merge(arg0 *C.GtkRcStyle, arg1 *C.GtkRcStyle) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -5359,6 +12245,22 @@ func _gotk4_gtk3_RecentManagerClass_changed(arg0 *C.GtkRecentManager) {
 	}
 
 	overrides.Changed()
+}
+
+//export _gotk4_gtk3_RecentManager_ConnectChanged
+func _gotk4_gtk3_RecentManager_ConnectChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_ScaleClass_draw_value
@@ -5410,6 +12312,32 @@ func _gotk4_gtk3_ScaleClass_get_layout_offsets(arg0 *C.GtkScale, arg1 *C.gint, a
 	*arg2 = C.gint(y)
 }
 
+//export _gotk4_gtk3_Scale_ConnectFormatValue
+func _gotk4_gtk3_Scale_ConnectFormatValue(arg0 C.gpointer, arg1 C.gdouble, arg2 C.guintptr) (cret *C.gchar) {
+	var f func(value float64) (utf8 string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(value float64) (utf8 string))
+	}
+
+	var _value float64 // out
+
+	_value = float64(arg1)
+
+	utf8 := f(_value)
+
+	var _ string
+
+	cret = (*C.gchar)(unsafe.Pointer(C.CString(utf8)))
+
+	return cret
+}
+
 //export _gotk4_gtk3_ScaleButtonClass_value_changed
 func _gotk4_gtk3_ScaleButtonClass_value_changed(arg0 *C.GtkScaleButton, arg1 C.gdouble) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -5423,6 +12351,58 @@ func _gotk4_gtk3_ScaleButtonClass_value_changed(arg0 *C.GtkScaleButton, arg1 C.g
 	_value = float64(arg1)
 
 	overrides.ValueChanged(_value)
+}
+
+//export _gotk4_gtk3_ScaleButton_ConnectPopdown
+func _gotk4_gtk3_ScaleButton_ConnectPopdown(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_ScaleButton_ConnectPopup
+func _gotk4_gtk3_ScaleButton_ConnectPopup(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_ScaleButton_ConnectValueChanged
+func _gotk4_gtk3_ScaleButton_ConnectValueChanged(arg0 C.gpointer, arg1 C.gdouble, arg2 C.guintptr) {
+	var f func(value float64)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(value float64))
+	}
+
+	var _value float64 // out
+
+	_value = float64(arg1)
+
+	f(_value)
 }
 
 //export _gotk4_gtk3_ScrolledWindowClass_move_focus_out
@@ -5457,6 +12437,98 @@ func _gotk4_gtk3_ScrolledWindowClass_scroll_child(arg0 *C.GtkScrolledWindow, arg
 	}
 
 	ok := overrides.ScrollChild(_scroll, _horizontal)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_ScrolledWindow_ConnectEdgeOvershot
+func _gotk4_gtk3_ScrolledWindow_ConnectEdgeOvershot(arg0 C.gpointer, arg1 C.GtkPositionType, arg2 C.guintptr) {
+	var f func(pos PositionType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(pos PositionType))
+	}
+
+	var _pos PositionType // out
+
+	_pos = PositionType(arg1)
+
+	f(_pos)
+}
+
+//export _gotk4_gtk3_ScrolledWindow_ConnectEdgeReached
+func _gotk4_gtk3_ScrolledWindow_ConnectEdgeReached(arg0 C.gpointer, arg1 C.GtkPositionType, arg2 C.guintptr) {
+	var f func(pos PositionType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(pos PositionType))
+	}
+
+	var _pos PositionType // out
+
+	_pos = PositionType(arg1)
+
+	f(_pos)
+}
+
+//export _gotk4_gtk3_ScrolledWindow_ConnectMoveFocusOut
+func _gotk4_gtk3_ScrolledWindow_ConnectMoveFocusOut(arg0 C.gpointer, arg1 C.GtkDirectionType, arg2 C.guintptr) {
+	var f func(directionType DirectionType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(directionType DirectionType))
+	}
+
+	var _directionType DirectionType // out
+
+	_directionType = DirectionType(arg1)
+
+	f(_directionType)
+}
+
+//export _gotk4_gtk3_ScrolledWindow_ConnectScrollChild
+func _gotk4_gtk3_ScrolledWindow_ConnectScrollChild(arg0 C.gpointer, arg1 C.GtkScrollType, arg2 C.gboolean, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(scroll ScrollType, horizontal bool) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(scroll ScrollType, horizontal bool) (ok bool))
+	}
+
+	var _scroll ScrollType // out
+	var _horizontal bool   // out
+
+	_scroll = ScrollType(arg1)
+	if arg2 != 0 {
+		_horizontal = true
+	}
+
+	ok := f(_scroll, _horizontal)
 
 	var _ bool
 
@@ -5511,6 +12583,70 @@ func _gotk4_gtk3_SearchEntryClass_stop_search(arg0 *C.GtkSearchEntry) {
 	overrides.StopSearch()
 }
 
+//export _gotk4_gtk3_SearchEntry_ConnectNextMatch
+func _gotk4_gtk3_SearchEntry_ConnectNextMatch(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_SearchEntry_ConnectPreviousMatch
+func _gotk4_gtk3_SearchEntry_ConnectPreviousMatch(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_SearchEntry_ConnectSearchChanged
+func _gotk4_gtk3_SearchEntry_ConnectSearchChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_SearchEntry_ConnectStopSearch
+func _gotk4_gtk3_SearchEntry_ConnectStopSearch(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_ShortcutsSection_ConnectChangeCurrentPage
 func _gotk4_gtk3_ShortcutsSection_ConnectChangeCurrentPage(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) (cret C.gboolean) {
 	var f func(object int) (ok bool)
@@ -5561,6 +12697,38 @@ func _gotk4_gtk3_ShortcutsWindowClass_search(arg0 *C.GtkShortcutsWindow) {
 	overrides.Search()
 }
 
+//export _gotk4_gtk3_ShortcutsWindow_ConnectClose
+func _gotk4_gtk3_ShortcutsWindow_ConnectClose(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_ShortcutsWindow_ConnectSearch
+func _gotk4_gtk3_ShortcutsWindow_ConnectSearch(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_SocketClass_plug_added
 func _gotk4_gtk3_SocketClass_plug_added(arg0 *C.GtkSocket) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -5581,6 +12749,46 @@ func _gotk4_gtk3_SocketClass_plug_removed(arg0 *C.GtkSocket) (cret C.gboolean) {
 	}
 
 	ok := overrides.PlugRemoved()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Socket_ConnectPlugAdded
+func _gotk4_gtk3_Socket_ConnectPlugAdded(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Socket_ConnectPlugRemoved
+func _gotk4_gtk3_Socket_ConnectPlugRemoved(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
 
 	var _ bool
 
@@ -5664,6 +12872,82 @@ func _gotk4_gtk3_SpinButtonClass_wrapped(arg0 *C.GtkSpinButton) {
 	}
 
 	overrides.Wrapped()
+}
+
+//export _gotk4_gtk3_SpinButton_ConnectChangeValue
+func _gotk4_gtk3_SpinButton_ConnectChangeValue(arg0 C.gpointer, arg1 C.GtkScrollType, arg2 C.guintptr) {
+	var f func(scroll ScrollType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(scroll ScrollType))
+	}
+
+	var _scroll ScrollType // out
+
+	_scroll = ScrollType(arg1)
+
+	f(_scroll)
+}
+
+//export _gotk4_gtk3_SpinButton_ConnectOutput
+func _gotk4_gtk3_SpinButton_ConnectOutput(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_SpinButton_ConnectValueChanged
+func _gotk4_gtk3_SpinButton_ConnectValueChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_SpinButton_ConnectWrapped
+func _gotk4_gtk3_SpinButton_ConnectWrapped(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_StatusIconClass_activate
@@ -5817,6 +13101,192 @@ func _gotk4_gtk3_StatusIconClass_size_changed(arg0 *C.GtkStatusIcon, arg1 C.gint
 	return cret
 }
 
+//export _gotk4_gtk3_StatusIcon_ConnectActivate
+func _gotk4_gtk3_StatusIcon_ConnectActivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_StatusIcon_ConnectButtonPressEvent
+func _gotk4_gtk3_StatusIcon_ConnectButtonPressEvent(arg0 C.gpointer, arg1 *C.GdkEventButton, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventButton) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventButton) (ok bool))
+	}
+
+	var _event *gdk.EventButton // out
+
+	_event = (*gdk.EventButton)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_StatusIcon_ConnectButtonReleaseEvent
+func _gotk4_gtk3_StatusIcon_ConnectButtonReleaseEvent(arg0 C.gpointer, arg1 *C.GdkEventButton, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventButton) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventButton) (ok bool))
+	}
+
+	var _event *gdk.EventButton // out
+
+	_event = (*gdk.EventButton)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_StatusIcon_ConnectPopupMenu
+func _gotk4_gtk3_StatusIcon_ConnectPopupMenu(arg0 C.gpointer, arg1 C.guint, arg2 C.guint, arg3 C.guintptr) {
+	var f func(button, activateTime uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(button, activateTime uint))
+	}
+
+	var _button uint       // out
+	var _activateTime uint // out
+
+	_button = uint(arg1)
+	_activateTime = uint(arg2)
+
+	f(_button, _activateTime)
+}
+
+//export _gotk4_gtk3_StatusIcon_ConnectQueryTooltip
+func _gotk4_gtk3_StatusIcon_ConnectQueryTooltip(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.gboolean, arg4 *C.GtkTooltip, arg5 C.guintptr) (cret C.gboolean) {
+	var f func(x, y int, keyboardMode bool, tooltip *Tooltip) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(x, y int, keyboardMode bool, tooltip *Tooltip) (ok bool))
+	}
+
+	var _x int             // out
+	var _y int             // out
+	var _keyboardMode bool // out
+	var _tooltip *Tooltip  // out
+
+	_x = int(arg1)
+	_y = int(arg2)
+	if arg3 != 0 {
+		_keyboardMode = true
+	}
+	_tooltip = wrapTooltip(coreglib.Take(unsafe.Pointer(arg4)))
+
+	ok := f(_x, _y, _keyboardMode, _tooltip)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_StatusIcon_ConnectScrollEvent
+func _gotk4_gtk3_StatusIcon_ConnectScrollEvent(arg0 C.gpointer, arg1 *C.GdkEventScroll, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventScroll) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventScroll) (ok bool))
+	}
+
+	var _event *gdk.EventScroll // out
+
+	_event = (*gdk.EventScroll)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_StatusIcon_ConnectSizeChanged
+func _gotk4_gtk3_StatusIcon_ConnectSizeChanged(arg0 C.gpointer, arg1 C.gint, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(size int) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(size int) (ok bool))
+	}
+
+	var _size int // out
+
+	_size = int(arg1)
+
+	ok := f(_size)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
 //export _gotk4_gtk3_StatusbarClass_text_popped
 func _gotk4_gtk3_StatusbarClass_text_popped(arg0 *C.GtkStatusbar, arg1 C.guint, arg2 *C.gchar) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -5849,6 +13319,50 @@ func _gotk4_gtk3_StatusbarClass_text_pushed(arg0 *C.GtkStatusbar, arg1 C.guint, 
 	_text = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
 
 	overrides.TextPushed(_contextId, _text)
+}
+
+//export _gotk4_gtk3_Statusbar_ConnectTextPopped
+func _gotk4_gtk3_Statusbar_ConnectTextPopped(arg0 C.gpointer, arg1 C.guint, arg2 *C.gchar, arg3 C.guintptr) {
+	var f func(contextId uint, text string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(contextId uint, text string))
+	}
+
+	var _contextId uint // out
+	var _text string    // out
+
+	_contextId = uint(arg1)
+	_text = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+
+	f(_contextId, _text)
+}
+
+//export _gotk4_gtk3_Statusbar_ConnectTextPushed
+func _gotk4_gtk3_Statusbar_ConnectTextPushed(arg0 C.gpointer, arg1 C.guint, arg2 *C.gchar, arg3 C.guintptr) {
+	var f func(contextId uint, text string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(contextId uint, text string))
+	}
+
+	var _contextId uint // out
+	var _text string    // out
+
+	_contextId = uint(arg1)
+	_text = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+
+	f(_contextId, _text)
 }
 
 //export _gotk4_gtk3_StyleClass_copy
@@ -7020,6 +14534,38 @@ func _gotk4_gtk3_StyleClass_unrealize(arg0 *C.GtkStyle) {
 	overrides.Unrealize()
 }
 
+//export _gotk4_gtk3_Style_ConnectRealize
+func _gotk4_gtk3_Style_ConnectRealize(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Style_ConnectUnrealize
+func _gotk4_gtk3_Style_ConnectUnrealize(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_StyleContextClass_changed
 func _gotk4_gtk3_StyleContextClass_changed(arg0 *C.GtkStyleContext) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -7029,6 +14575,22 @@ func _gotk4_gtk3_StyleContextClass_changed(arg0 *C.GtkStyleContext) {
 	}
 
 	overrides.Changed()
+}
+
+//export _gotk4_gtk3_StyleContext_ConnectChanged
+func _gotk4_gtk3_StyleContext_ConnectChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_SwitchClass_activate
@@ -7057,6 +14619,52 @@ func _gotk4_gtk3_SwitchClass_state_set(arg0 *C.GtkSwitch, arg1 C.gboolean) (cret
 	}
 
 	ok := overrides.StateSet(_state)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Switch_ConnectActivate
+func _gotk4_gtk3_Switch_ConnectActivate(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Switch_ConnectStateSet
+func _gotk4_gtk3_Switch_ConnectStateSet(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(state bool) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(state bool) (ok bool))
+	}
+
+	var _state bool // out
+
+	if arg1 != 0 {
+		_state = true
+	}
+
+	ok := f(_state)
 
 	var _ bool
 
@@ -7276,6 +14884,280 @@ func _gotk4_gtk3_TextBufferClass_remove_tag(arg0 *C.GtkTextBuffer, arg1 *C.GtkTe
 	overrides.RemoveTag(_tag, _start, _end)
 }
 
+//export _gotk4_gtk3_TextBuffer_ConnectApplyTag
+func _gotk4_gtk3_TextBuffer_ConnectApplyTag(arg0 C.gpointer, arg1 *C.GtkTextTag, arg2 *C.GtkTextIter, arg3 *C.GtkTextIter, arg4 C.guintptr) {
+	var f func(tag *TextTag, start, end *TextIter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(tag *TextTag, start, end *TextIter))
+	}
+
+	var _tag *TextTag    // out
+	var _start *TextIter // out
+	var _end *TextIter   // out
+
+	_tag = wrapTextTag(coreglib.Take(unsafe.Pointer(arg1)))
+	_start = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_end = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+
+	f(_tag, _start, _end)
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectBeginUserAction
+func _gotk4_gtk3_TextBuffer_ConnectBeginUserAction(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectChanged
+func _gotk4_gtk3_TextBuffer_ConnectChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectDeleteRange
+func _gotk4_gtk3_TextBuffer_ConnectDeleteRange(arg0 C.gpointer, arg1 *C.GtkTextIter, arg2 *C.GtkTextIter, arg3 C.guintptr) {
+	var f func(start, end *TextIter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(start, end *TextIter))
+	}
+
+	var _start *TextIter // out
+	var _end *TextIter   // out
+
+	_start = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_end = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	f(_start, _end)
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectEndUserAction
+func _gotk4_gtk3_TextBuffer_ConnectEndUserAction(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectInsertChildAnchor
+func _gotk4_gtk3_TextBuffer_ConnectInsertChildAnchor(arg0 C.gpointer, arg1 *C.GtkTextIter, arg2 *C.GtkTextChildAnchor, arg3 C.guintptr) {
+	var f func(location *TextIter, anchor *TextChildAnchor)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(location *TextIter, anchor *TextChildAnchor))
+	}
+
+	var _location *TextIter      // out
+	var _anchor *TextChildAnchor // out
+
+	_location = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_anchor = wrapTextChildAnchor(coreglib.Take(unsafe.Pointer(arg2)))
+
+	f(_location, _anchor)
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectInsertPixbuf
+func _gotk4_gtk3_TextBuffer_ConnectInsertPixbuf(arg0 C.gpointer, arg1 *C.GtkTextIter, arg2 *C.GdkPixbuf, arg3 C.guintptr) {
+	var f func(location *TextIter, pixbuf *gdkpixbuf.Pixbuf)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(location *TextIter, pixbuf *gdkpixbuf.Pixbuf))
+	}
+
+	var _location *TextIter       // out
+	var _pixbuf *gdkpixbuf.Pixbuf // out
+
+	_location = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg2))
+		_pixbuf = &gdkpixbuf.Pixbuf{
+			Object: obj,
+			LoadableIcon: gio.LoadableIcon{
+				Icon: gio.Icon{
+					Object: obj,
+				},
+			},
+		}
+	}
+
+	f(_location, _pixbuf)
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectInsertText
+func _gotk4_gtk3_TextBuffer_ConnectInsertText(arg0 C.gpointer, arg1 *C.GtkTextIter, arg2 *C.gchar, arg3 C.gint, arg4 C.guintptr) {
+	var f func(location *TextIter, text string, len int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(location *TextIter, text string, len int))
+	}
+
+	var _location *TextIter // out
+	var _text string        // out
+	var _len int            // out
+
+	_location = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_text = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+	_len = int(arg3)
+
+	f(_location, _text, _len)
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectMarkDeleted
+func _gotk4_gtk3_TextBuffer_ConnectMarkDeleted(arg0 C.gpointer, arg1 *C.GtkTextMark, arg2 C.guintptr) {
+	var f func(mark *TextMark)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(mark *TextMark))
+	}
+
+	var _mark *TextMark // out
+
+	_mark = wrapTextMark(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_mark)
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectMarkSet
+func _gotk4_gtk3_TextBuffer_ConnectMarkSet(arg0 C.gpointer, arg1 *C.GtkTextIter, arg2 *C.GtkTextMark, arg3 C.guintptr) {
+	var f func(location *TextIter, mark *TextMark)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(location *TextIter, mark *TextMark))
+	}
+
+	var _location *TextIter // out
+	var _mark *TextMark     // out
+
+	_location = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_mark = wrapTextMark(coreglib.Take(unsafe.Pointer(arg2)))
+
+	f(_location, _mark)
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectModifiedChanged
+func _gotk4_gtk3_TextBuffer_ConnectModifiedChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectPasteDone
+func _gotk4_gtk3_TextBuffer_ConnectPasteDone(arg0 C.gpointer, arg1 *C.GtkClipboard, arg2 C.guintptr) {
+	var f func(clipboard *Clipboard)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(clipboard *Clipboard))
+	}
+
+	var _clipboard *Clipboard // out
+
+	_clipboard = wrapClipboard(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_clipboard)
+}
+
+//export _gotk4_gtk3_TextBuffer_ConnectRemoveTag
+func _gotk4_gtk3_TextBuffer_ConnectRemoveTag(arg0 C.gpointer, arg1 *C.GtkTextTag, arg2 *C.GtkTextIter, arg3 *C.GtkTextIter, arg4 C.guintptr) {
+	var f func(tag *TextTag, start, end *TextIter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(tag *TextTag, start, end *TextIter))
+	}
+
+	var _tag *TextTag    // out
+	var _start *TextIter // out
+	var _end *TextIter   // out
+
+	_tag = wrapTextTag(coreglib.Take(unsafe.Pointer(arg1)))
+	_start = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_end = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+
+	f(_tag, _start, _end)
+}
+
 //export _gotk4_gtk3_TextTagClass_event
 func _gotk4_gtk3_TextTagClass_event(arg0 *C.GtkTextTag, arg1 *C.GObject, arg2 *C.GdkEvent, arg3 *C.GtkTextIter) (cret C.gboolean) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -7297,6 +15179,42 @@ func _gotk4_gtk3_TextTagClass_event(arg0 *C.GtkTextTag, arg1 *C.GObject, arg2 *C
 	_iter = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
 
 	ok := overrides.Event(_eventObject, _event, _iter)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TextTag_ConnectEvent
+func _gotk4_gtk3_TextTag_ConnectEvent(arg0 C.gpointer, arg1 *C.GObject, arg2 C.GdkEvent, arg3 *C.GtkTextIter, arg4 C.guintptr) (cret C.gboolean) {
+	var f func(object *coreglib.Object, event *gdk.Event, iter *TextIter) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(object *coreglib.Object, event *gdk.Event, iter *TextIter) (ok bool))
+	}
+
+	var _object *coreglib.Object // out
+	var _event *gdk.Event        // out
+	var _iter *TextIter          // out
+
+	_object = coreglib.Take(unsafe.Pointer(arg1))
+	{
+		v := (*gdk.Event)(gextras.NewStructNative(unsafe.Pointer((&arg2))))
+		v = gdk.CopyEventer(v)
+		_event = v
+	}
+	_iter = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+
+	ok := f(_object, _event, _iter)
 
 	var _ bool
 
@@ -7629,6 +15547,336 @@ func _gotk4_gtk3_TextViewClass_toggle_overwrite(arg0 *C.GtkTextView) {
 	}
 
 	overrides.ToggleOverwrite()
+}
+
+//export _gotk4_gtk3_TextView_ConnectBackspace
+func _gotk4_gtk3_TextView_ConnectBackspace(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextView_ConnectCopyClipboard
+func _gotk4_gtk3_TextView_ConnectCopyClipboard(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextView_ConnectCutClipboard
+func _gotk4_gtk3_TextView_ConnectCutClipboard(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextView_ConnectDeleteFromCursor
+func _gotk4_gtk3_TextView_ConnectDeleteFromCursor(arg0 C.gpointer, arg1 C.GtkDeleteType, arg2 C.gint, arg3 C.guintptr) {
+	var f func(typ DeleteType, count int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(typ DeleteType, count int))
+	}
+
+	var _typ DeleteType // out
+	var _count int      // out
+
+	_typ = DeleteType(arg1)
+	_count = int(arg2)
+
+	f(_typ, _count)
+}
+
+//export _gotk4_gtk3_TextView_ConnectExtendSelection
+func _gotk4_gtk3_TextView_ConnectExtendSelection(arg0 C.gpointer, arg1 C.GtkTextExtendSelection, arg2 *C.GtkTextIter, arg3 *C.GtkTextIter, arg4 *C.GtkTextIter, arg5 C.guintptr) (cret C.gboolean) {
+	var f func(granularity TextExtendSelection, location, start, end *TextIter) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(granularity TextExtendSelection, location, start, end *TextIter) (ok bool))
+	}
+
+	var _granularity TextExtendSelection // out
+	var _location *TextIter              // out
+	var _start *TextIter                 // out
+	var _end *TextIter                   // out
+
+	_granularity = TextExtendSelection(arg1)
+	_location = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_start = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg3)))
+	_end = (*TextIter)(gextras.NewStructNative(unsafe.Pointer(arg4)))
+
+	ok := f(_granularity, _location, _start, _end)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TextView_ConnectInsertAtCursor
+func _gotk4_gtk3_TextView_ConnectInsertAtCursor(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(str string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(str string))
+	}
+
+	var _str string // out
+
+	_str = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_str)
+}
+
+//export _gotk4_gtk3_TextView_ConnectInsertEmoji
+func _gotk4_gtk3_TextView_ConnectInsertEmoji(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextView_ConnectMoveCursor
+func _gotk4_gtk3_TextView_ConnectMoveCursor(arg0 C.gpointer, arg1 C.GtkMovementStep, arg2 C.gint, arg3 C.gboolean, arg4 C.guintptr) {
+	var f func(step MovementStep, count int, extendSelection bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(step MovementStep, count int, extendSelection bool))
+	}
+
+	var _step MovementStep    // out
+	var _count int            // out
+	var _extendSelection bool // out
+
+	_step = MovementStep(arg1)
+	_count = int(arg2)
+	if arg3 != 0 {
+		_extendSelection = true
+	}
+
+	f(_step, _count, _extendSelection)
+}
+
+//export _gotk4_gtk3_TextView_ConnectMoveViewport
+func _gotk4_gtk3_TextView_ConnectMoveViewport(arg0 C.gpointer, arg1 C.GtkScrollStep, arg2 C.gint, arg3 C.guintptr) {
+	var f func(step ScrollStep, count int)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(step ScrollStep, count int))
+	}
+
+	var _step ScrollStep // out
+	var _count int       // out
+
+	_step = ScrollStep(arg1)
+	_count = int(arg2)
+
+	f(_step, _count)
+}
+
+//export _gotk4_gtk3_TextView_ConnectPasteClipboard
+func _gotk4_gtk3_TextView_ConnectPasteClipboard(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextView_ConnectPopulatePopup
+func _gotk4_gtk3_TextView_ConnectPopulatePopup(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(popup Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(popup Widgetter))
+	}
+
+	var _popup Widgetter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_popup = rv
+	}
+
+	f(_popup)
+}
+
+//export _gotk4_gtk3_TextView_ConnectPreeditChanged
+func _gotk4_gtk3_TextView_ConnectPreeditChanged(arg0 C.gpointer, arg1 *C.gchar, arg2 C.guintptr) {
+	var f func(preedit string)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(preedit string))
+	}
+
+	var _preedit string // out
+
+	_preedit = C.GoString((*C.gchar)(unsafe.Pointer(arg1)))
+
+	f(_preedit)
+}
+
+//export _gotk4_gtk3_TextView_ConnectSelectAll
+func _gotk4_gtk3_TextView_ConnectSelectAll(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) {
+	var f func(sel bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(sel bool))
+	}
+
+	var _sel bool // out
+
+	if arg1 != 0 {
+		_sel = true
+	}
+
+	f(_sel)
+}
+
+//export _gotk4_gtk3_TextView_ConnectSetAnchor
+func _gotk4_gtk3_TextView_ConnectSetAnchor(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextView_ConnectToggleCursorVisible
+func _gotk4_gtk3_TextView_ConnectToggleCursorVisible(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TextView_ConnectToggleOverwrite
+func _gotk4_gtk3_TextView_ConnectToggleOverwrite(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_ThemingEngineClass_render_activity
@@ -8097,6 +16345,22 @@ func _gotk4_gtk3_ToggleActionClass_toggled(arg0 *C.GtkToggleAction) {
 	overrides.Toggled()
 }
 
+//export _gotk4_gtk3_ToggleAction_ConnectToggled
+func _gotk4_gtk3_ToggleAction_ConnectToggled(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_ToggleButtonClass_toggled
 func _gotk4_gtk3_ToggleButtonClass_toggled(arg0 *C.GtkToggleButton) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -8106,6 +16370,22 @@ func _gotk4_gtk3_ToggleButtonClass_toggled(arg0 *C.GtkToggleButton) {
 	}
 
 	overrides.Toggled()
+}
+
+//export _gotk4_gtk3_ToggleButton_ConnectToggled
+func _gotk4_gtk3_ToggleButton_ConnectToggled(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_ToggleToolButtonClass_toggled
@@ -8119,6 +16399,22 @@ func _gotk4_gtk3_ToggleToolButtonClass_toggled(arg0 *C.GtkToggleToolButton) {
 	overrides.Toggled()
 }
 
+//export _gotk4_gtk3_ToggleToolButton_ConnectToggled
+func _gotk4_gtk3_ToggleToolButton_ConnectToggled(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_ToolButtonClass_clicked
 func _gotk4_gtk3_ToolButtonClass_clicked(arg0 *C.GtkToolButton) {
 	instance0 := coreglib.Take(unsafe.Pointer(arg0))
@@ -8128,6 +16424,22 @@ func _gotk4_gtk3_ToolButtonClass_clicked(arg0 *C.GtkToolButton) {
 	}
 
 	overrides.Clicked()
+}
+
+//export _gotk4_gtk3_ToolButton_ConnectClicked
+func _gotk4_gtk3_ToolButton_ConnectClicked(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_ToolItemClass_create_menu_proxy
@@ -8158,6 +16470,46 @@ func _gotk4_gtk3_ToolItemClass_toolbar_reconfigured(arg0 *C.GtkToolItem) {
 	}
 
 	overrides.ToolbarReconfigured()
+}
+
+//export _gotk4_gtk3_ToolItem_ConnectCreateMenuProxy
+func _gotk4_gtk3_ToolItem_ConnectCreateMenuProxy(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_ToolItem_ConnectToolbarReconfigured
+func _gotk4_gtk3_ToolItem_ConnectToolbarReconfigured(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_ToolbarClass_orientation_changed
@@ -8215,6 +16567,108 @@ func _gotk4_gtk3_ToolbarClass_style_changed(arg0 *C.GtkToolbar, arg1 C.GtkToolba
 	_style = ToolbarStyle(arg1)
 
 	overrides.StyleChanged(_style)
+}
+
+//export _gotk4_gtk3_Toolbar_ConnectFocusHomeOrEnd
+func _gotk4_gtk3_Toolbar_ConnectFocusHomeOrEnd(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(focusHome bool) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(focusHome bool) (ok bool))
+	}
+
+	var _focusHome bool // out
+
+	if arg1 != 0 {
+		_focusHome = true
+	}
+
+	ok := f(_focusHome)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Toolbar_ConnectOrientationChanged
+func _gotk4_gtk3_Toolbar_ConnectOrientationChanged(arg0 C.gpointer, arg1 C.GtkOrientation, arg2 C.guintptr) {
+	var f func(orientation Orientation)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(orientation Orientation))
+	}
+
+	var _orientation Orientation // out
+
+	_orientation = Orientation(arg1)
+
+	f(_orientation)
+}
+
+//export _gotk4_gtk3_Toolbar_ConnectPopupContextMenu
+func _gotk4_gtk3_Toolbar_ConnectPopupContextMenu(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.gint, arg4 C.guintptr) (cret C.gboolean) {
+	var f func(x, y, button int) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg4))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(x, y, button int) (ok bool))
+	}
+
+	var _x int      // out
+	var _y int      // out
+	var _button int // out
+
+	_x = int(arg1)
+	_y = int(arg2)
+	_button = int(arg3)
+
+	ok := f(_x, _y, _button)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Toolbar_ConnectStyleChanged
+func _gotk4_gtk3_Toolbar_ConnectStyleChanged(arg0 C.gpointer, arg1 C.GtkToolbarStyle, arg2 C.guintptr) {
+	var f func(style ToolbarStyle)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(style ToolbarStyle))
+	}
+
+	var _style ToolbarStyle // out
+
+	_style = ToolbarStyle(arg1)
+
+	f(_style)
 }
 
 //export _gotk4_gtk3_TreeModelFilterClass_modify
@@ -8304,6 +16758,22 @@ func _gotk4_gtk3_TreeSelectionClass_changed(arg0 *C.GtkTreeSelection) {
 	}
 
 	overrides.Changed()
+}
+
+//export _gotk4_gtk3_TreeSelection_ConnectChanged
+func _gotk4_gtk3_TreeSelection_ConnectChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
 }
 
 //export _gotk4_gtk3_TreeViewClass_columns_changed
@@ -8607,6 +17077,38 @@ func _gotk4_gtk3_TreeViewClass_unselect_all(arg0 *C.GtkTreeView) (cret C.gboolea
 	return cret
 }
 
+//export _gotk4_gtk3_TreeView_ConnectColumnsChanged
+func _gotk4_gtk3_TreeView_ConnectColumnsChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_TreeView_ConnectCursorChanged
+func _gotk4_gtk3_TreeView_ConnectCursorChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_TreeView_ConnectExpandCollapseCursorRow
 func _gotk4_gtk3_TreeView_ConnectExpandCollapseCursorRow(arg0 C.gpointer, arg1 C.gboolean, arg2 C.gboolean, arg3 C.gboolean, arg4 C.guintptr) (cret C.gboolean) {
 	var f func(object, p0, p1 bool) (ok bool)
@@ -8643,6 +17145,102 @@ func _gotk4_gtk3_TreeView_ConnectExpandCollapseCursorRow(arg0 C.gpointer, arg1 C
 	}
 
 	return cret
+}
+
+//export _gotk4_gtk3_TreeView_ConnectMoveCursor
+func _gotk4_gtk3_TreeView_ConnectMoveCursor(arg0 C.gpointer, arg1 C.GtkMovementStep, arg2 C.gint, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(step MovementStep, direction int) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(step MovementStep, direction int) (ok bool))
+	}
+
+	var _step MovementStep // out
+	var _direction int     // out
+
+	_step = MovementStep(arg1)
+	_direction = int(arg2)
+
+	ok := f(_step, _direction)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeView_ConnectRowActivated
+func _gotk4_gtk3_TreeView_ConnectRowActivated(arg0 C.gpointer, arg1 *C.GtkTreePath, arg2 *C.GtkTreeViewColumn, arg3 C.guintptr) {
+	var f func(path *TreePath, column *TreeViewColumn)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(path *TreePath, column *TreeViewColumn))
+	}
+
+	var _path *TreePath         // out
+	var _column *TreeViewColumn // out
+
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_column = wrapTreeViewColumn(coreglib.Take(unsafe.Pointer(arg2)))
+
+	f(_path, _column)
+}
+
+//export _gotk4_gtk3_TreeView_ConnectRowCollapsed
+func _gotk4_gtk3_TreeView_ConnectRowCollapsed(arg0 C.gpointer, arg1 *C.GtkTreeIter, arg2 *C.GtkTreePath, arg3 C.guintptr) {
+	var f func(iter *TreeIter, path *TreePath)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(iter *TreeIter, path *TreePath))
+	}
+
+	var _iter *TreeIter // out
+	var _path *TreePath // out
+
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	f(_iter, _path)
+}
+
+//export _gotk4_gtk3_TreeView_ConnectRowExpanded
+func _gotk4_gtk3_TreeView_ConnectRowExpanded(arg0 C.gpointer, arg1 *C.GtkTreeIter, arg2 *C.GtkTreePath, arg3 C.guintptr) {
+	var f func(iter *TreeIter, path *TreePath)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(iter *TreeIter, path *TreePath))
+	}
+
+	var _iter *TreeIter // out
+	var _path *TreePath // out
+
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	f(_iter, _path)
 }
 
 //export _gotk4_gtk3_TreeView_ConnectSelectAll
@@ -8737,6 +17335,66 @@ func _gotk4_gtk3_TreeView_ConnectStartInteractiveSearch(arg0 C.gpointer, arg1 C.
 	}
 
 	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeView_ConnectTestCollapseRow
+func _gotk4_gtk3_TreeView_ConnectTestCollapseRow(arg0 C.gpointer, arg1 *C.GtkTreeIter, arg2 *C.GtkTreePath, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(iter *TreeIter, path *TreePath) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(iter *TreeIter, path *TreePath) (ok bool))
+	}
+
+	var _iter *TreeIter // out
+	var _path *TreePath // out
+
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	ok := f(_iter, _path)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_TreeView_ConnectTestExpandRow
+func _gotk4_gtk3_TreeView_ConnectTestExpandRow(arg0 C.gpointer, arg1 *C.GtkTreeIter, arg2 *C.GtkTreePath, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(iter *TreeIter, path *TreePath) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(iter *TreeIter, path *TreePath) (ok bool))
+	}
+
+	var _iter *TreeIter // out
+	var _path *TreePath // out
+
+	_iter = (*TreeIter)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+	_path = (*TreePath)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	ok := f(_iter, _path)
 
 	var _ bool
 
@@ -9000,6 +17658,174 @@ func _gotk4_gtk3_UIManagerClass_pre_activate(arg0 *C.GtkUIManager, arg1 *C.GtkAc
 	_action = wrapAction(coreglib.Take(unsafe.Pointer(arg1)))
 
 	overrides.PreActivate(_action)
+}
+
+//export _gotk4_gtk3_UIManager_ConnectActionsChanged
+func _gotk4_gtk3_UIManager_ConnectActionsChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_UIManager_ConnectAddWidget
+func _gotk4_gtk3_UIManager_ConnectAddWidget(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(widget Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(widget Widgetter))
+	}
+
+	var _widget Widgetter // out
+
+	{
+		objptr := unsafe.Pointer(arg1)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_widget = rv
+	}
+
+	f(_widget)
+}
+
+//export _gotk4_gtk3_UIManager_ConnectConnectProxy
+func _gotk4_gtk3_UIManager_ConnectConnectProxy(arg0 C.gpointer, arg1 *C.GtkAction, arg2 *C.GtkWidget, arg3 C.guintptr) {
+	var f func(action *Action, proxy Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(action *Action, proxy Widgetter))
+	}
+
+	var _action *Action  // out
+	var _proxy Widgetter // out
+
+	_action = wrapAction(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_proxy = rv
+	}
+
+	f(_action, _proxy)
+}
+
+//export _gotk4_gtk3_UIManager_ConnectDisconnectProxy
+func _gotk4_gtk3_UIManager_ConnectDisconnectProxy(arg0 C.gpointer, arg1 *C.GtkAction, arg2 *C.GtkWidget, arg3 C.guintptr) {
+	var f func(action *Action, proxy Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(action *Action, proxy Widgetter))
+	}
+
+	var _action *Action  // out
+	var _proxy Widgetter // out
+
+	_action = wrapAction(coreglib.Take(unsafe.Pointer(arg1)))
+	{
+		objptr := unsafe.Pointer(arg2)
+		if objptr == nil {
+			panic("object of type gtk.Widgetter is nil")
+		}
+
+		object := coreglib.Take(objptr)
+		casted := object.WalkCast(func(obj coreglib.Objector) bool {
+			_, ok := obj.(Widgetter)
+			return ok
+		})
+		rv, ok := casted.(Widgetter)
+		if !ok {
+			panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+		}
+		_proxy = rv
+	}
+
+	f(_action, _proxy)
+}
+
+//export _gotk4_gtk3_UIManager_ConnectPostActivate
+func _gotk4_gtk3_UIManager_ConnectPostActivate(arg0 C.gpointer, arg1 *C.GtkAction, arg2 C.guintptr) {
+	var f func(action *Action)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(action *Action))
+	}
+
+	var _action *Action // out
+
+	_action = wrapAction(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_action)
+}
+
+//export _gotk4_gtk3_UIManager_ConnectPreActivate
+func _gotk4_gtk3_UIManager_ConnectPreActivate(arg0 C.gpointer, arg1 *C.GtkAction, arg2 C.guintptr) {
+	var f func(action *Action)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(action *Action))
+	}
+
+	var _action *Action // out
+
+	_action = wrapAction(coreglib.Take(unsafe.Pointer(arg1)))
+
+	f(_action)
 }
 
 //export _gotk4_gtk3_WidgetClass_adjust_baseline_allocation
@@ -10652,6 +19478,659 @@ func _gotk4_gtk3_Widget_ConnectAccelClosuresChanged(arg0 C.gpointer, arg1 C.guin
 	f()
 }
 
+//export _gotk4_gtk3_Widget_ConnectButtonPressEvent
+func _gotk4_gtk3_Widget_ConnectButtonPressEvent(arg0 C.gpointer, arg1 *C.GdkEventButton, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventButton) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventButton) (ok bool))
+	}
+
+	var _event *gdk.EventButton // out
+
+	_event = (*gdk.EventButton)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectButtonReleaseEvent
+func _gotk4_gtk3_Widget_ConnectButtonReleaseEvent(arg0 C.gpointer, arg1 *C.GdkEventButton, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventButton) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventButton) (ok bool))
+	}
+
+	var _event *gdk.EventButton // out
+
+	_event = (*gdk.EventButton)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectCanActivateAccel
+func _gotk4_gtk3_Widget_ConnectCanActivateAccel(arg0 C.gpointer, arg1 C.guint, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(signalId uint) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(signalId uint) (ok bool))
+	}
+
+	var _signalId uint // out
+
+	_signalId = uint(arg1)
+
+	ok := f(_signalId)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectCompositedChanged
+func _gotk4_gtk3_Widget_ConnectCompositedChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Widget_ConnectConfigureEvent
+func _gotk4_gtk3_Widget_ConnectConfigureEvent(arg0 C.gpointer, arg1 *C.GdkEventConfigure, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventConfigure) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventConfigure) (ok bool))
+	}
+
+	var _event *gdk.EventConfigure // out
+
+	_event = (*gdk.EventConfigure)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectDamageEvent
+func _gotk4_gtk3_Widget_ConnectDamageEvent(arg0 C.gpointer, arg1 *C.GdkEventExpose, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventExpose) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventExpose) (ok bool))
+	}
+
+	var _event *gdk.EventExpose // out
+
+	_event = (*gdk.EventExpose)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectDeleteEvent
+func _gotk4_gtk3_Widget_ConnectDeleteEvent(arg0 C.gpointer, arg1 C.GdkEvent, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.Event) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.Event) (ok bool))
+	}
+
+	var _event *gdk.Event // out
+
+	{
+		v := (*gdk.Event)(gextras.NewStructNative(unsafe.Pointer((&arg1))))
+		v = gdk.CopyEventer(v)
+		_event = v
+	}
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectDestroy
+func _gotk4_gtk3_Widget_ConnectDestroy(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Widget_ConnectDestroyEvent
+func _gotk4_gtk3_Widget_ConnectDestroyEvent(arg0 C.gpointer, arg1 C.GdkEvent, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.Event) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.Event) (ok bool))
+	}
+
+	var _event *gdk.Event // out
+
+	{
+		v := (*gdk.Event)(gextras.NewStructNative(unsafe.Pointer((&arg1))))
+		v = gdk.CopyEventer(v)
+		_event = v
+	}
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectDirectionChanged
+func _gotk4_gtk3_Widget_ConnectDirectionChanged(arg0 C.gpointer, arg1 C.GtkTextDirection, arg2 C.guintptr) {
+	var f func(previousDirection TextDirection)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(previousDirection TextDirection))
+	}
+
+	var _previousDirection TextDirection // out
+
+	_previousDirection = TextDirection(arg1)
+
+	f(_previousDirection)
+}
+
+//export _gotk4_gtk3_Widget_ConnectDragBegin
+func _gotk4_gtk3_Widget_ConnectDragBegin(arg0 C.gpointer, arg1 *C.GdkDragContext, arg2 C.guintptr) {
+	var f func(context *gdk.DragContext)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *gdk.DragContext))
+	}
+
+	var _context *gdk.DragContext // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_context = &gdk.DragContext{
+			Object: obj,
+		}
+	}
+
+	f(_context)
+}
+
+//export _gotk4_gtk3_Widget_ConnectDragDataDelete
+func _gotk4_gtk3_Widget_ConnectDragDataDelete(arg0 C.gpointer, arg1 *C.GdkDragContext, arg2 C.guintptr) {
+	var f func(context *gdk.DragContext)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *gdk.DragContext))
+	}
+
+	var _context *gdk.DragContext // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_context = &gdk.DragContext{
+			Object: obj,
+		}
+	}
+
+	f(_context)
+}
+
+//export _gotk4_gtk3_Widget_ConnectDragDataGet
+func _gotk4_gtk3_Widget_ConnectDragDataGet(arg0 C.gpointer, arg1 *C.GdkDragContext, arg2 *C.GtkSelectionData, arg3 C.guint, arg4 C.guint, arg5 C.guintptr) {
+	var f func(context *gdk.DragContext, data *SelectionData, info, time uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *gdk.DragContext, data *SelectionData, info, time uint))
+	}
+
+	var _context *gdk.DragContext // out
+	var _data *SelectionData      // out
+	var _info uint                // out
+	var _time uint                // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_context = &gdk.DragContext{
+			Object: obj,
+		}
+	}
+	_data = (*SelectionData)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+	_info = uint(arg3)
+	_time = uint(arg4)
+
+	f(_context, _data, _info, _time)
+}
+
+//export _gotk4_gtk3_Widget_ConnectDragDataReceived
+func _gotk4_gtk3_Widget_ConnectDragDataReceived(arg0 C.gpointer, arg1 *C.GdkDragContext, arg2 C.gint, arg3 C.gint, arg4 *C.GtkSelectionData, arg5 C.guint, arg6 C.guint, arg7 C.guintptr) {
+	var f func(context *gdk.DragContext, x, y int, data *SelectionData, info, time uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg7))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *gdk.DragContext, x, y int, data *SelectionData, info, time uint))
+	}
+
+	var _context *gdk.DragContext // out
+	var _x int                    // out
+	var _y int                    // out
+	var _data *SelectionData      // out
+	var _info uint                // out
+	var _time uint                // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_context = &gdk.DragContext{
+			Object: obj,
+		}
+	}
+	_x = int(arg2)
+	_y = int(arg3)
+	_data = (*SelectionData)(gextras.NewStructNative(unsafe.Pointer(arg4)))
+	_info = uint(arg5)
+	_time = uint(arg6)
+
+	f(_context, _x, _y, _data, _info, _time)
+}
+
+//export _gotk4_gtk3_Widget_ConnectDragDrop
+func _gotk4_gtk3_Widget_ConnectDragDrop(arg0 C.gpointer, arg1 *C.GdkDragContext, arg2 C.gint, arg3 C.gint, arg4 C.guint, arg5 C.guintptr) (cret C.gboolean) {
+	var f func(context *gdk.DragContext, x, y int, time uint) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *gdk.DragContext, x, y int, time uint) (ok bool))
+	}
+
+	var _context *gdk.DragContext // out
+	var _x int                    // out
+	var _y int                    // out
+	var _time uint                // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_context = &gdk.DragContext{
+			Object: obj,
+		}
+	}
+	_x = int(arg2)
+	_y = int(arg3)
+	_time = uint(arg4)
+
+	ok := f(_context, _x, _y, _time)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectDragEnd
+func _gotk4_gtk3_Widget_ConnectDragEnd(arg0 C.gpointer, arg1 *C.GdkDragContext, arg2 C.guintptr) {
+	var f func(context *gdk.DragContext)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *gdk.DragContext))
+	}
+
+	var _context *gdk.DragContext // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_context = &gdk.DragContext{
+			Object: obj,
+		}
+	}
+
+	f(_context)
+}
+
+//export _gotk4_gtk3_Widget_ConnectDragFailed
+func _gotk4_gtk3_Widget_ConnectDragFailed(arg0 C.gpointer, arg1 *C.GdkDragContext, arg2 C.GtkDragResult, arg3 C.guintptr) (cret C.gboolean) {
+	var f func(context *gdk.DragContext, result DragResult) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *gdk.DragContext, result DragResult) (ok bool))
+	}
+
+	var _context *gdk.DragContext // out
+	var _result DragResult        // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_context = &gdk.DragContext{
+			Object: obj,
+		}
+	}
+	_result = DragResult(arg2)
+
+	ok := f(_context, _result)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectDragLeave
+func _gotk4_gtk3_Widget_ConnectDragLeave(arg0 C.gpointer, arg1 *C.GdkDragContext, arg2 C.guint, arg3 C.guintptr) {
+	var f func(context *gdk.DragContext, time uint)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg3))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *gdk.DragContext, time uint))
+	}
+
+	var _context *gdk.DragContext // out
+	var _time uint                // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_context = &gdk.DragContext{
+			Object: obj,
+		}
+	}
+	_time = uint(arg2)
+
+	f(_context, _time)
+}
+
+//export _gotk4_gtk3_Widget_ConnectDragMotion
+func _gotk4_gtk3_Widget_ConnectDragMotion(arg0 C.gpointer, arg1 *C.GdkDragContext, arg2 C.gint, arg3 C.gint, arg4 C.guint, arg5 C.guintptr) (cret C.gboolean) {
+	var f func(context *gdk.DragContext, x, y int, time uint) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(context *gdk.DragContext, x, y int, time uint) (ok bool))
+	}
+
+	var _context *gdk.DragContext // out
+	var _x int                    // out
+	var _y int                    // out
+	var _time uint                // out
+
+	{
+		obj := coreglib.Take(unsafe.Pointer(arg1))
+		_context = &gdk.DragContext{
+			Object: obj,
+		}
+	}
+	_x = int(arg2)
+	_y = int(arg3)
+	_time = uint(arg4)
+
+	ok := f(_context, _x, _y, _time)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectDraw
+func _gotk4_gtk3_Widget_ConnectDraw(arg0 C.gpointer, arg1 *C.cairo_t, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(cr *cairo.Context) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(cr *cairo.Context) (ok bool))
+	}
+
+	var _cr *cairo.Context // out
+
+	_cr = cairo.WrapContext(uintptr(unsafe.Pointer(arg1)))
+	C.cairo_reference(arg1)
+	runtime.SetFinalizer(_cr, func(v *cairo.Context) {
+		C.cairo_destroy((*C.cairo_t)(unsafe.Pointer(v.Native())))
+	})
+
+	ok := f(_cr)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectEnterNotifyEvent
+func _gotk4_gtk3_Widget_ConnectEnterNotifyEvent(arg0 C.gpointer, arg1 *C.GdkEventCrossing, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventCrossing) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventCrossing) (ok bool))
+	}
+
+	var _event *gdk.EventCrossing // out
+
+	_event = (*gdk.EventCrossing)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectEvent
+func _gotk4_gtk3_Widget_ConnectEvent(arg0 C.gpointer, arg1 C.GdkEvent, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.Event) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.Event) (ok bool))
+	}
+
+	var _event *gdk.Event // out
+
+	{
+		v := (*gdk.Event)(gextras.NewStructNative(unsafe.Pointer((&arg1))))
+		v = gdk.CopyEventer(v)
+		_event = v
+	}
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectEventAfter
+func _gotk4_gtk3_Widget_ConnectEventAfter(arg0 C.gpointer, arg1 C.GdkEvent, arg2 C.guintptr) {
+	var f func(event *gdk.Event)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.Event))
+	}
+
+	var _event *gdk.Event // out
+
+	{
+		v := (*gdk.Event)(gextras.NewStructNative(unsafe.Pointer((&arg1))))
+		v = gdk.CopyEventer(v)
+		_event = v
+	}
+
+	f(_event)
+}
+
 //export _gotk4_gtk3_Widget_ConnectFocus
 func _gotk4_gtk3_Widget_ConnectFocus(arg0 C.gpointer, arg1 C.GtkDirectionType, arg2 C.guintptr) (cret C.gboolean) {
 	var f func(direction DirectionType) (ok bool)
@@ -10680,6 +20159,90 @@ func _gotk4_gtk3_Widget_ConnectFocus(arg0 C.gpointer, arg1 C.GtkDirectionType, a
 	return cret
 }
 
+//export _gotk4_gtk3_Widget_ConnectFocusInEvent
+func _gotk4_gtk3_Widget_ConnectFocusInEvent(arg0 C.gpointer, arg1 *C.GdkEventFocus, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventFocus) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventFocus) (ok bool))
+	}
+
+	var _event *gdk.EventFocus // out
+
+	_event = (*gdk.EventFocus)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectFocusOutEvent
+func _gotk4_gtk3_Widget_ConnectFocusOutEvent(arg0 C.gpointer, arg1 *C.GdkEventFocus, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventFocus) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventFocus) (ok bool))
+	}
+
+	var _event *gdk.EventFocus // out
+
+	_event = (*gdk.EventFocus)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectGrabBrokenEvent
+func _gotk4_gtk3_Widget_ConnectGrabBrokenEvent(arg0 C.gpointer, arg1 *C.GdkEventGrabBroken, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventGrabBroken) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventGrabBroken) (ok bool))
+	}
+
+	var _event *gdk.EventGrabBroken // out
+
+	_event = (*gdk.EventGrabBroken)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
 //export _gotk4_gtk3_Widget_ConnectGrabFocus
 func _gotk4_gtk3_Widget_ConnectGrabFocus(arg0 C.gpointer, arg1 C.guintptr) {
 	var f func()
@@ -10694,6 +20257,293 @@ func _gotk4_gtk3_Widget_ConnectGrabFocus(arg0 C.gpointer, arg1 C.guintptr) {
 	}
 
 	f()
+}
+
+//export _gotk4_gtk3_Widget_ConnectGrabNotify
+func _gotk4_gtk3_Widget_ConnectGrabNotify(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) {
+	var f func(wasGrabbed bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(wasGrabbed bool))
+	}
+
+	var _wasGrabbed bool // out
+
+	if arg1 != 0 {
+		_wasGrabbed = true
+	}
+
+	f(_wasGrabbed)
+}
+
+//export _gotk4_gtk3_Widget_ConnectHide
+func _gotk4_gtk3_Widget_ConnectHide(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Widget_ConnectHierarchyChanged
+func _gotk4_gtk3_Widget_ConnectHierarchyChanged(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(previousToplevel Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(previousToplevel Widgetter))
+	}
+
+	var _previousToplevel Widgetter // out
+
+	if arg1 != nil {
+		{
+			objptr := unsafe.Pointer(arg1)
+
+			object := coreglib.Take(objptr)
+			casted := object.WalkCast(func(obj coreglib.Objector) bool {
+				_, ok := obj.(Widgetter)
+				return ok
+			})
+			rv, ok := casted.(Widgetter)
+			if !ok {
+				panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+			}
+			_previousToplevel = rv
+		}
+	}
+
+	f(_previousToplevel)
+}
+
+//export _gotk4_gtk3_Widget_ConnectKeyPressEvent
+func _gotk4_gtk3_Widget_ConnectKeyPressEvent(arg0 C.gpointer, arg1 *C.GdkEventKey, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventKey) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventKey) (ok bool))
+	}
+
+	var _event *gdk.EventKey // out
+
+	_event = (*gdk.EventKey)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectKeyReleaseEvent
+func _gotk4_gtk3_Widget_ConnectKeyReleaseEvent(arg0 C.gpointer, arg1 *C.GdkEventKey, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventKey) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventKey) (ok bool))
+	}
+
+	var _event *gdk.EventKey // out
+
+	_event = (*gdk.EventKey)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectKeynavFailed
+func _gotk4_gtk3_Widget_ConnectKeynavFailed(arg0 C.gpointer, arg1 C.GtkDirectionType, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(direction DirectionType) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(direction DirectionType) (ok bool))
+	}
+
+	var _direction DirectionType // out
+
+	_direction = DirectionType(arg1)
+
+	ok := f(_direction)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectLeaveNotifyEvent
+func _gotk4_gtk3_Widget_ConnectLeaveNotifyEvent(arg0 C.gpointer, arg1 *C.GdkEventCrossing, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventCrossing) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventCrossing) (ok bool))
+	}
+
+	var _event *gdk.EventCrossing // out
+
+	_event = (*gdk.EventCrossing)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectMap
+func _gotk4_gtk3_Widget_ConnectMap(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Widget_ConnectMapEvent
+func _gotk4_gtk3_Widget_ConnectMapEvent(arg0 C.gpointer, arg1 *C.GdkEventAny, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventAny) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventAny) (ok bool))
+	}
+
+	var _event *gdk.EventAny // out
+
+	_event = (*gdk.EventAny)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectMnemonicActivate
+func _gotk4_gtk3_Widget_ConnectMnemonicActivate(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(groupCycling bool) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(groupCycling bool) (ok bool))
+	}
+
+	var _groupCycling bool // out
+
+	if arg1 != 0 {
+		_groupCycling = true
+	}
+
+	ok := f(_groupCycling)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectMotionNotifyEvent
+func _gotk4_gtk3_Widget_ConnectMotionNotifyEvent(arg0 C.gpointer, arg1 *C.GdkEventMotion, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventMotion) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventMotion) (ok bool))
+	}
+
+	var _event *gdk.EventMotion // out
+
+	_event = (*gdk.EventMotion)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
 }
 
 //export _gotk4_gtk3_Widget_ConnectMoveFocus
@@ -10714,6 +20564,284 @@ func _gotk4_gtk3_Widget_ConnectMoveFocus(arg0 C.gpointer, arg1 C.GtkDirectionTyp
 	_direction = DirectionType(arg1)
 
 	f(_direction)
+}
+
+//export _gotk4_gtk3_Widget_ConnectParentSet
+func _gotk4_gtk3_Widget_ConnectParentSet(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(oldParent Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(oldParent Widgetter))
+	}
+
+	var _oldParent Widgetter // out
+
+	if arg1 != nil {
+		{
+			objptr := unsafe.Pointer(arg1)
+
+			object := coreglib.Take(objptr)
+			casted := object.WalkCast(func(obj coreglib.Objector) bool {
+				_, ok := obj.(Widgetter)
+				return ok
+			})
+			rv, ok := casted.(Widgetter)
+			if !ok {
+				panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+			}
+			_oldParent = rv
+		}
+	}
+
+	f(_oldParent)
+}
+
+//export _gotk4_gtk3_Widget_ConnectPopupMenu
+func _gotk4_gtk3_Widget_ConnectPopupMenu(arg0 C.gpointer, arg1 C.guintptr) (cret C.gboolean) {
+	var f func() (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func() (ok bool))
+	}
+
+	ok := f()
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectPropertyNotifyEvent
+func _gotk4_gtk3_Widget_ConnectPropertyNotifyEvent(arg0 C.gpointer, arg1 *C.GdkEventProperty, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventProperty) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventProperty) (ok bool))
+	}
+
+	var _event *gdk.EventProperty // out
+
+	_event = (*gdk.EventProperty)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectProximityInEvent
+func _gotk4_gtk3_Widget_ConnectProximityInEvent(arg0 C.gpointer, arg1 *C.GdkEventProximity, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventProximity) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventProximity) (ok bool))
+	}
+
+	var _event *gdk.EventProximity // out
+
+	_event = (*gdk.EventProximity)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectProximityOutEvent
+func _gotk4_gtk3_Widget_ConnectProximityOutEvent(arg0 C.gpointer, arg1 *C.GdkEventProximity, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventProximity) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventProximity) (ok bool))
+	}
+
+	var _event *gdk.EventProximity // out
+
+	_event = (*gdk.EventProximity)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectQueryTooltip
+func _gotk4_gtk3_Widget_ConnectQueryTooltip(arg0 C.gpointer, arg1 C.gint, arg2 C.gint, arg3 C.gboolean, arg4 *C.GtkTooltip, arg5 C.guintptr) (cret C.gboolean) {
+	var f func(x, y int, keyboardMode bool, tooltip *Tooltip) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg5))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(x, y int, keyboardMode bool, tooltip *Tooltip) (ok bool))
+	}
+
+	var _x int             // out
+	var _y int             // out
+	var _keyboardMode bool // out
+	var _tooltip *Tooltip  // out
+
+	_x = int(arg1)
+	_y = int(arg2)
+	if arg3 != 0 {
+		_keyboardMode = true
+	}
+	_tooltip = wrapTooltip(coreglib.Take(unsafe.Pointer(arg4)))
+
+	ok := f(_x, _y, _keyboardMode, _tooltip)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectRealize
+func _gotk4_gtk3_Widget_ConnectRealize(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Widget_ConnectScreenChanged
+func _gotk4_gtk3_Widget_ConnectScreenChanged(arg0 C.gpointer, arg1 *C.GdkScreen, arg2 C.guintptr) {
+	var f func(previousScreen *gdk.Screen)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(previousScreen *gdk.Screen))
+	}
+
+	var _previousScreen *gdk.Screen // out
+
+	if arg1 != nil {
+		{
+			obj := coreglib.Take(unsafe.Pointer(arg1))
+			_previousScreen = &gdk.Screen{
+				Object: obj,
+			}
+		}
+	}
+
+	f(_previousScreen)
+}
+
+//export _gotk4_gtk3_Widget_ConnectScrollEvent
+func _gotk4_gtk3_Widget_ConnectScrollEvent(arg0 C.gpointer, arg1 *C.GdkEventScroll, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventScroll) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventScroll) (ok bool))
+	}
+
+	var _event *gdk.EventScroll // out
+
+	_event = (*gdk.EventScroll)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectSelectionClearEvent
+func _gotk4_gtk3_Widget_ConnectSelectionClearEvent(arg0 C.gpointer, arg1 *C.GdkEventSelection, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventSelection) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventSelection) (ok bool))
+	}
+
+	var _event *gdk.EventSelection // out
+
+	_event = (*gdk.EventSelection)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
 }
 
 //export _gotk4_gtk3_Widget_ConnectSelectionGet
@@ -10790,6 +20918,50 @@ func _gotk4_gtk3_Widget_ConnectSelectionReceived(arg0 C.gpointer, arg1 *C.GtkSel
 	f(_data, _time)
 }
 
+//export _gotk4_gtk3_Widget_ConnectSelectionRequestEvent
+func _gotk4_gtk3_Widget_ConnectSelectionRequestEvent(arg0 C.gpointer, arg1 *C.GdkEventSelection, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventSelection) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventSelection) (ok bool))
+	}
+
+	var _event *gdk.EventSelection // out
+
+	_event = (*gdk.EventSelection)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectShow
+func _gotk4_gtk3_Widget_ConnectShow(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_Widget_ConnectShowHelp
 func _gotk4_gtk3_Widget_ConnectShowHelp(arg0 C.gpointer, arg1 C.GtkWidgetHelpType, arg2 C.guintptr) (cret C.gboolean) {
 	var f func(helpType WidgetHelpType) (ok bool)
@@ -10840,6 +21012,84 @@ func _gotk4_gtk3_Widget_ConnectSizeAllocate(arg0 C.gpointer, arg1 *C.GtkAllocati
 	f(_allocation)
 }
 
+//export _gotk4_gtk3_Widget_ConnectStateChanged
+func _gotk4_gtk3_Widget_ConnectStateChanged(arg0 C.gpointer, arg1 C.GtkStateType, arg2 C.guintptr) {
+	var f func(state StateType)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(state StateType))
+	}
+
+	var _state StateType // out
+
+	_state = StateType(arg1)
+
+	f(_state)
+}
+
+//export _gotk4_gtk3_Widget_ConnectStateFlagsChanged
+func _gotk4_gtk3_Widget_ConnectStateFlagsChanged(arg0 C.gpointer, arg1 C.GtkStateFlags, arg2 C.guintptr) {
+	var f func(flags StateFlags)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(flags StateFlags))
+	}
+
+	var _flags StateFlags // out
+
+	_flags = StateFlags(arg1)
+
+	f(_flags)
+}
+
+//export _gotk4_gtk3_Widget_ConnectStyleSet
+func _gotk4_gtk3_Widget_ConnectStyleSet(arg0 C.gpointer, arg1 *C.GtkStyle, arg2 C.guintptr) {
+	var f func(previousStyle *Style)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(previousStyle *Style))
+	}
+
+	var _previousStyle *Style // out
+
+	if arg1 != nil {
+		_previousStyle = wrapStyle(coreglib.Take(unsafe.Pointer(arg1)))
+	}
+
+	f(_previousStyle)
+}
+
+//export _gotk4_gtk3_Widget_ConnectStyleUpdated
+func _gotk4_gtk3_Widget_ConnectStyleUpdated(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
 //export _gotk4_gtk3_Widget_ConnectTouchEvent
 func _gotk4_gtk3_Widget_ConnectTouchEvent(arg0 C.gpointer, arg1 C.GdkEvent, arg2 C.guintptr) (cret C.gboolean) {
 	var f func(object *gdk.Event) (ok bool)
@@ -10862,6 +21112,122 @@ func _gotk4_gtk3_Widget_ConnectTouchEvent(arg0 C.gpointer, arg1 C.GdkEvent, arg2
 	}
 
 	ok := f(_object)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectUnmap
+func _gotk4_gtk3_Widget_ConnectUnmap(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Widget_ConnectUnmapEvent
+func _gotk4_gtk3_Widget_ConnectUnmapEvent(arg0 C.gpointer, arg1 *C.GdkEventAny, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventAny) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventAny) (ok bool))
+	}
+
+	var _event *gdk.EventAny // out
+
+	_event = (*gdk.EventAny)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectUnrealize
+func _gotk4_gtk3_Widget_ConnectUnrealize(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Widget_ConnectVisibilityNotifyEvent
+func _gotk4_gtk3_Widget_ConnectVisibilityNotifyEvent(arg0 C.gpointer, arg1 *C.GdkEventVisibility, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventVisibility) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventVisibility) (ok bool))
+	}
+
+	var _event *gdk.EventVisibility // out
+
+	_event = (*gdk.EventVisibility)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Widget_ConnectWindowStateEvent
+func _gotk4_gtk3_Widget_ConnectWindowStateEvent(arg0 C.gpointer, arg1 *C.GdkEventWindowState, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(event *gdk.EventWindowState) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(event *gdk.EventWindowState) (ok bool))
+	}
+
+	var _event *gdk.EventWindowState // out
+
+	_event = (*gdk.EventWindowState)(gextras.NewStructNative(unsafe.Pointer(arg1)))
+
+	ok := f(_event)
 
 	var _ bool
 
@@ -10958,4 +21324,117 @@ func _gotk4_gtk3_WindowClass_set_focus(arg0 *C.GtkWindow, arg1 *C.GtkWidget) {
 	}
 
 	overrides.SetFocus(_focus)
+}
+
+//export _gotk4_gtk3_Window_ConnectActivateDefault
+func _gotk4_gtk3_Window_ConnectActivateDefault(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Window_ConnectActivateFocus
+func _gotk4_gtk3_Window_ConnectActivateFocus(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Window_ConnectEnableDebugging
+func _gotk4_gtk3_Window_ConnectEnableDebugging(arg0 C.gpointer, arg1 C.gboolean, arg2 C.guintptr) (cret C.gboolean) {
+	var f func(toggle bool) (ok bool)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(toggle bool) (ok bool))
+	}
+
+	var _toggle bool // out
+
+	if arg1 != 0 {
+		_toggle = true
+	}
+
+	ok := f(_toggle)
+
+	var _ bool
+
+	if ok {
+		cret = C.TRUE
+	}
+
+	return cret
+}
+
+//export _gotk4_gtk3_Window_ConnectKeysChanged
+func _gotk4_gtk3_Window_ConnectKeysChanged(arg0 C.gpointer, arg1 C.guintptr) {
+	var f func()
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg1))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func())
+	}
+
+	f()
+}
+
+//export _gotk4_gtk3_Window_ConnectSetFocus
+func _gotk4_gtk3_Window_ConnectSetFocus(arg0 C.gpointer, arg1 *C.GtkWidget, arg2 C.guintptr) {
+	var f func(widget Widgetter)
+	{
+		closure := coreglib.ConnectedGeneratedClosure(uintptr(arg2))
+		if closure == nil {
+			panic("given unknown closure user_data")
+		}
+		defer closure.TryRepanic()
+
+		f = closure.Func.(func(widget Widgetter))
+	}
+
+	var _widget Widgetter // out
+
+	if arg1 != nil {
+		{
+			objptr := unsafe.Pointer(arg1)
+
+			object := coreglib.Take(objptr)
+			casted := object.WalkCast(func(obj coreglib.Objector) bool {
+				_, ok := obj.(Widgetter)
+				return ok
+			})
+			rv, ok := casted.(Widgetter)
+			if !ok {
+				panic("no marshaler for " + object.TypeFromInstance().String() + " matching gtk.Widgetter")
+			}
+			_widget = rv
+		}
+	}
+
+	f(_widget)
 }

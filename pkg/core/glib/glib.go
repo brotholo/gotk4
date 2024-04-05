@@ -37,11 +37,10 @@ func gobool(b C.gboolean) bool {
 
 // InitI18n initializes the i18n subsystem. It runs the following C code:
 //
-//    setlocale(LC_ALL, "");
-//    bindtextdomain(domain, dir);
-//    bind_textdomain_codeset(domain, "UTF-8");
-//    textdomain(domain);
-//
+//	setlocale(LC_ALL, "");
+//	bindtextdomain(domain, dir);
+//	bind_textdomain_codeset(domain, "UTF-8");
+//	textdomain(domain);
 func InitI18n(domain, dir string) {
 	domainStr := C.CString(domain)
 	defer C.free(unsafe.Pointer(domainStr))
@@ -168,7 +167,7 @@ type AnyClosure interface{}
 // The user should never use this struct. The code generator should use it like
 // so:
 //
-//    obj.Connect("signal", externglib.GeneratedClosure{Func: v})
+//	obj.Connect("signal", externglib.GeneratedClosure{Func: v})
 //
 // There are a few differences in behavior that we have to make in goMarshal(),
 // and we want a clean way to differentiate manual Connect() calls with
@@ -204,7 +203,7 @@ func _gotk4_goMarshal(
 		return
 	}
 
-	fs := closure.RegistryType.Get(box).Load(unsafe.Pointer(gclosure))
+	fs := box.Closures().Load(unsafe.Pointer(gclosure))
 	if fs == nil {
 		log.Printf(
 			"warning: object %s %v missing closure %v",
@@ -451,9 +450,11 @@ func SourceRemove(src SourceHandle) bool {
 // hack, this function is introduced for cases where the programmer knows for
 // sure that the object will never be used again, and it is significant enough
 // of a leak that having a workaround is better than not.
+//
+// Deprecated: this function is dangerous and should not be used. Using this
+// function now causes a panic.
 func WipeAllClosures(objector Objector) {
-	v := BaseObject(objector)
-	closure.RegistryType.Delete(v.box)
+	panic("WipeAllClosures is deprecated and should not be used")
 }
 
 // Destroy destroys the Go reference to the given object. The object must not be
@@ -497,7 +498,7 @@ func ConnectGeneratedClosure(
 	data.GClosure = uintptr(unsafe.Pointer(gclosure))
 
 	// Hold a strong reference mapping the Go closure to the object.
-	closures := closure.RegistryType.Get(v.box)
+	closures := v.box.Closures()
 	closures.Register(unsafe.Pointer(gclosure), fs)
 
 	// Just in case.
@@ -508,7 +509,6 @@ func ConnectGeneratedClosure(
 	defer C.free(unsafe.Pointer(csignal))
 
 	id := C.g_signal_connect_closure(C.gpointer(v.native()), csignal, gclosure, gbool(after))
-	C.g_closure_sink(gclosure)
 
 	runtime.KeepAlive(obj)
 	return SignalHandle(id)
@@ -533,7 +533,7 @@ func ConnectedGeneratedClosure(closureData uintptr) *closure.FuncStack {
 		return nil
 	}
 
-	fs := closure.RegistryType.Get(box).Load(unsafe.Pointer(data.GClosure))
+	fs := box.Closures().Load(unsafe.Pointer(data.GClosure))
 	if fs == nil {
 		log.Printf(
 			"gotk4: warning: object %s %v missing closure %v",
@@ -554,7 +554,7 @@ func _gotk4_removeClosure(obj *C.GObject, gclosure *C.GClosure) {
 		return
 	}
 
-	closures := closure.RegistryType.Get(box)
+	closures := box.Closures()
 	closures.Delete(unsafe.Pointer(gclosure))
 }
 
@@ -577,6 +577,9 @@ type Objector interface {
 	NotifyProperty(string, func()) SignalHandle
 	ObjectProperty(string) interface{}
 	SetObjectProperty(string, interface{})
+	FreezeNotify()
+	ThawNotify()
+	StopEmission(string)
 
 	baseObject() *Object
 }
@@ -652,6 +655,7 @@ func (v *Object) destroy() {
 }
 
 // Cast casts v to the concrete Go type (e.g. *Object to *gtk.Entry).
+//
 //go:nosplit
 //go:nocheckptr
 func (v *Object) Cast() Objector {
@@ -678,6 +682,7 @@ func (v *Object) Cast() Objector {
 
 // CastType casts v to a concrete Go type that is associated with the given
 // GType.
+//
 //go:nosplit
 //go:nocheckptr
 func (v *Object) CastType(gtype Type) Objector {
@@ -780,10 +785,12 @@ func typeFromObject(obj unsafe.Pointer) Type {
 	return Type(C._g_type_from_instance(C.gpointer(obj)))
 }
 
-// StopEmission is a wrapper around g_signal_stop_emission_by_name().
+// StopEmission stops a signal’s current emission. It is a wrapper around
+// g_signal_stop_emission_by_name().
 func (v *Object) StopEmission(s string) {
 	cstr := C.CString(s)
 	defer C.free(unsafe.Pointer(cstr))
+
 	C.g_signal_stop_emission_by_name((C.gpointer)(v.Native()), (*C.gchar)(cstr))
 	runtime.KeepAlive(v)
 }
@@ -847,6 +854,33 @@ func (v *Object) NotifyProperty(property string, f func()) SignalHandle {
 		v, "notify::"+property, false,
 		unsafe.Pointer(C._gotk4_notifyHandlerTramp), f,
 	)
+}
+
+// FreezeNotify increases the freeze count on object. If the freeze count is
+// non-zero, the emission of “notify” signals on object is stopped. The signals
+// are queued until the freeze count is decreased to zero. Duplicate
+// notifications are squashed so that at most one GObject::notify signal is
+// emitted for each property modified while the object is frozen.
+//
+// This is necessary for accessors that modify multiple properties to prevent
+// premature notification while the object is still being modified.
+func (v *Object) FreezeNotify() {
+	C.g_object_freeze_notify(v.native())
+	runtime.KeepAlive(v)
+}
+
+// ThawNotify reverts the effect of a previous call to g_object_freeze_notify().
+// The freeze count is decreased on object and when it reaches zero, queued
+// “notify” signals are emitted.
+//
+// Duplicate notifications for each property are squashed so that at most one
+// GObject::notify signal is emitted for each property, in the reverse order in
+// which they have been queued.
+//
+// It is an error to call this function when the freeze count is zero.
+func (v *Object) ThawNotify() {
+	C.g_object_thaw_notify(v.native())
+	runtime.KeepAlive(v)
 }
 
 //export _gotk4_notifyHandlerTramp

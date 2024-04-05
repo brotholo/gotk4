@@ -33,6 +33,7 @@ var Main = genmain.Data{
 	Filters:               Filters,
 	ProcessConverters:     ConversionProcessors,
 	DynamicLinkNamespaces: DynamicLinkNamespaces,
+	SingleFile:            true,
 }
 
 type Package struct {
@@ -134,6 +135,8 @@ var Preprocessors = []Preprocessor{
 	TypeRenamer("GLib-2.file_test", "test_file"),
 	// This collides with Native().
 	TypeRenamer("Gtk-4.Native", "NativeSurface"),
+	// This collides with Editable()
+	TypeRenamer("Gtk-4.Editable", "EditableTextWidget"),
 	// These collide with structs of the same names.
 	RenameEnumMembers("Pango-1.AttrType", "ATTR_(.*)", "ATTR_TYPE_$1"),
 	RenameEnumMembers("Gsk-4.RenderNodeType", ".*", "${0}_TYPE"),
@@ -295,6 +298,9 @@ var ConversionProcessors = []ConversionProcessor{
 // namespace, and the values are list of names.
 var Filters = []FilterMatcher{
 	AbsoluteFilter("C.cairo_image_surface_create"),
+
+	// This seems to be macro-guarded between x86 and arm64.
+	AbsoluteFilter("GLib.VA_COPY_AS_ARRAY"),
 
 	// These are not in gotk3/cairo.
 	AbsoluteFilter("cairo.ScaledFont"),
@@ -540,6 +546,38 @@ func GLibDateTime(nsgen *girgen.NamespaceGenerator) error {
 	return nil
 }
 
+func GLibObjectComparer(nsgen *girgen.NamespaceGenerator) error {
+	fg, ok := nsgen.Files["gobjectcomparer.go"]
+	if !ok {
+		fg = nsgen.MakeFile("")
+	}
+
+	h := fg.Header()
+	h.NeedsExternGLib()
+
+	p := fg.Pen()
+	p.Line(`
+		// NewObjectComparer returns a CompareDataFunc that uses the given function to
+		// compare two objects of type T. If the underlying objects are not of type T,
+		// then the function panics. If the underlying pointers aren't objects, then the
+		// behavior is undefined.
+		func NewObjectComparer[T Objector](f func(a, b T) int) CompareDataFunc {
+			return func(a, b unsafe.Pointer) int {
+				var aobj, bobj T
+				if a != nil {
+					aobj = coreglib.Take(a).Cast().(T)
+				}
+				if b != nil {
+					bobj = coreglib.Take(b).Cast().(T)
+				}
+				return f(aobj, bobj)
+			}
+		}
+	`)
+
+	return nil
+}
+
 // GioArrayUseBytes is the postprocessor that adds gio/v2.UseBytes.
 func GioArrayUseBytes(nsgen *girgen.NamespaceGenerator) error {
 	fg, ok := nsgen.Files["garray.go"]
@@ -754,7 +792,8 @@ func GLibLogs(nsgen *girgen.NamespaceGenerator) error {
 
 	h := fg.Header()
 	h.Import("os")
-	h.Import("log")
+	h.Import("context")
+	h.Import("log/slog")
 	h.Import("strings")
 	h.ImportCore("gbox")
 	h.CallbackDelete = true
@@ -765,49 +804,7 @@ func GLibLogs(nsgen *girgen.NamespaceGenerator) error {
 	AddCallbackHeader(nsgen, h, r.FindFullType("GLib-2.LogWriterFunc").Type.(*gir.Callback))
 
 	p := fg.Pen()
-	// This one might be subjective, but I think most can agree that having a
-	// library dumping stuff into the console isn't the best idea. Not only
-	// would this make logging more consistently-looking, it would also allow
-	// the user to blot out all logging using Go's stdlib log.
-	//
-	// Somewhere down the line, a user might complain that a gotk4 application
-	// isn't obeying environment variables that GLib made up on its own. And
-	// that's understandable. Pull requests can be made to improve the piece of
-	// code written below, but consistency is still more ideal, I think.
 	p.Line(`
-		func init() {
-			if os.Getenv("G_DEBUG") == "" {
-				LogUseDefaultLogger() // see gotk4's gendata.go
-			}
-		}
-	`)
-
-	p.Line(`
-		// LogSetHandler sets the handler used for GLib logging and returns the
-		// new handler ID. It is a wrapper around g_log_set_handler and
-		// g_log_set_handler_full.
-		//
-		// To detach a log handler, use LogRemoveHandler.
-		func LogSetHandler(domain string, level LogLevelFlags, f LogFunc) uint {
-			var log_domain *C.gchar
-			if domain != "" {
-				log_domain = (*C.gchar)(unsafe.Pointer(C.CString(domain)))
-				defer C.free(unsafe.Pointer(log_domain))
-			}
-
-			data := gbox.Assign(f)
-
-			h := C.g_log_set_handler_full(
-				log_domain,
-				C.GLogLevelFlags(level), 
-				C.GLogFunc((*[0]byte)(C._gotk4_glib2_LogFunc)),
-				C.gpointer(data),
-				C.GDestroyNotify((*[0]byte)(C.callbackDelete)),
-			)
-
-			return uint(h)
-		}
-
 		// Value returns the field's value.
 		func (l *LogField) Value() string {
 			if l.native.length == -1 {
@@ -816,14 +813,11 @@ func GLibLogs(nsgen *girgen.NamespaceGenerator) error {
 			return C.GoStringN((*C.gchar)(unsafe.Pointer(l.native.value)), C.int(l.native.length))
 		}
 
-		// LogSetWriter sets the log writer to the given callback, which should
+		// logSetWriter sets the log writer to the given callback, which should
 		// take in a list of pair of key-value strings and return true if the
 		// log has been successfully written. It is a wrapper around
 		// g_log_set_writer_func.
-		//
-		// Note that this function must ONLY be called ONCE. The GLib
-		// documentation states that it is an error to call it more than once.
-		func LogSetWriter(f LogWriterFunc) {
+		func logSetWriter(f LogWriterFunc) {
 			data := gbox.Assign(f)
 			C.g_log_set_writer_func(
 				C.GLogWriterFunc((*[0]byte)(C._gotk4_glib2_LogWriterFunc)),
@@ -832,84 +826,71 @@ func GLibLogs(nsgen *girgen.NamespaceGenerator) error {
 			)
 		}
 
-		// LogUseDefaultLogger calls LogUseLogger with Go's default standard
-		// logger. It is a convenient function for log.Default().
-		func LogUseDefaultLogger() { LogUseLogger(log.Default()) }
+		func init() {
+			logSetWriter(func(lvl LogLevelFlags, fields []LogField) LogWriterOutput {
+				handle := newSlogWriterFunc(slog.Default())
+				handle(lvl, fields)
+				return LogWriterHandled
+			})
+		}
 
-		// LogUseLogger calls LogSetWriter with the given Go's standard logger.
-		// Note that either this or LogSetWriter must only be called once.
-		// The method will ignore all fields excet for "MESSAGE"; for more
-		// sophisticated, structured log writing, use LogSetWriter.
-		// The output format of the logs printed using this function is not
-		// guaranteed to not change. Users who rely on the format are better off
-		// using LogSetWriter.
-		func LogUseLogger(l *log.Logger) { LogSetWriter(LoggerHandler(l)) }
-
-		// LoggerHandler creates a new LogWriterFunc that LogUseLogger uses. For
-		// more information, see LogUseLogger's documentation.
-		func LoggerHandler(l *log.Logger) LogWriterFunc {
-			// Treat Lshortfile and Llongfile the same, because we don't have
-			// the full path in codeFile anyway.
-			Lfile := l.Flags() & (log.Lshortfile | log.Llongfile) != 0
-
-			// Support $G_MESSAGES_DEBUG.
+		// Support $G_MESSAGES_DEBUG.
+		var debugDomains = func() map[string]struct{} {
 			debugDomains := make(map[string]struct{})
 			for _, debugDomain := range strings.Fields(os.Getenv("G_MESSAGES_DEBUG")) {
 				debugDomains[debugDomain] = struct{}{}
 			}
+			return debugDomains
+		}()
 
-			// Special case: G_MESSAGES_DEBUG=all.
-			_, debugAll := debugDomains["all"]
+		// Special case: G_MESSAGES_DEBUG=all.
+		var _, debugAllDomains = debugDomains["all"]
 
+		// newSlogWriterFunc returns a new LogWriterFunc that writes to the given
+		// slog.Logger.
+		func newSlogWriterFunc(l *slog.Logger) LogWriterFunc {
 			return func(lvl LogLevelFlags, fields []LogField) LogWriterOutput {
-				var message, codeFile, codeLine, codeFunc string
-				domain := "GLib (no domain)"
+				attrs := make([]slog.Attr, 0, len(fields))
+				var message, domain string
 
 				for _, field := range fields {
-					if !Lfile {
-						switch field.Key() {
-						case "MESSAGE":     message = field.Value()
-						case "GLIB_DOMAIN": domain  = field.Value()
+					k := field.Key()
+					v := field.Value()
+					if k == "MESSAGE" {
+						message = v
+					} else {
+						if k == "GLIB_DOMAIN" {
+							domain = v
 						}
-						// Skip setting code* if we don't have to.
-						continue
-					}
-
-					switch field.Key() {
-					case "MESSAGE":     message  = field.Value()
-					case "CODE_FILE":   codeFile = field.Value()
-					case "CODE_LINE":   codeLine = field.Value()
-					case "CODE_FUNC":   codeFunc = field.Value()
-					case "GLIB_DOMAIN": domain   = field.Value()
+						k = strings.ToLower(k)
+						attrs = append(attrs, slog.String(k, v))
 					}
 				}
 
-				if !debugAll && (lvl&LogLevelDebug != 0) && domain != "" {
+				if !debugAllDomains && (lvl&LogLevelDebug != 0) && domain != "" {
 					if _, ok := debugDomains[domain]; !ok {
 						return LogWriterHandled
 					}
 				}
 
-				f := l.Printf
-				if lvl&LogFlagFatal != 0 {
-					f = l.Fatalf
+				slogLevel := slog.LevelInfo
+				switch {
+				case lvl.Has(LogLevelError), lvl.Has(LogLevelCritical):
+					slogLevel = slog.LevelError
+				case lvl.Has(LogLevelWarning):
+					slogLevel = slog.LevelWarn
+				case lvl.Has(LogLevelMessage), lvl.Has(LogLevelInfo):
+					slogLevel = slog.LevelInfo
+				case lvl.Has(LogLevelDebug):
+					slogLevel = slog.LevelDebug
 				}
 
-				// Minor issue: this works badly if consts are OR'd together.
-				// Probably never.
-				level := strings.TrimPrefix(lvl.String(), "Level")
+				l.LogAttrs(context.Background(), slogLevel, message, attrs...)
 
-				if !Lfile || (codeFile == "" && codeLine == "") {
-					f("%s: %s: %s", level, domain, message)
-					return LogWriterHandled
+				if lvl.Has(LogFlagFatal) {
+					panic(message)
 				}
 
-				if codeFunc == "" {
-					f("%s: %s: %s:%s: %s", level, domain, codeFile, codeLine, message)
-					return LogWriterHandled
-				}
-
-				f("%s: %s: %s:%s (%s): %s", level, domain, codeFile, codeLine, codeFunc, message)
 				return LogWriterHandled
 			}
 		}
@@ -1018,6 +999,26 @@ func GtkLockOSThread(nsgen *girgen.NamespaceGenerator) error {
 	return nil
 }
 
+func GtkInvalidListItem(nsgen *girgen.NamespaceGenerator) error {
+	fg := nsgen.MakeFile("gtk.go")
+	fg.Header().Import("math")
+
+	p := fg.Pen()
+	p.Line(`
+		// InvalidListPosition is the value used to refer to a guaranteed
+		// invalid position in a [gio.ListModel].
+		//
+		// This value may be returned from some functions, others may accept it
+		// as input. Its interpretation may differ for different functions.
+		//
+		// Refer to each function’s documentation for if this value is allowed
+		// and what it does.
+		const InvalidListPosition = math.MaxUint32
+	`)
+
+	return nil
+}
+
 func GdkPixbufFromImage(nsgen *girgen.NamespaceGenerator) error {
 	fg := nsgen.MakeFile("gdk-pixbuf-core-go.go")
 	fg.Header().Import("image")
@@ -1063,11 +1064,11 @@ func GdkPixbufFromImage(nsgen *girgen.NamespaceGenerator) error {
 // Postprocessors is similar to Append, except the caller can mutate the package
 // in a more flexible manner.
 var Postprocessors = map[string][]girgen.Postprocessor{
-	"GLib-2":      {ImportGError, GioArrayUseBytes, GLibVariantIter, GLibAliases, GLibLogs, GLibDateTime},
+	"GLib-2":      {ImportGError, GioArrayUseBytes, GLibVariantIter, GLibAliases, GLibLogs, GLibDateTime, GLibObjectComparer},
 	"GdkPixbuf-2": {GdkPixbufFromImage},
 	"Gio-2":       {ImportGError},
 	"Gtk-3":       {ImportGError, GtkNewDialog, GtkNewMessageDialog, GtkLockOSThread},
-	"Gtk-4":       {ImportGError, GtkNewDialog, GtkNewMessageDialog, GtkLockOSThread},
+	"Gtk-4":       {ImportGError, GtkNewDialog, GtkNewMessageDialog, GtkLockOSThread, GtkInvalidListItem},
 }
 
 // ExtraGoContents contains the contents of files that are appended into

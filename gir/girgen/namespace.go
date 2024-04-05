@@ -163,9 +163,9 @@ func (n *NamespaceGenerator) Pkgconfig() []string {
 func (n *NamespaceGenerator) FileWriter(info cmt.InfoFields, export bool) generators.FileWriter {
 	if n.Generator.Opts.SingleFile || info.Elements == nil {
 		if export {
-			return n.MakeFile(n.PkgName + "_export.go")
+			return n.makeFile(n.PkgName + "_export.go")
 		}
-		return n.MakeFile("")
+		return n.makeFile("")
 	}
 
 	var filename string
@@ -177,9 +177,9 @@ func (n *NamespaceGenerator) FileWriter(info cmt.InfoFields, export bool) genera
 		filename = info.Elements.Doc.Filename
 	default:
 		if export {
-			return n.MakeFile(n.PkgName + "_export.go")
+			return n.makeFile(n.PkgName + "_export.go")
 		}
-		return n.MakeFile("")
+		return n.makeFile("")
 	}
 
 	filename = filepath.Base(filename)
@@ -196,7 +196,7 @@ func (n *NamespaceGenerator) FileWriter(info cmt.InfoFields, export bool) genera
 		filename += "_export"
 	}
 
-	return n.MakeFile(filename + ".go")
+	return n.makeFile(filename + ".go")
 }
 
 // File gets an existing Go file but returns false if no such file exists. It's
@@ -227,6 +227,10 @@ func (n *NamespaceGenerator) MakeFile(filename string) *GoFileGenerator {
 		filename = ""
 	}
 
+	return n.makeFile(filename)
+}
+
+func (n *NamespaceGenerator) makeFile(filename string) *GoFileGenerator {
 	isRoot := filename == n.PkgName+".go"
 
 	if filename == "" {
@@ -256,6 +260,34 @@ func (n *NamespaceGenerator) cc() *CFileGenerator {
 		n.c.c = NewCFileGenerator(n, n.PkgName+".c")
 	}
 	return n.c.c
+}
+
+// Rename renames a file from src to dst. If src does not exist, then it will
+// return an error.
+func (n *NamespaceGenerator) Rename(src, dst string) error {
+	srcFile, ok := n.Files[src]
+	if !ok {
+		return fmt.Errorf("file %s does not exist", src)
+	}
+
+	_, ok = n.Files[dst]
+	if ok {
+		return fmt.Errorf("file %s already exists", dst)
+	}
+
+	switch f := srcFile.(type) {
+	case *GoFileGenerator:
+		f.name = dst
+	case *CFileGenerator:
+		f.name = dst
+	default:
+		return fmt.Errorf("cannot rename file of unsupported type %T", f)
+	}
+
+	delete(n.Files, src)
+	n.Files[dst] = srcFile
+
+	return nil
 }
 
 // Generate generates everything in the current namespace into files. The
@@ -355,7 +387,12 @@ func (n *NamespaceGenerator) Generate() (map[string][]byte, error) {
 		}
 	}
 
-	for _, file := range n.Files {
+	for name, file := range n.Files {
+		if name != file.Name() {
+			panic(fmt.Errorf(
+				"file name mismatch: %s != %s (see NamespaceGenerator.Rename)",
+				name, file.Name()))
+		}
 		if file.IsEmpty() {
 			continue
 		}
