@@ -21,7 +21,7 @@ import (
 	"unicode"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
 )
 
 func init() {

@@ -6,15 +6,15 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/cmd/gir-generate/genmain"
-	"github.com/diamondburned/gotk4/gir/girgen"
-	"github.com/diamondburned/gotk4/gir/girgen/file"
-	. "github.com/diamondburned/gotk4/gir/girgen/types"
-	. "github.com/diamondburned/gotk4/gir/girgen/types/typeconv"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/cmd/gir-generate/genmain"
+	"github.com/brotholo/gotk4/gir/girgen"
+	"github.com/brotholo/gotk4/gir/girgen/file"
+	. "github.com/brotholo/gotk4/gir/girgen/types"
+	. "github.com/brotholo/gotk4/gir/girgen/types/typeconv"
 )
 
-const Module = "github.com/diamondburned/gotk4/pkg"
+const Module = "github.com/brotholo/gotk4/pkg"
 
 // Main contains all of gendata's variables as one big genmain.Data value.
 //

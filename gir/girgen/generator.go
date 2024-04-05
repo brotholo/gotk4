@@ -4,10 +4,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/logger"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
-	"github.com/diamondburned/gotk4/gir/girgen/types/typeconv"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/logger"
+	"github.com/brotholo/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir/girgen/types/typeconv"
 )
 
 // TODO: refactor generation into a pipeline-style API:

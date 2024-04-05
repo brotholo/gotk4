@@ -9,15 +9,15 @@ import (
 	"strings"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/cairo"
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	"github.com/diamondburned/gotk4/pkg/core/gerror"
-	"github.com/diamondburned/gotk4/pkg/core/gextras"
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
-	"github.com/diamondburned/gotk4/pkg/gdkpixbuf/v2"
-	"github.com/diamondburned/gotk4/pkg/gio/v2"
-	"github.com/diamondburned/gotk4/pkg/glib/v2"
-	"github.com/diamondburned/gotk4/pkg/pango"
+	"github.com/brotholo/gotk4/pkg/cairo"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	"github.com/brotholo/gotk4/pkg/core/gerror"
+	"github.com/brotholo/gotk4/pkg/core/gextras"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/gdkpixbuf/v2"
+	"github.com/brotholo/gotk4/pkg/gio/v2"
+	"github.com/brotholo/gotk4/pkg/glib/v2"
+	"github.com/brotholo/gotk4/pkg/pango"
 )
 
 // #cgo pkg-config: gdk-3.0 gtk+-3.0

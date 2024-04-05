@@ -3,7 +3,7 @@
 package gdkx11
 
 import (
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
 )
 
 // #include <stdlib.h>

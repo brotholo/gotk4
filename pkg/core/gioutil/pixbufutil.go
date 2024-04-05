@@ -5,7 +5,7 @@ package gioutil
 import (
 	"io"
 
-	"github.com/diamondburned/gotk4/pkg/gdkpixbuf/v2"
+	"github.com/brotholo/gotk4/pkg/gdkpixbuf/v2"
 )
 
 type pixbufLoaderWriter struct {

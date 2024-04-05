@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/file"
-	"github.com/diamondburned/gotk4/gir/girgen/logger"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/file"
+	"github.com/brotholo/gotk4/gir/girgen/logger"
+	"github.com/brotholo/gotk4/gir/girgen/types"
 )
 
 // Go to C type conversions.

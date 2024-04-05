@@ -15,7 +15,7 @@ jobs:
           ref: ${{ github.ref_name }}
 
       - name: Install Nix shell
-        uses: diamondburned/cache-install@main
+        uses: brotholo/cache-install@main
         with:
           shell-file: shell.nix
 

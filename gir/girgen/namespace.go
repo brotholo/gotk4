@@ -5,12 +5,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/cmt"
-	"github.com/diamondburned/gotk4/gir/girgen/generators"
-	"github.com/diamondburned/gotk4/gir/girgen/generators/iface"
-	"github.com/diamondburned/gotk4/gir/girgen/logger"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/cmt"
+	"github.com/brotholo/gotk4/gir/girgen/generators"
+	"github.com/brotholo/gotk4/gir/girgen/generators/iface"
+	"github.com/brotholo/gotk4/gir/girgen/logger"
+	"github.com/brotholo/gotk4/gir/girgen/types"
 	"github.com/pkg/errors"
 )
 

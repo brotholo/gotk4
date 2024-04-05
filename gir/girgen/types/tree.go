@@ -5,11 +5,11 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/file"
+	"github.com/brotholo/gotk4/gir/girgen/logger"
+	"github.com/brotholo/gotk4/gir/girgen/pen"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/file"
-	"github.com/diamondburned/gotk4/gir/girgen/logger"
-	"github.com/diamondburned/gotk4/gir/girgen/pen"
 )
 
 // Tree is a structure for a type that is resolved to the lowest level of

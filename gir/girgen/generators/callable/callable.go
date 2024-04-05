@@ -8,14 +8,14 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/cmt"
-	"github.com/diamondburned/gotk4/gir/girgen/file"
-	"github.com/diamondburned/gotk4/gir/girgen/logger"
-	"github.com/diamondburned/gotk4/gir/girgen/pen"
-	"github.com/diamondburned/gotk4/gir/girgen/strcases"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
-	"github.com/diamondburned/gotk4/gir/girgen/types/typeconv"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/cmt"
+	"github.com/brotholo/gotk4/gir/girgen/file"
+	"github.com/brotholo/gotk4/gir/girgen/logger"
+	"github.com/brotholo/gotk4/gir/girgen/pen"
+	"github.com/brotholo/gotk4/gir/girgen/strcases"
+	"github.com/brotholo/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir/girgen/types/typeconv"
 )
 
 // FileGenerator describes the interface of a file generator.

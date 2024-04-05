@@ -1,10 +1,10 @@
 package generators
 
 import (
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/file"
-	"github.com/diamondburned/gotk4/gir/girgen/generators/callback"
-	"github.com/diamondburned/gotk4/gir/girgen/gotmpl"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/file"
+	"github.com/brotholo/gotk4/gir/girgen/generators/callback"
+	"github.com/brotholo/gotk4/gir/girgen/gotmpl"
 )
 
 var callbackTmpl = gotmpl.NewGoTemplate(`

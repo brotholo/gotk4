@@ -11,8 +11,8 @@ import (
 	"runtime"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	"github.com/diamondburned/gotk4/pkg/core/intern"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	"github.com/brotholo/gotk4/pkg/core/intern"
 )
 
 // WeakRefObject is like SetFinalizer, except it's not thread-safe (so notify

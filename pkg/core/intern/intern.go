@@ -15,8 +15,8 @@ import (
 	"unsafe"
 
 	"github.com/KarpelesLab/weak"
-	"github.com/diamondburned/gotk4/pkg/core/closure"
-	"github.com/diamondburned/gotk4/pkg/core/gdebug"
+	"github.com/brotholo/gotk4/pkg/core/closure"
+	"github.com/brotholo/gotk4/pkg/core/gdebug"
 
 	// Require a non-moving GC for heap pointers. Current GC is moving only by
 	// the stack. See https://github.com/go4org/intern.

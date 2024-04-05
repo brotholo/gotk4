@@ -8,12 +8,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/file"
-	"github.com/diamondburned/gotk4/gir/girgen/generators"
-	"github.com/diamondburned/gotk4/gir/girgen/logger"
-	"github.com/diamondburned/gotk4/gir/girgen/pen"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/file"
+	"github.com/brotholo/gotk4/gir/girgen/generators"
+	"github.com/brotholo/gotk4/gir/girgen/logger"
+	"github.com/brotholo/gotk4/gir/girgen/pen"
+	"github.com/brotholo/gotk4/gir/girgen/types"
 	"github.com/pkg/errors"
 )
 

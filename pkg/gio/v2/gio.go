@@ -10,12 +10,12 @@ import (
 	"strings"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	"github.com/diamondburned/gotk4/pkg/core/gcancel"
-	"github.com/diamondburned/gotk4/pkg/core/gerror"
-	"github.com/diamondburned/gotk4/pkg/core/gextras"
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
-	"github.com/diamondburned/gotk4/pkg/glib/v2"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	"github.com/brotholo/gotk4/pkg/core/gcancel"
+	"github.com/brotholo/gotk4/pkg/core/gerror"
+	"github.com/brotholo/gotk4/pkg/core/gextras"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/glib/v2"
 )
 
 // #cgo pkg-config: gio-2.0 gobject-introspection-1.0

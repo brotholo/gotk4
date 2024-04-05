@@ -6,11 +6,11 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/cmt"
-	"github.com/diamondburned/gotk4/gir/girgen/logger"
-	"github.com/diamondburned/gotk4/gir/girgen/strcases"
-	"github.com/diamondburned/gotk4/gir/internal/tracing"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/cmt"
+	"github.com/brotholo/gotk4/gir/girgen/logger"
+	"github.com/brotholo/gotk4/gir/girgen/strcases"
+	"github.com/brotholo/gotk4/gir/internal/tracing"
 )
 
 // TODO: refactor to add method accuracy

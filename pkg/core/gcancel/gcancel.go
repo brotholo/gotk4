@@ -12,7 +12,7 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/core/glib"
 )
 
 type ctxKey uint8

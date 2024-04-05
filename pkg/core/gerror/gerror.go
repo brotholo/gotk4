@@ -13,7 +13,7 @@ import (
 	"sync"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/core/glib"
 	"golang.org/x/sync/singleflight"
 )
 

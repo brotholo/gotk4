@@ -7,10 +7,10 @@ import (
 	_ "runtime/cgo"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/cairo"
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
-	"github.com/diamondburned/gotk4/pkg/gdk/v3"
-	"github.com/diamondburned/gotk4/pkg/gio/v2"
+	"github.com/brotholo/gotk4/pkg/cairo"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/gdk/v3"
+	"github.com/brotholo/gotk4/pkg/gio/v2"
 )
 
 // #cgo pkg-config: gdk-x11-3.0 gtk+-3.0

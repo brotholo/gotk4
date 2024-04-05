@@ -4,7 +4,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir/girgen/types"
 )
 
 // ConversionProcessor is a processor that can override an entire converter.

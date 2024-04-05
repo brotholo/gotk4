@@ -5,9 +5,9 @@ package gsk
 import (
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	"github.com/diamondburned/gotk4/pkg/core/gerror"
-	"github.com/diamondburned/gotk4/pkg/core/gextras"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	"github.com/brotholo/gotk4/pkg/core/gerror"
+	"github.com/brotholo/gotk4/pkg/core/gextras"
 )
 
 // #include <stdlib.h>

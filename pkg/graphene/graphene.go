@@ -8,8 +8,8 @@ import (
 	_ "runtime/cgo"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gextras"
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/core/gextras"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
 )
 
 // #cgo pkg-config: graphene-gobject-1.0 graphene-1.0

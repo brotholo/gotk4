@@ -7,8 +7,8 @@ import (
 	"reflect"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	"github.com/diamondburned/gotk4/pkg/core/gerror"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	"github.com/brotholo/gotk4/pkg/core/gerror"
 )
 
 // #include <glib.h>

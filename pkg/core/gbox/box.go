@@ -7,7 +7,7 @@ package gbox
 import "C"
 
 import (
-	"github.com/diamondburned/gotk4/pkg/core/slab"
+	"github.com/brotholo/gotk4/pkg/core/slab"
 )
 
 // Holy moly. This is unbelievable. It truly is unbelievable. I can't even

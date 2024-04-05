@@ -14,7 +14,7 @@ import (
 	"sync"
 	"unicode"
 
-	"github.com/diamondburned/gotk4/gir/pkgconfig"
+	"github.com/brotholo/gotk4/gir/pkgconfig"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/singleflight"
 )

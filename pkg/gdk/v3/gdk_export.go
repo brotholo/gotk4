@@ -5,10 +5,10 @@ package gdk
 import (
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/cairo"
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	"github.com/diamondburned/gotk4/pkg/core/gextras"
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/cairo"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	"github.com/brotholo/gotk4/pkg/core/gextras"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
 )
 
 // #include <stdlib.h>

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/diamondburned/gotk4/gir/girgen/gotmpl"
+	"github.com/brotholo/gotk4/gir/girgen/gotmpl"
 )
 
 // Pen wraps a Pen and its own buffer.

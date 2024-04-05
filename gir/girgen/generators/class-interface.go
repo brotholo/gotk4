@@ -1,13 +1,13 @@
 package generators
 
 import (
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/file"
-	"github.com/diamondburned/gotk4/gir/girgen/gotmpl"
-	"github.com/diamondburned/gotk4/gir/girgen/strcases"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/file"
+	"github.com/brotholo/gotk4/gir/girgen/gotmpl"
+	"github.com/brotholo/gotk4/gir/girgen/strcases"
+	"github.com/brotholo/gotk4/gir/girgen/types"
 
-	ifacegen "github.com/diamondburned/gotk4/gir/girgen/generators/iface"
+	ifacegen "github.com/brotholo/gotk4/gir/girgen/generators/iface"
 )
 
 var classInterfaceTmpl = gotmpl.NewGoTemplate(`

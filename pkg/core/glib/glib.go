@@ -19,9 +19,9 @@ import (
 	"sync"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/closure"
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	"github.com/diamondburned/gotk4/pkg/core/intern"
+	"github.com/brotholo/gotk4/pkg/core/closure"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	"github.com/brotholo/gotk4/pkg/core/intern"
 )
 
 func gbool(b bool) C.gboolean {
@@ -378,7 +378,7 @@ func IdleAddPriority(priority Priority, f interface{}) SourceHandle {
 /*
 	Playing unsafe will get you in trouble...
 
-	runtime: bad pointer in frame github.com/diamondburned/gotk4/pkg/core/glib.idleAdd.func1 at 0xc000e20e68: 0x87
+	runtime: bad pointer in frame github.com/brotholo/gotk4/pkg/core/glib.idleAdd.func1 at 0xc000e20e68: 0x87
 	fatal error: invalid pointer found on stack
 */
 

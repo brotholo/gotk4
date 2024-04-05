@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/pkgconfig"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/pkgconfig"
 )
 
 func main() {

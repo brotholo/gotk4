@@ -5,8 +5,8 @@ package gdkwayland
 import (
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
 )
 
 // #include <stdlib.h>

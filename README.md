@@ -10,15 +10,15 @@
 
 A GTK4 bindings generator for Go.
 
-[Package documentation](https://pkg.go.dev/github.com/diamondburned/gotk4/pkg) |
-[Package examples](https://github.com/diamondburned/gotk4-examples) |
-[GIR documentation](https://pkg.go.dev/github.com/diamondburned/gotk4/gir) |
-[Progress tracker](https://github.com/diamondburned/gotk4/issues/2)
+[Package documentation](https://pkg.go.dev/github.com/brotholo/gotk4/pkg) |
+[Package examples](https://github.com/brotholo/gotk4-examples) |
+[GIR documentation](https://pkg.go.dev/github.com/brotholo/gotk4/gir) |
+[Progress tracker](https://github.com/brotholo/gotk4/issues/2)
 
 All generated packages are in `pkg/`. The generation code is in `gir/girgen/`.
 
 Examples are put in another repository,
-[diamondburned/gotk4-examples](https://github.com/diamondburned/gotk4-examples),
+[brotholo/gotk4-examples](https://github.com/brotholo/gotk4-examples),
 along with instructions on getting started with using these packages. Refer to
 its README for more information.
 

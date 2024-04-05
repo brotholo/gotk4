@@ -10,7 +10,7 @@ import (
 	"runtime"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/closure"
+	"github.com/brotholo/gotk4/pkg/core/closure"
 )
 
 // Connect is a wrapper around g_signal_connect_closure(). f must be a function

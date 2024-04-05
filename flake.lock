@@ -37,13 +37,13 @@
       "locked": {
         "lastModified": 1711394319,
         "narHash": "sha256-p1oPNnXfv7jVl2GdZGu1vNEzM+ZTvsjvRMuXC/M7sDg=",
-        "owner": "diamondburned",
+        "owner": "brotholo",
         "repo": "gotk4-nix",
         "rev": "c028726827a6f5969b63d582de00b901f8b9da26",
         "type": "github"
       },
       "original": {
-        "owner": "diamondburned",
+        "owner": "brotholo",
         "ref": "main",
         "repo": "gotk4-nix",
         "type": "github"

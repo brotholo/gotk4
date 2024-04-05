@@ -3,7 +3,7 @@ package gioutil_test
 import (
 	"fmt"
 
-	"github.com/diamondburned/gotk4/pkg/core/gioutil"
+	"github.com/brotholo/gotk4/pkg/core/gioutil"
 )
 
 type Person struct {

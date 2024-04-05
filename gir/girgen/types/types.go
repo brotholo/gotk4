@@ -5,8 +5,8 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/pen"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/pen"
 )
 
 // LinkMode describes the mode that determines how the generator generates

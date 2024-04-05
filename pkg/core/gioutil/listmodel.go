@@ -7,11 +7,11 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	"github.com/diamondburned/gotk4/pkg/core/glib"
-	"github.com/diamondburned/gotk4/pkg/gio/v2"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	"github.com/brotholo/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/gio/v2"
 
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
 )
 
 // ListModelType is a type-safe wrapper around [ListModel] and [ObjectValue].

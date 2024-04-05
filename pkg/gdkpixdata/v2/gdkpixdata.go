@@ -9,11 +9,11 @@ import (
 	"strings"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gerror"
-	"github.com/diamondburned/gotk4/pkg/core/gextras"
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
-	"github.com/diamondburned/gotk4/pkg/gdkpixbuf/v2"
-	"github.com/diamondburned/gotk4/pkg/gio/v2"
+	"github.com/brotholo/gotk4/pkg/core/gerror"
+	"github.com/brotholo/gotk4/pkg/core/gextras"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/gdkpixbuf/v2"
+	"github.com/brotholo/gotk4/pkg/gio/v2"
 )
 
 // #cgo pkg-config: gdk-pixbuf-2.0

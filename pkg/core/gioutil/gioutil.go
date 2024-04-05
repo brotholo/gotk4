@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/diamondburned/gotk4/pkg/gio/v2"
-	"github.com/diamondburned/gotk4/pkg/glib/v2"
+	"github.com/brotholo/gotk4/pkg/gio/v2"
+	"github.com/brotholo/gotk4/pkg/glib/v2"
 )
 
 // StreamReader wraps around a gio.InputStreamer.

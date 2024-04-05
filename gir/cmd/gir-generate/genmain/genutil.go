@@ -12,8 +12,8 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/semaphore"
 )

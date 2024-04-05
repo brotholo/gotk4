@@ -6,12 +6,12 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/strcases"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/strcases"
 )
 
 // CoreImportPath is the path to the core import path.
-const CoreImportPath = "github.com/diamondburned/gotk4/pkg/core"
+const CoreImportPath = "github.com/brotholo/gotk4/pkg/core"
 
 // Import is a single import for a package.
 type Import struct {
@@ -117,7 +117,7 @@ func (h *Header) ImportAlias(path, alias string) {
 
 // needsExternGLib adds the external gotk3/glib import.
 func (h *Header) NeedsExternGLib() {
-	h.ImportAlias("github.com/diamondburned/gotk4/pkg/core/glib", "coreglib")
+	h.ImportAlias("github.com/brotholo/gotk4/pkg/core/glib", "coreglib")
 }
 
 // DashImport imports the given path if it's not already imported.

@@ -7,9 +7,9 @@ import (
 	_ "runtime/cgo"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/core/gbox"
-	coreglib "github.com/diamondburned/gotk4/pkg/core/glib"
-	"github.com/diamondburned/gotk4/pkg/gdk/v4"
+	"github.com/brotholo/gotk4/pkg/core/gbox"
+	coreglib "github.com/brotholo/gotk4/pkg/core/glib"
+	"github.com/brotholo/gotk4/pkg/gdk/v4"
 )
 
 // #cgo pkg-config: gtk4-wayland gtk4

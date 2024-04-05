@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: diamondburned/cache-install@main
+    - uses: brotholo/cache-install@main
       with:
         shell-file: shell.nix
 
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: diamondburned/cache-install@main
+    - uses: brotholo/cache-install@main
       with:
         shell-file: shell.nix
 
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: diamondburned/cache-install@main
+    - uses: brotholo/cache-install@main
       with:
         shell-file: shell.nix
 

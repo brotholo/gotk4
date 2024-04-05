@@ -4,8 +4,8 @@ import (
 	"log"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/types"
 )
 
 // ConversionDirection is the conversion direction between Go and C.

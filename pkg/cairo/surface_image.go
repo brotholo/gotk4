@@ -12,7 +12,7 @@ import (
 	"runtime"
 	"unsafe"
 
-	"github.com/diamondburned/gotk4/pkg/cairo/swizzle"
+	"github.com/brotholo/gotk4/pkg/cairo/swizzle"
 )
 
 // CreatePNGSurface is a wrapper around cairo_image_surface_create_from_png().

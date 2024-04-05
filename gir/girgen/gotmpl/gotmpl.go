@@ -13,9 +13,9 @@ import (
 	"sync"
 	"text/template"
 
-	"github.com/diamondburned/gotk4/gir/girgen/cmt"
-	"github.com/diamondburned/gotk4/gir/girgen/file"
-	"github.com/diamondburned/gotk4/gir/girgen/strcases"
+	"github.com/brotholo/gotk4/gir/girgen/cmt"
+	"github.com/brotholo/gotk4/gir/girgen/file"
+	"github.com/brotholo/gotk4/gir/girgen/strcases"
 )
 
 func NewGoTemplate(block string) *template.Template {

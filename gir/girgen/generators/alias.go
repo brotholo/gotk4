@@ -1,9 +1,9 @@
 package generators
 
 import (
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/gotmpl"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/gotmpl"
+	"github.com/brotholo/gotk4/gir/girgen/types"
 )
 
 var aliasTmpl = gotmpl.NewGoTemplate(`

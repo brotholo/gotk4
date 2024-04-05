@@ -1,4 +1,4 @@
-module github.com/diamondburned/gotk4/pkg
+module github.com/brotholo/gotk4/pkg
 
 go 1.21.0
 

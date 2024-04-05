@@ -4,14 +4,14 @@ import (
 	"path"
 	"strings"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen/file"
-	"github.com/diamondburned/gotk4/gir/girgen/logger"
-	"github.com/diamondburned/gotk4/gir/girgen/strcases"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen/file"
+	"github.com/brotholo/gotk4/gir/girgen/logger"
+	"github.com/brotholo/gotk4/gir/girgen/strcases"
 )
 
 // InternalImportPath is the path to the core import path.
-const InternalImportPath = "github.com/diamondburned/gotk4/pkg/core"
+const InternalImportPath = "github.com/brotholo/gotk4/pkg/core"
 
 // Resolved is a resolved type from a given gir.Type.
 type Resolved struct {
@@ -90,7 +90,7 @@ func externGLibType(goType string, typ gir.Type, ctyp string) *Resolved {
 	}
 
 	imp := file.Import{
-		Path:    "github.com/diamondburned/gotk4/pkg/core/glib",
+		Path:    "github.com/brotholo/gotk4/pkg/core/glib",
 		Package: "coreglib",
 	}
 
@@ -139,7 +139,7 @@ func typeFromResult(gen FileGenerator, typ gir.Type, result *gir.TypeFindResult)
 		// gotk3/cairo structs already contain a pointer.
 		ignoreOpaque = true
 		resolvedImport = file.Import{
-			Path:    "github.com/diamondburned/gotk4/pkg/cairo",
+			Path:    "github.com/brotholo/gotk4/pkg/cairo",
 			Package: "cairo",
 		}
 	default:
@@ -196,7 +196,7 @@ func TypeFromResult(gen FileGenerator, v interface{}) *Resolved {
 // the given name. Pointers are not compared.
 func (typ *Resolved) IsExternGLib(glibType string) bool {
 	// Use ImplImport for comparison, so we're not comparing gextras types.
-	if typ.Builtin == nil || typ.ImplImport.Path != "github.com/diamondburned/gotk4/pkg/core/glib" {
+	if typ.Builtin == nil || typ.ImplImport.Path != "github.com/brotholo/gotk4/pkg/core/glib" {
 		return false
 	}
 

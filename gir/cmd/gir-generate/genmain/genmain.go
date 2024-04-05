@@ -5,11 +5,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/diamondburned/gotk4/gir"
-	"github.com/diamondburned/gotk4/gir/girgen"
-	"github.com/diamondburned/gotk4/gir/girgen/logger"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
-	"github.com/diamondburned/gotk4/gir/girgen/types/typeconv"
+	"github.com/brotholo/gotk4/gir"
+	"github.com/brotholo/gotk4/gir/girgen"
+	"github.com/brotholo/gotk4/gir/girgen/logger"
+	"github.com/brotholo/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir/girgen/types/typeconv"
 )
 
 var (
@@ -67,7 +67,7 @@ func (pkg *Package) HasNamespace(n *gir.Namespace) bool {
 // Data contains generation data that genmain uses to generate.
 type Data struct {
 	// Module is the Go Module name that the generator is running for. An
-	// example is "github.com/diamondburned/gotk4/pkg".
+	// example is "github.com/brotholo/gotk4/pkg".
 	Module string
 	// Packages lists pkg-config packages and optionally the namespaces to be
 	// generated. If the list of namespaces is nil, then everything is

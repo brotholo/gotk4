@@ -4,10 +4,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/diamondburned/gotk4/gir/cmd/gir-generate/gendata"
-	"github.com/diamondburned/gotk4/gir/cmd/gir-generate/genmain"
-	"github.com/diamondburned/gotk4/gir/girgen"
-	"github.com/diamondburned/gotk4/gir/girgen/types"
+	"github.com/brotholo/gotk4/gir/cmd/gir-generate/gendata"
+	"github.com/brotholo/gotk4/gir/cmd/gir-generate/genmain"
+	"github.com/brotholo/gotk4/gir/girgen"
+	"github.com/brotholo/gotk4/gir/girgen/types"
 )
 
 func main() {
