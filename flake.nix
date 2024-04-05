@@ -2,7 +2,7 @@
 	inputs = {
 		nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 		nixpkgs-gotk4.url = "github:NixOS/nixpkgs/fbfb79400a08bf754e32b4d4fc3f7d8f8055cf94"; # 2021-06-06
-		gotk4-nix.url = "github:brotholo/gotk4-nix/main";
+		gotk4-nix.url = "github:diamondburned/gotk4-nix/main";
 		gotk4-nix.flake = false;
 		flake-utils.url = "github:numtide/flake-utils";
 		flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
