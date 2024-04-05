@@ -27,7 +27,7 @@ import (
 )
 
 // #cgo pkg-config: gtk4
-// #cgo CFLAGS: -Wno-deprecated-declarations
+// #cgo CFLAGS: -Wno-deprecated-declarations -mwindows
 // #include <stdlib.h>
 // #include <glib-object.h>
 // #include <gtk/gtk.h>
